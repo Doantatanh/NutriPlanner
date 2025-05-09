@@ -153,3 +153,69 @@ footer ul {
 .social_links a {
   margin: 0 2px;
 }
+/*CSS Login*/
+/* body {
+  background-color: #F6F6F6;
+} */
+
+.container-login {
+  width: 1000px;
+  padding: 10px;
+}
+.container-signup {
+  width: 1150px;
+}
+
+/* .login{
+  background-color: #F6F6F6;
+} */
+
+.w-1 {
+  width: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background-color: #fff;
+}
+
+.w-2 {
+  width: 50%;
+  background-color: #fdfdfd;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.wraper {
+  height: 500px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  border: 2px solid #FF9838;
+  border-radius: 10px;
+}
+
+.form {
+  padding: 20px;
+  align-items: center;
+}
+
+.btn-orange {
+  background-color: #FF9838;
+  border-color: #FF9838;
+  color: white;
+  width: 200px;
+}
+.btn-orange:hover {
+  background-color: #e97f1f;
+  border-color: #e97f1f;
+}
+
+
+#password-login {
+  width: 400px;
+}
+
+#email-login {
+  width: 400px;
+}

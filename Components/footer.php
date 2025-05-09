@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="../assets/css/style.css">
 </head>
 
-<body>
+<body> -->
     <footer class="main-footer">
         <div class="container">
             <div class="row">

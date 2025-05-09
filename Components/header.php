@@ -31,8 +31,8 @@
                         </ul>
                     </div>
                     <div class="header_cta">
-                        <a href="" class="btn header_cta_sec">Đăng nhập</a>
-                        <a href="" class="btn btn-darkk">Đăng Kí</a>
+                        <a href="login.php" class="btn header_cta_sec">Đăng nhập</a>
+                        <a href="signup.php" class="btn btn-darkk">Đăng Kí</a>
                     </div>
                 </div>
 
@@ -40,7 +40,6 @@
             </div>
         </div>
     </header>
-    <script src="assets/js/bootstrap.min.js"></script>
-</body>
+<!-- </body>
 
-</html>
+</html> -->

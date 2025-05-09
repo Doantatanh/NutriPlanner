@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -6,48 +6,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="../assets/css/bootstrap.css">
-    <style>
-        body {
-            background-color: #F6F6F6;
-        }
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head> -->
 
-        .container {
-            width: 1150px;
-            margin-top: 100px;
-        }
-
-        .w-1 {
-            width: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            background-color: #fff;
-        }
-
-        .w-2 {
-            width: 50%;
-            background-color: #fdfdfd;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .wraper {
-            height: 500px;
-        }
-
-        .btn-orange {
-            background-color: #FF9838;
-            border-color: #FF9838;
-            color: white;
-            width: 200px;
-        }
-    </style>
-</head>
+<?php
+    include 'Components/header.php'
+?>
 
 <body>
-    <div class="container mx-auto ">
+    <div class="container-signup mx-auto ">
         <div class="d-flex wraper">
             <div class="w-1">
                 <img src="../assets/images/diet.jpg" class="img-fluid" alt="Ảnh mô tả">
@@ -57,21 +24,21 @@
                     <div class="mb-3 d-flex">
                         <div class="col me-3">
                             <label class="form-label">First Name:</label>
-                            <input type="text" class="form-control" id="fname">
+                            <input type="text" class="form-control" id="fname-signup">
                         </div>
                         <div class="col">
                             <label class="form-label">Last Name:</label>
-                            <input type="text" class="form-control" id="lname">
+                            <input type="text" class="form-control" id="lname-signup">
                         </div>
                     </div>
                     <div class="mb-3">
                         <label for="email" class="form-label">Email:</label>
-                        <input type="email" class="form-control" id="email">
+                        <input type="email" class="form-control" id="email-signup">
                     </div>
                     <div class="mb-5 d-flex">
                         <div class="col me-3">
                             <label class="form-label">Passwork:</label>
-                            <input type="text" class="form-control" id="passwork">
+                            <input type="text" class="form-control" id="passwork-signup">
                         </div>
                         <div class="col">
                             <label class="form-label">Comfirm Passwork:</label>
@@ -92,6 +59,10 @@
             </div>
         </div>
     </div>
-</body>
+<?php
+    include 'Components/footer.php'
+?>
 
-</html>
+<!-- </body>
+
+</html> -->
