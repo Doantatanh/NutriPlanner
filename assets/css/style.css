@@ -25,7 +25,7 @@ body {
 }
 
 .grid-col-5 {
-  grid-template-columns: repeat(auto-fit , minmax(250px , 1fr));
+  grid-template-columns: repeat(auto-fit , minmax(300px , 1fr));
   gap: 20px;
 }
 
@@ -259,7 +259,29 @@ footer ul {
   background-color: var(--orange)!important;
 }
 
-.scale-105:hover {
+.scale-105:hover img{
+  scale: 1.05;
+  transition: all 0.3s ease;
+}
+
+.scale-105 img {
+  transition: all 0.3s ease;
+}
+
+.card:hover {
   transform: translateY(-5px);
-  
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+}
+
+.card {
+  transition: all 0.3s ease;
+  border: 1px solid #fff;
+}
+
+.meal-icon {
+  color: var(--orange);
+}
+
+.grid-col-2{
+  grid-template-columns: 1fr 1fr;
 }

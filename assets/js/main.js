@@ -454,12 +454,24 @@ function render(meals, id){
     meals.forEach(meal => {
         let card = document.createElement("div");
         card.innerHTML =  `
-            <div class="card d-flex flex-column align-items-center rounded shadow scale-105 " > 
-                            <picture class="rounded  p-3">
-                                <img class="rounded card-img-top " style="aspect-ratio: 4/3; object-fit: cover; pointer:cusor" src="${meal.image}"
+            <div class="card d-flex flex-column scale-105 boder-0 rounded-4 overflow-hidden " > 
+                            <picture class="rounded-top overflow-hidden">
+                                <img class="  card-img-top " style="aspect-ratio: 4/3; object-fit: cover; pointer:cusor" src="${meal.image}"
                                     alt="">
                             </picture>
-                            <p class="pt-2">${meal.name}</p>
+                            <h5 class="px-3 mt-2" >${meal.name}</h5>
+                            <div class="d-flex  gap-3 px-3 mb-2">
+                                <div class="meal-icon">
+                                    <i class="fas fa-fire"></i>
+                                    ${meal.calories} kcal
+                                </div>
+                                <div class="meal-icon">
+                                    <i class="fas fa-stopwatch"></i>
+                                    ${meal.prepTime} min
+                                </div>
+                                
+                            </div>
+                            
                         </div>
         `
         card.addEventListener('click', () => {    
@@ -482,17 +494,60 @@ function opencard (meal){
     meal.steps.forEach(element=>stepHTML += `<li>${element}</li>`)
     element.classList.remove("d-none");
 
+    let tagsHTML = ""
+    meal.tags.forEach(tag => {
+        tagsHTML += `<lable class="rounded-5 bg-blue px-2 m-2 text-success" style="line-height:40px" >${tag}</lable>`;
+    });
+
     element.innerHTML=`
-        <div class="mt-4 col-xl-5 col-sm-10 mx-auto bg-white rounded-4 overflow-auto p-3" style="height: 400px;" >
-            <div class="mealname d-flex justify-content-between"><h3>${meal.name}</h3><button class="close"><i class="fa fa-times"></i></button></div>
-            <div class="mealcontent d-flex">
-                <div class="w-50">
+        <div class="pop-up__detail mt-5 col-xl-6 col-sm-10 col-10 mx-auto bg-white rounded-4 overflow-auto p-3" style="height: 600px;" >
+            <div class="mealname d-flex justify-content-between"><h3>${meal.name}</h3><button class="close btn bg-white"><i class="fa fa-times"></i></button></div>
+            <div class="mealcontent d-grid grid-col-5">
+                <div>
                     <picture>
-                        <img src="${meal.image}" class="rounded  w-100" style="aspect-ratio: 4/3; object-fit: cover;"  alt="">
+                        <img src="${meal.image}" class="rounded w-100" style="aspect-ratio: 4/3; object-fit: cover;"  alt="">
                     </picture>
-                    <p>${meal.description}</p>
+                    ${tagsHTML}
+                    <p class="my-2" >${meal.description}</p>
+                    <div class="nutrition-facts">
+                    <h3>Thông tin dinh dưỡng</h3>
+                    <div class="nutrition-table d-grid gap-4 grid-col-2 bg-light rounded-4 p-3">
+                        <div class="nutrition-item">
+                            <span class="nutrition-name">Calories</span>
+                            <span>${meal.calories} kcal</span>
+                        </div>
+                        <div class="nutrition-item">
+                            <span class="nutrition-name">Protein</span>
+                            <span>${meal.nutrition.protein}g</span>
+                        </div>
+                        <div class="nutrition-item">
+                            <span class="nutrition-name">Carbs</span>
+                            <span>${meal.nutrition.carbs}g</span>
+                        </div>
+                        <div class="nutrition-item">
+                            <span class="nutrition-name">Chất béo</span>
+                            <span>${meal.nutrition.fat}g</span>
+                        </div>
+                        <div class="nutrition-item">
+                            <span class="nutrition-name">Chất xơ</span>
+                            <span>${meal.nutrition.fiber}g</span>
+                        </div>
+                        <div class="nutrition-item">
+                            <span class="nutrition-name">Đường</span>
+                            <span>${meal.nutrition.sugar}g</span>
+                        </div>
+                        <div class="nutrition-item">
+                            <span class="nutrition-name">Natri</span>
+                            <span>${meal.nutrition.sodium}mg</span>
+                        </div>
+                        <div class="nutrition-item">
+                            <span class="nutrition-name">Thời gian</span>
+                            <span>${meal.prepTime} phút</span>
+                        </div>
+                    </div>
                 </div>
-                <div class="w-50 mx-3">
+                </div>
+                <div class=" mx-3">
                     <h3>Ingredients</h3>
                     <ul>
                         ${ingredientsHTML}
@@ -507,6 +562,14 @@ function opencard (meal){
             </div>
         </div>
     `
+    document.addEventListener("click", function (event) {
+        const box = document.querySelector(".pop-up__detail");
+        let element = document.getElementById("detail__food")
+        if (!box.contains(event.target)) {
+            element.classList.add("d-none");
+        }
+      });
+    
 
     document.querySelectorAll(".close").forEach(closeBtn => {
         closeBtn.addEventListener("click", () => {
@@ -517,4 +580,7 @@ function opencard (meal){
 
 }
 
+
+
 render(meals, "mealplan--menu");
+
