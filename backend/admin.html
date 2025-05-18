@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <title>NutriPlanner Admin Panel</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f1f3f8;
+        }
+
+        .admin-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 220px;
+            background: #2d3a4b;
+            color: #fff;
+            padding: 30px 15px 0 15px;
+        }
+
+        .sidebar h2 {
+            margin-bottom: 30px;
+            font-size: 22px;
+            letter-spacing: 1px;
+        }
+
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .sidebar li {
+            margin-bottom: 15px;
+            border-radius: 5px;
+        }
+
+        .sidebar li.active,
+        .sidebar li:hover {
+            background: #232f3e;
+        }
+
+        .sidebar li.active a,
+        .sidebar a:hover {
+            color: #4ecdc4;
+        }
+
+        .sidebar a {
+            display: block;
+            color: #fff;
+            text-decoration: none;
+            font-size: 16px;
+            padding: 10px 12px;
+            border-radius: 4px;
+            transition: background 0.2s;
+        }
+
+        .main-content {
+            flex: 1;
+            padding: 40px;
+            background: #fff;
+            border-radius: 0 12px 12px 0;
+            min-width: 0;
+        }
+
+        .main-content h1 {
+            margin-top: 0;
+            font-size: 28px;
+            color: #2d3a4b;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+            background: #fafbfc;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        th,
+        td {
+            padding: 10px 12px;
+            border-bottom: 1px solid #e0e0e0;
+            text-align: left;
+        }
+
+        th {
+            background: #e5e9f2;
+            color: #2d3a4b;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        .meal-form {
+            background: #f5f7fa;
+            padding: 25px;
+            border-radius: 8px;
+            max-width: 500px;
+            margin-bottom: 30px;
+            box-shadow: 0 6px 24px 0 rgba(50, 50, 93, .07), 0 1.5px 4px 0 rgba(0, 0, 0, .03);
+        }
+
+        .meal-form label {
+            display: block;
+            margin-top: 15px;
+            font-weight: 600;
+        }
+
+        .meal-form input,
+        .meal-form select,
+        .meal-form textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #cfd8dc;
+            border-radius: 4px;
+            margin-top: 6px;
+            font-size: 15px;
+            box-sizing: border-box;
+            resize: vertical;
+        }
+
+        .meal-form button {
+            margin-top: 18px;
+            background: #4ecdc4;
+            color: #fff;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .meal-form button[type="button"] {
+            background: #b0bec5;
+            color: #232f3e;
+            margin-left: 10px;
+        }
+
+        .meal-form button:hover {
+            background: #38b2ac;
+        }
+
+        button {
+            margin-right: 8px;
+            background: #2d3a4b;
+            color: #fff;
+            border: none;
+            padding: 6px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.2s;
+        }
+
+        button:hover {
+            background: #4ecdc4;
+            color: #2d3a4b;
+        }
+
+        @media (max-width: 900px) {
+            .admin-container {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                border-radius: 0;
+                padding-bottom: 20px;
+            }
+
+            .main-content {
+                padding: 20px;
+                border-radius: 0 0 12px 12px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <nav class="sidebar">
+            <h2>NutriPlanner</h2>
+            <ul>
+                <li class="active" id="nav-meals"><a href="#">Quản Lý Món Ăn</a></li>
+                <li id="nav-feedback"><a href="#">Feedback</a></li>
+                <li id="nav-contact"><a href="#">Liên Hệ</a></li>
+            </ul>
+        </nav>
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- QUẢN LÝ MÓN ĂN -->
+            <section id="section-meals">
+                <h1>Quản Lý Món Ăn</h1>
+                <button onclick="showMealForm()">Thêm Món Ăn</button>
+                <table id="meals-table">
+                    <thead>
+                        <tr>
+                            <th>Tên món</th>
+                            <th>Loại bữa</th>
+                            <th>Chế độ</th>
+                            <th>Calo</th>
+                            <th>Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Dữ liệu sẽ được render bằng JS -->
+                    </tbody>
+                </table>
+                <div id="meal-form-container" style="display:none;">
+                    <h2 id="form-title">Thêm Món Ăn</h2>
+                    <form id="meal-form" class="meal-form">
+                        <input type="hidden" id="meal-index">
+                        <label>Tên món:</label>
+                        <input type="text" id="meal-name" required>
+                        <label>Loại bữa:</label>
+                        <select id="meal-type" required>
+                            <option>Bữa sáng</option>
+                            <option>Bữa trưa</option>
+                            <option>Bữa tối</option>
+                            <option>Ăn nhẹ</option>
+                            <option>Sinh tố</option>
+                        </select>
+                        <label>Chế độ ăn:</label>
+                        <input type="text" id="meal-dietType">
+                        <label>Calo:</label>
+                        <input type="number" id="meal-calories" required>
+                        <label>Thành phần:</label>
+                        <input type="text" id="meal-ingredients">
+                        <label>Hướng dẫn:</label>
+                        <textarea id="meal-instructions"></textarea>
+                        <button type="submit">Lưu</button>
+                        <button type="button" onclick="hideMealForm()">Hủy</button>
+                    </form>
+                </div>
+            </section>
+            <!-- QUẢN LÝ FEEDBACK -->
+            <section id="section-feedback" style="display:none;">
+                <h1>Quản Lý Feedback</h1>
+                <table id="feedback-table">
+                    <thead>
+                        <tr>
+                            <th>Người gửi</th>
+                            <th>Đánh giá (sao)</th>
+                            <th>Nội dung</th>
+                            <th>Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Dữ liệu sẽ render bằng JS -->
+                    </tbody>
+                </table>
+            </section>
+            <!-- QUẢN LÝ LIÊN HỆ -->
+            <section id="section-contact" style="display:none;">
+                <h1>Thông Tin Liên Hệ</h1>
+                <form id="contact-form" class="meal-form">
+                    <label>Email hỗ trợ:</label>
+                    <input type="email" id="contact-email" required>
+                    <label>Địa chỉ trung tâm:</label>
+                    <input type="text" id="contact-address" required>
+                    <label>Google Map (iframe nhúng):</label>
+                    <textarea id="contact-map"></textarea>
+                    <button type="submit">Lưu</button>
+                </form>
+                <div id="contact-map-preview" style="margin-top:20px;"></div>
+            </section>
+        </main>
+    </div>
+    <script>
+        // Dữ liệu mẫu
+        let meals = [
+            { name: "Cơm gà", mealType: "Bữa trưa", dietType: "Low Carb", calories: 400, ingredients: "Cơm, gà, rau", instructions: "Nấu cơm, luộc gà." },
+            { name: "Salad hoa quả", mealType: "Bữa sáng", dietType: "Vegan", calories: 150, ingredients: "Táo, chuối, dưa hấu", instructions: "Cắt nhỏ trộn đều." }
+        ];
+        let feedbacks = [
+            { sender: "Nguyễn Văn A", stars: 5, content: "Web rất hữu ích!" },
+            { sender: "Trần Thị B", stars: 4, content: "Cần thêm nhiều món ăn hơn." }
+        ];
+        let contact = {
+            email: "coach@nutriplanner.vn",
+            address: "123 Đường ABC, Quận 1, TP.HCM",
+            map: '<iframe src="https://www.google.com/maps?..." width="300" height="200" style="border:0;" allowfullscreen="" loading="lazy"></iframe>'
+        };
+
+        // Điều hướng sidebar
+        document.getElementById("nav-meals").onclick = function () {
+            showSection("section-meals");
+            setActiveNav(this);
+        };
+        document.getElementById("nav-feedback").onclick = function () {
+            showSection("section-feedback");
+            setActiveNav(this);
+            renderFeedbacks();
+        };
+        document.getElementById("nav-contact").onclick = function () {
+            showSection("section-contact");
+            setActiveNav(this);
+            renderContact();
+        };
+
+        function showSection(sectionId) {
+            document.getElementById("section-meals").style.display = "none";
+            document.getElementById("section-feedback").style.display = "none";
+            document.getElementById("section-contact").style.display = "none";
+            document.getElementById(sectionId).style.display = "block";
+        }
+        function setActiveNav(navItem) {
+            document.querySelectorAll('.sidebar li').forEach(li => li.classList.remove('active'));
+            navItem.classList.add('active');
+        }
+
+        // --- Quản lý món ăn ---
+        function renderMeals() {
+            let tbody = document.querySelector("#meals-table tbody");
+            tbody.innerHTML = "";
+            meals.forEach((meal, idx) => {
+                let tr = document.createElement("tr");
+                tr.innerHTML = `
+          <td>${meal.name}</td>
+          <td>${meal.mealType}</td>
+          <td>${meal.dietType}</td>
+          <td>${meal.calories}</td>
+          <td>
+            <button onclick="editMeal(${idx})">Sửa</button>
+            <button onclick="deleteMeal(${idx})">Xóa</button>
+          </td>
+        `;
+                tbody.appendChild(tr);
+            });
+        }
+        renderMeals();
+
+        function showMealForm(editIdx) {
+            document.getElementById("meal-form-container").style.display = "block";
+            if (typeof editIdx === "number") {
+                let m = meals[editIdx];
+                document.getElementById("form-title").textContent = "Sửa Món Ăn";
+                document.getElementById("meal-index").value = editIdx;
+                document.getElementById("meal-name").value = m.name;
+                document.getElementById("meal-type").value = m.mealType;
+                document.getElementById("meal-dietType").value = m.dietType;
+                document.getElementById("meal-calories").value = m.calories;
+                document.getElementById("meal-ingredients").value = m.ingredients;
+                document.getElementById("meal-instructions").value = m.instructions;
+            } else {
+                document.getElementById("form-title").textContent = "Thêm Món Ăn";
+                document.getElementById("meal-index").value = "";
+                document.getElementById("meal-name").value = "";
+                document.getElementById("meal-type").value = "Bữa sáng";
+                document.getElementById("meal-dietType").value = "";
+                document.getElementById("meal-calories").value = "";
+                document.getElementById("meal-ingredients").value = "";
+                document.getElementById("meal-instructions").value = "";
+            }
+        }
+        function hideMealForm() {
+            document.getElementById("meal-form-container").style.display = "none";
+        }
+        document.getElementById("meal-form").onsubmit = function (e) {
+            e.preventDefault();
+            let meal = {
+                name: document.getElementById("meal-name").value,
+                mealType: document.getElementById("meal-type").value,
+                dietType: document.getElementById("meal-dietType").value,
+                calories: document.getElementById("meal-calories").value,
+                ingredients: document.getElementById("meal-ingredients").value,
+                instructions: document.getElementById("meal-instructions").value
+            };
+            let idx = document.getElementById("meal-index").value;
+            if (idx === "") {
+                meals.push(meal);
+            } else {
+                meals[idx] = meal;
+            }
+            renderMeals();
+            hideMealForm();
+        };
+        function editMeal(idx) {
+            showMealForm(idx);
+        }
+        function deleteMeal(idx) {
+            if (confirm("Bạn chắc chắn muốn xóa món này?")) {
+                meals.splice(idx, 1);
+                renderMeals();
+            }
+        }
+
+        // --- Quản lý feedback ---
+        function renderFeedbacks() {
+            let tbody = document.querySelector("#feedback-table tbody");
+            tbody.innerHTML = "";
+            feedbacks.forEach((fb, idx) => {
+                let tr = document.createElement("tr");
+                tr.innerHTML = `
+          <td>${fb.sender}</td>
+          <td>${fb.stars}</td>
+          <td>${fb.content}</td>
+          <td><button onclick="deleteFeedback(${idx})">Xóa</button></td>
+        `;
+                tbody.appendChild(tr);
+            });
+        }
+        function deleteFeedback(idx) {
+            if (confirm("Xóa feedback này?")) {
+                feedbacks.splice(idx, 1);
+                renderFeedbacks();
+            }
+        }
+
+        // --- Quản lý liên hệ ---
+        function renderContact() {
+            document.getElementById("contact-email").value = contact.email;
+            document.getElementById("contact-address").value = contact.address;
+            document.getElementById("contact-map").value = contact.map;
+            document.getElementById("contact-map-preview").innerHTML = contact.map;
+        }
+        document.getElementById("contact-form").onsubmit = function (e) {
+            e.preventDefault();
+            contact.email = document.getElementById("contact-email").value;
+            contact.address = document.getElementById("contact-address").value;
+            contact.map = document.getElementById("contact-map").value;
+            document.getElementById("contact-map-preview").innerHTML = contact.map;
+            alert("Cập nhật thành công!");
+        };
+        // Xem trước bản đồ khi thay đổi
+        document.getElementById("contact-map").oninput = function () {
+            document.getElementById("contact-map-preview").innerHTML = this.value;
+        };
+    </script>
+</body>
+
+</html>
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <title>NutriPlanner Admin Panel</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f1f3f8;
+        }
+
+        .admin-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 220px;
+            background: #2d3a4b;
+            color: #fff;
+            padding: 30px 15px 0 15px;
+        }
+
+        .sidebar h2 {
+            margin-bottom: 30px;
+            font-size: 22px;
+            letter-spacing: 1px;
+        }
+
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .sidebar li {
+            margin-bottom: 15px;
+            border-radius: 5px;
+        }
+
+        .sidebar li.active,
+        .sidebar li:hover {
+            background: #232f3e;
+        }
+
+        .sidebar li.active a,
+        .sidebar a:hover {
+            color: #4ecdc4;
+        }
+
+        .sidebar a {
+            display: block;
+            color: #fff;
+            text-decoration: none;
+            font-size: 16px;
+            padding: 10px 12px;
+            border-radius: 4px;
+            transition: background 0.2s;
+        }
+
+        .main-content {
+            flex: 1;
+            padding: 40px;
+            background: #fff;
+            border-radius: 0 12px 12px 0;
+            min-width: 0;
+        }
+
+        .main-content h1 {
+            margin-top: 0;
+            font-size: 28px;
+            color: #2d3a4b;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+            background: #fafbfc;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        th,
+        td {
+            padding: 10px 12px;
+            border-bottom: 1px solid #e0e0e0;
+            text-align: left;
+        }
+
+        th {
+            background: #e5e9f2;
+            color: #2d3a4b;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        .meal-form {
+            background: #f5f7fa;
+            padding: 25px;
+            border-radius: 8px;
+            max-width: 500px;
+            margin-bottom: 30px;
+            box-shadow: 0 6px 24px 0 rgba(50, 50, 93, .07), 0 1.5px 4px 0 rgba(0, 0, 0, .03);
+        }
+
+        .meal-form label {
+            display: block;
+            margin-top: 15px;
+            font-weight: 600;
+        }
+
+        .meal-form input,
+        .meal-form select,
+        .meal-form textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #cfd8dc;
+            border-radius: 4px;
+            margin-top: 6px;
+            font-size: 15px;
+            box-sizing: border-box;
+            resize: vertical;
+        }
+
+        .meal-form button {
+            margin-top: 18px;
+            background: #4ecdc4;
+            color: #fff;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .meal-form button[type="button"] {
+            background: #b0bec5;
+            color: #232f3e;
+            margin-left: 10px;
+        }
+
+        .meal-form button:hover {
+            background: #38b2ac;
+        }
+
+        button {
+            margin-right: 8px;
+            background: #2d3a4b;
+            color: #fff;
+            border: none;
+            padding: 6px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.2s;
+        }
+
+        button:hover {
+            background: #4ecdc4;
+            color: #2d3a4b;
+        }
+
+        @media (max-width: 900px) {
+            .admin-container {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                border-radius: 0;
+                padding-bottom: 20px;
+            }
+
+            .main-content {
+                padding: 20px;
+                border-radius: 0 0 12px 12px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <nav class="sidebar">
+            <h2>NutriPlanner</h2>
+            <ul>
+                <li class="active" id="nav-meals"><a href="#">Quản Lý Món Ăn</a></li>
+                <li id="nav-feedback"><a href="#">Feedback</a></li>
+                <li id="nav-contact"><a href="#">Liên Hệ</a></li>
+            </ul>
+        </nav>
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- QUẢN LÝ MÓN ĂN -->
+            <section id="section-meals">
+                <h1>Quản Lý Món Ăn</h1>
+                <button onclick="showMealForm()">Thêm Món Ăn</button>
+                <table id="meals-table">
+                    <thead>
+                        <tr>
+                            <th>Tên món</th>
+                            <th>Loại bữa</th>
+                            <th>Chế độ</th>
+                            <th>Calo</th>
+                            <th>Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Dữ liệu sẽ được render bằng JS -->
+                    </tbody>
+                </table>
+                <div id="meal-form-container" style="display:none;">
+                    <h2 id="form-title">Thêm Món Ăn</h2>
+                    <form id="meal-form" class="meal-form">
+                        <input type="hidden" id="meal-index">
+                        <label>Tên món:</label>
+                        <input type="text" id="meal-name" required>
+                        <label>Loại bữa:</label>
+                        <select id="meal-type" required>
+                            <option>Bữa sáng</option>
+                            <option>Bữa trưa</option>
+                            <option>Bữa tối</option>
+                            <option>Ăn nhẹ</option>
+                            <option>Sinh tố</option>
+                        </select>
+                        <label>Chế độ ăn:</label>
+                        <input type="text" id="meal-dietType">
+                        <label>Calo:</label>
+                        <input type="number" id="meal-calories" required>
+                        <label>Thành phần:</label>
+                        <input type="text" id="meal-ingredients">
+                        <label>Hướng dẫn:</label>
+                        <textarea id="meal-instructions"></textarea>
+                        <button type="submit">Lưu</button>
+                        <button type="button" onclick="hideMealForm()">Hủy</button>
+                    </form>
+                </div>
+            </section>
+            <!-- QUẢN LÝ FEEDBACK -->
+            <section id="section-feedback" style="display:none;">
+                <h1>Quản Lý Feedback</h1>
+                <table id="feedback-table">
+                    <thead>
+                        <tr>
+                            <th>Người gửi</th>
+                            <th>Đánh giá (sao)</th>
+                            <th>Nội dung</th>
+                            <th>Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Dữ liệu sẽ render bằng JS -->
+                    </tbody>
+                </table>
+            </section>
+            <!-- QUẢN LÝ LIÊN HỆ -->
+            <section id="section-contact" style="display:none;">
+                <h1>Thông Tin Liên Hệ</h1>
+                <form id="contact-form" class="meal-form">
+                    <label>Email hỗ trợ:</label>
+                    <input type="email" id="contact-email" required>
+                    <label>Địa chỉ trung tâm:</label>
+                    <input type="text" id="contact-address" required>
+                    <label>Google Map (iframe nhúng):</label>
+                    <textarea id="contact-map"></textarea>
+                    <button type="submit">Lưu</button>
+                </form>
+                <div id="contact-map-preview" style="margin-top:20px;"></div>
+            </section>
+        </main>
+    </div>
+    <script>
+        // Dữ liệu mẫu
+        let meals = [
+            { name: "Cơm gà", mealType: "Bữa trưa", dietType: "Low Carb", calories: 400, ingredients: "Cơm, gà, rau", instructions: "Nấu cơm, luộc gà." },
+            { name: "Salad hoa quả", mealType: "Bữa sáng", dietType: "Vegan", calories: 150, ingredients: "Táo, chuối, dưa hấu", instructions: "Cắt nhỏ trộn đều." }
+        ];
+        let feedbacks = [
+            { sender: "Nguyễn Văn A", stars: 5, content: "Web rất hữu ích!" },
+            { sender: "Trần Thị B", stars: 4, content: "Cần thêm nhiều món ăn hơn." }
+        ];
+        let contact = {
+            email: "coach@nutriplanner.vn",
+            address: "123 Đường ABC, Quận 1, TP.HCM",
+            map: '<iframe src="https://www.google.com/maps?..." width="300" height="200" style="border:0;" allowfullscreen="" loading="lazy"></iframe>'
+        };
+
+        // Điều hướng sidebar
+        document.getElementById("nav-meals").onclick = function () {
+            showSection("section-meals");
+            setActiveNav(this);
+        };
+        document.getElementById("nav-feedback").onclick = function () {
+            showSection("section-feedback");
+            setActiveNav(this);
+            renderFeedbacks();
+        };
+        document.getElementById("nav-contact").onclick = function () {
+            showSection("section-contact");
+            setActiveNav(this);
+            renderContact();
+        };
+
+        function showSection(sectionId) {
+            document.getElementById("section-meals").style.display = "none";
+            document.getElementById("section-feedback").style.display = "none";
+            document.getElementById("section-contact").style.display = "none";
+            document.getElementById(sectionId).style.display = "block";
+        }
+        function setActiveNav(navItem) {
+            document.querySelectorAll('.sidebar li').forEach(li => li.classList.remove('active'));
+            navItem.classList.add('active');
+        }
+
+        // --- Quản lý món ăn ---
+        function renderMeals() {
+            let tbody = document.querySelector("#meals-table tbody");
+            tbody.innerHTML = "";
+            meals.forEach((meal, idx) => {
+                let tr = document.createElement("tr");
+                tr.innerHTML = `
+          <td>${meal.name}</td>
+          <td>${meal.mealType}</td>
+          <td>${meal.dietType}</td>
+          <td>${meal.calories}</td>
+          <td>
+            <button onclick="editMeal(${idx})">Sửa</button>
+            <button onclick="deleteMeal(${idx})">Xóa</button>
+          </td>
+        `;
+                tbody.appendChild(tr);
+            });
+        }
+        renderMeals();
+
+        function showMealForm(editIdx) {
+            document.getElementById("meal-form-container").style.display = "block";
+            if (typeof editIdx === "number") {
+                let m = meals[editIdx];
+                document.getElementById("form-title").textContent = "Sửa Món Ăn";
+                document.getElementById("meal-index").value = editIdx;
+                document.getElementById("meal-name").value = m.name;
+                document.getElementById("meal-type").value = m.mealType;
+                document.getElementById("meal-dietType").value = m.dietType;
+                document.getElementById("meal-calories").value = m.calories;
+                document.getElementById("meal-ingredients").value = m.ingredients;
+                document.getElementById("meal-instructions").value = m.instructions;
+            } else {
+                document.getElementById("form-title").textContent = "Thêm Món Ăn";
+                document.getElementById("meal-index").value = "";
+                document.getElementById("meal-name").value = "";
+                document.getElementById("meal-type").value = "Bữa sáng";
+                document.getElementById("meal-dietType").value = "";
+                document.getElementById("meal-calories").value = "";
+                document.getElementById("meal-ingredients").value = "";
+                document.getElementById("meal-instructions").value = "";
+            }
+        }
+        function hideMealForm() {
+            document.getElementById("meal-form-container").style.display = "none";
+        }
+        document.getElementById("meal-form").onsubmit = function (e) {
+            e.preventDefault();
+            let meal = {
+                name: document.getElementById("meal-name").value,
+                mealType: document.getElementById("meal-type").value,
+                dietType: document.getElementById("meal-dietType").value,
+                calories: document.getElementById("meal-calories").value,
+                ingredients: document.getElementById("meal-ingredients").value,
+                instructions: document.getElementById("meal-instructions").value
+            };
+            let idx = document.getElementById("meal-index").value;
+            if (idx === "") {
+                meals.push(meal);
+            } else {
+                meals[idx] = meal;
+            }
+            renderMeals();
+            hideMealForm();
+        };
+        function editMeal(idx) {
+            showMealForm(idx);
+        }
+        function deleteMeal(idx) {
+            if (confirm("Bạn chắc chắn muốn xóa món này?")) {
+                meals.splice(idx, 1);
+                renderMeals();
+            }
+        }
+
+        // --- Quản lý feedback ---
+        function renderFeedbacks() {
+            let tbody = document.querySelector("#feedback-table tbody");
+            tbody.innerHTML = "";
+            feedbacks.forEach((fb, idx) => {
+                let tr = document.createElement("tr");
+                tr.innerHTML = `
+          <td>${fb.sender}</td>
+          <td>${fb.stars}</td>
+          <td>${fb.content}</td>
+          <td><button onclick="deleteFeedback(${idx})">Xóa</button></td>
+        `;
+                tbody.appendChild(tr);
+            });
+        }
+        function deleteFeedback(idx) {
+            if (confirm("Xóa feedback này?")) {
+                feedbacks.splice(idx, 1);
+                renderFeedbacks();
+            }
+        }
+
+        // --- Quản lý liên hệ ---
+        function renderContact() {
+            document.getElementById("contact-email").value = contact.email;
+            document.getElementById("contact-address").value = contact.address;
+            document.getElementById("contact-map").value = contact.map;
+            document.getElementById("contact-map-preview").innerHTML = contact.map;
+        }
+        document.getElementById("contact-form").onsubmit = function (e) {
+            e.preventDefault();
+            contact.email = document.getElementById("contact-email").value;
+            contact.address = document.getElementById("contact-address").value;
+            contact.map = document.getElementById("contact-map").value;
+            document.getElementById("contact-map-preview").innerHTML = contact.map;
+            alert("Cập nhật thành công!");
+        };
+        // Xem trước bản đồ khi thay đổi
+        document.getElementById("contact-map").oninput = function () {
+            document.getElementById("contact-map-preview").innerHTML = this.value;
+        };
+    </script>
+</body>
+
+</html>
