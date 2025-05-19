@@ -1,0 +1,287 @@
+* {
+  margin: 0px;
+  padding: 0px;
+  border: none;
+  outline: none;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 16px;
+
+}
+
+:root { 
+  --orange: #2ecc71;
+  --blue: #1ebfc1;
+}
+
+.bg-orange {
+  background-color: var(--orange);
+}
+
+.bg-blue{
+  border: 1px solid var(--blue);
+}
+
+.grid-col-5 {
+  grid-template-columns: repeat(auto-fit , minmax(300px , 1fr));
+  gap: 20px;
+}
+
+.header--banner {
+  background-color: var(--orange);
+}
+
+.header--text label{
+  font-size: 4rem!important;
+  line-height: 1.5;
+  font-weight: 700;
+}
+
+.logo-box,
+.nav,
+.header_cta {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.nav {
+  padding: 17px 0px 0px;
+  margin: 0px 50px 0px 50px;
+}
+
+.nav ul li {
+  display: inline;
+  margin: 0 15px;
+}
+
+.nav ul li a {
+  position: relative;
+  text-decoration: none;
+  color: #010101;
+  font-weight: 500;
+}
+
+.nav ul li a::after {
+  position: absolute;
+  content: "";
+  bottom: -5px;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background-color: #f78014;
+  transition: width 0.3s ease, left 0.3s ease;
+}
+
+.nav ul li a:hover::after {
+  width: 100%;
+  left: 0;
+}
+
+a.btn.header_cta_sec {
+  font-weight: 500;
+}
+
+a.btn.btn-darkk {
+  display: inline-block;
+  padding: 0 16px;
+  min-width: 108px;
+  line-height: 46px;
+  color: #1ebfc1;
+  text-align: center;
+  font-weight: 600;
+  border-radius: 6px;
+  border: 1px solid #1ebfc1;
+}
+
+a.btn.btn-darkk:hover {
+  background: #1ebfc1;
+  color: white;
+  transition: 0.3s;
+}
+
+figure.logo {
+  margin: 17px 0 1rem;
+}
+
+/* footer */
+footer .footer-top {
+  display: flex;
+}
+
+.footer-bottom #menu-policies {
+  display: flex;
+  margin: 0 236px 0 59px;
+}
+
+.footer-bottom {
+  display: flex;
+}
+
+.nav_menu {
+  padding: 60px 96px;
+  border-right: 1px solid #e2e2ea;
+  border-top: 1px solid #e2e2ea;
+  border-bottom: 1px solid #e2e2ea;
+  border-collapse: collapse;
+  flex: 1;
+}
+
+
+
+.nav_menu:nth-child(4) {
+  border-right: none;
+}
+
+footer ul li a {
+  position: relative;
+  text-decoration: none;
+  color: #010101;
+  font-weight: 500;
+  white-space: nowrap;
+  display: inline-block;
+}
+footer h3 {
+  margin-top: 0;
+  font-size: 18px;
+  line-height: 28px;
+  font-weight: 700;
+  pointer-events: none;
+}
+
+footer ul li a::after {
+  position: absolute;
+  content: "";
+  bottom: -5px;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background-color: #f78014;
+  transition: width 0.3s ease, left 0.3s ease;
+}
+
+footer ul li a:hover::after {
+  width: 100%;
+  left: 0;
+}
+
+footer ul li {
+  list-style-type: none;
+}
+
+footer ul {
+  text-align: left;
+  padding-left: 0;
+}
+
+.footer-bottom ul li a {
+  margin: 0 10px;
+}
+
+.social_links a {
+  margin: 0 2px;
+}
+/*CSS Login*/
+/* body {
+  background-color: #F6F6F6;
+} */
+
+.container-login {
+  width: 1000px;
+  padding: 10px;
+}
+.container-signup {
+  width: 1150px;
+}
+
+/* .login{
+  background-color: #F6F6F6;
+} */
+
+.w-1 {
+  width: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background-color: #fff;
+}
+
+.w-2 {
+  width: 50%;
+  background-color: #fdfdfd;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.wraper {
+  height: 500px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  border: 2px solid #FF9838;
+  border-radius: 10px;
+}
+
+.form {
+  padding: 20px;
+  align-items: center;
+}
+
+.btn-orange {
+  background-color: #FF9838;
+  border-color: #FF9838;
+  color: white;
+  width: 200px;
+}
+
+.btn-orange:hover {
+  background-color: #e97f1f;
+  border-color: #e97f1f;
+}
+
+
+#password-login {
+  width: 400px;
+}
+
+#email-login {
+  width: 400px;
+}
+
+.nav-link {
+  color: var(--orange);
+
+}
+
+.nav-link.active {
+  background-color: var(--orange)!important;
+}
+
+.scale-105:hover img{
+  scale: 1.05;
+  transition: all 0.3s ease;
+}
+
+.scale-105 img {
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+}
+
+.card {
+  transition: all 0.3s ease;
+  border: 1px solid #fff;
+}
+
+.meal-icon {
+  color: var(--orange);
+}
+
+.grid-col-2{
+  grid-template-columns: 1fr 1fr;
+}
