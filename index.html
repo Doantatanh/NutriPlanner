@@ -9,6 +9,7 @@
     <link href="../assets/css/bootstrap.css" rel="stylesheet">
     <link rel="stylesheet" href="assets/fontawesome-free-6.7.2-web/css/all.min.css">
     <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/calculator.css">
 </head>
 
 
@@ -142,6 +143,93 @@
     <div class="h-100 w-100 z-3 position-fixed top-0 d-none" style="background-color: rgba(0, 0, 0, 0.7);" id="detail__food">
         
     </div>
+
+    <section class="section calculator">
+        <div class="container">
+            <div class="header-section">
+                <h2>
+                    Nutrition Calculator
+                </h2>
+                <p>
+                    Enter ingredients and portions to calculate nutritional values for your dish.
+                </p>
+            </div>
+            <div class="container-calculator">
+                <div class="calculator--form">
+                    <div class="form-header">
+                        <h3>Enter Ingredients</h3>
+                        <p>Select ingredients and enter the amount in grams to calculate nutrition.</p>
+                    </div>
+                    <div class="ingredient-list">
+                        <div class="ingredient-item">
+                            <select name="" id="calculator--optionn">
+                                <option value="Rice">Rice</option>
+                                <option value="Chicken Breast">Chicken Breast</option>
+                                <option value="Avocado">Avocado</option>
+                                <option value="Spinach">Spinach</option>
+                                <option value="Banana">Banana</option>
+                                <option value="Pumpkin">Pumpkin</option>
+                                <option value="Quinoa">Quinoa</option>
+                                <option value="Soybeans">Soybeans</option>
+                                <option value="Sweet Potato">Sweet Potato</option>
+                                <option value="Egg">Egg</option>
+                                <option value="Oats">Oats</option>
+                                <option value="Salmon">Salmon</option>
+                                <option value="Lentils">Lentils</option>
+                                <option value="Tomato">Tomato</option>
+                                <option value="Apple">Apple</option>
+                                <option value="Almonds">Almonds</option>
+                                <option value="Greek Yogurt">Greek Yogurt</option>
+                                <option value="Mushroom">Mushroom</option>
+                                <option value="Black Beans">Black Beans</option>
+                                <option value="Cabbage">Cabbage</option>
+                            </select>
+                            <input type="number" id="calculator--amount" placeholder="Gram">
+                            <button class="remove-ingredient">x</button>
+                        </div>
+                    </div>
+                    <button class="add-ingredient" id="add-ingredient">
+                        Add Ingredient
+                    </button>
+                    <button class="bttn calculate-btn" id="calculate-btn">Calculate Nutrition</button>
+                </div>
+                <div class="result">
+                    <h3>Nutrition Analysis Results</h3>
+                    
+                    <div class="total-calories" id="total-calories">
+                        0 kcal
+                    </div>
+
+                    <div class="nutrition-results" id="nutrition-results">
+                        <div class="nutrition-result-item">
+                            <div class="nutrition-result-name">Protein</div>
+                            <div class="nutrition-result-value" id="protein-result">0g</div>
+                        </div>
+                        <div class="nutrition-result-item">
+                            <div class="nutrition-result-name">Carbs</div>
+                            <div class="nutrition-result-value" id="carbs-result">0g</div>
+                        </div>
+                        <div class="nutrition-result-item">
+                            <div class="nutrition-result-name">Chất béo</div>
+                            <div class="nutrition-result-value" id="fat-result">0g</div>
+                        </div>
+                        <div class="nutrition-result-item">
+                            <div class="nutrition-result-name">Đường</div>
+                            <div class="nutrition-result-value" id="sugar-result">0g</div>
+                        </div>
+                        <div class="nutrition-result-item">
+                            <div class="nutrition-result-name">Chất xơ</div>
+                            <div class="nutrition-result-value" id="fiber-result">0g</div>
+                        </div>
+                        <div class="nutrition-result-item">
+                            <div class="nutrition-result-name">Natri</div>
+                            <div class="nutrition-result-value" id="sodium-result">0mg</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <div class="linkplan d-flex flex-column bg-orange p-4">
         <h1 class="mx-auto">Create a full weekly plan from scratch</h1>

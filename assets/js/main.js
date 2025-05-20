@@ -596,3 +596,87 @@ function opencard (meal){
 
 render(meals, "mealplan--menu");
 
+// calculator
+let ingredients = [];
+
+fetch('assets/js/ingredients.json')
+  .then(response => response.json())
+  .then(data => {
+    ingredients = data;
+    console.log('Dữ liệu đã load:', ingredients);
+  })
+  .catch(error => console.error('Lỗi khi load JSON:', error));
+
+  document.getElementById("calculate-btn").addEventListener("click", () => {
+    calculator();
+});
+
+function calculator() {
+    console.log('Đang tính toán...');
+
+    const items = document.querySelectorAll(".ingredient-item");
+
+    // Tổng các giá trị
+    let total = {
+        calories: 0,
+        protein: 0,
+        carbs: 0,
+        fat: 0,
+        fiber: 0,
+        sugar: 0,
+        sodium: 0
+    };
+
+    items.forEach(item => {
+        const name = item.querySelector("select").value;
+        const amount = parseFloat(item.querySelector("input").value) || 0;
+
+        const selected = ingredients.find(ing => ing.name === name);
+        console.log(selected)
+        if (selected) {
+            const ratio = amount / 100;
+
+            total.calories += selected.calories * ratio;
+            total.protein += selected.protein * ratio;
+            total.carbs += selected.carbs * ratio;
+            total.fat += selected.fat * ratio;
+            total.fiber += selected.fiber * ratio;
+            total.sugar += selected.sugar * ratio;
+            total.sodium += selected.sodium * ratio;
+        }
+    });
+
+    // Cập nhật kết quả
+    document.getElementById("total-calories").innerText = `${total.calories.toFixed(2)} kcal`;
+    document.getElementById("protein-result").innerText = `${total.protein.toFixed(2)}g`;
+    document.getElementById("carbs-result").innerText = `${total.carbs.toFixed(2)}g`;
+    document.getElementById("fat-result").innerText = `${total.fat.toFixed(2)}g`;
+    document.getElementById("fiber-result").innerText = `${total.fiber.toFixed(2)}g`;
+    document.getElementById("sugar-result").innerText = `${total.sugar.toFixed(2)}g`;
+    document.getElementById("sodium-result").innerText = `${total.sodium.toFixed(2)}mg`;
+}
+
+
+document.getElementById("add-ingredient").addEventListener("click", function () {
+    const container = document.querySelector(".ingredient-list");
+    console.log(container)
+
+    const newItem = document.createElement("div");
+    newItem.classList.add("ingredient-item");
+
+    newItem.innerHTML = `
+        <select>
+            ${ingredients.map(i => `<option value="${i.name}">${i.name}</option>`).join("")}
+        </select>
+        <input type="number" placeholder="Gram" />
+        <button class="remove-ingredient">x</button>
+    `;
+
+    container.appendChild(newItem);
+
+    // Gắn sự kiện xoá
+    newItem.querySelector(".remove-ingredient").addEventListener("click", () => {
+        newItem.remove();
+    });
+});
+
