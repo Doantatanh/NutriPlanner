@@ -12,12 +12,12 @@ body {
 }
 
 :root { 
-  --orange: #ff9838;
+  --orange: #2ecc71;
   --blue: #1ebfc1;
 }
 
 .bg-orange {
-  background-color: var(--orange);
+  background-color: var(--orange); 
 }
 
 .bg-blue{
