@@ -266,6 +266,20 @@
         <h1 class="mx-auto">Create a full weekly plan from scratch</h1>
         <button class="btn text-white rounded-5 px-3 mx-auto" style="background-color: var(--orange);"><h3>Get Free Plan</h3></button>
     </div>
+    <div class="mealfavourite-cate bg-light py-3">
+        <div class=" col-xl-7 col-sm-11 mx-auto my-4">
+            <div class="" id="">
+                <div class="item">                   
+                    <div class="d-grid grid-col-favourite my-1" id="mealfavourite--menu" > 
+
+                    </div>    
+                </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    
 
     <footer class="main-footer">
         <div class="container">

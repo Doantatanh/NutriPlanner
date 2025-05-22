@@ -10,35 +10,44 @@ fetch('meals.json')
   })
   .catch(error => console.error('Lỗi khi đọc JSON:', error));
 
-
-
+  let meal_favourite = [];
 function render(meals, id){
-    console.log("quyen");
+
     let element = document.getElementById(id);
     element.innerHTML = "";
     meals.forEach(meal => {
         let card = document.createElement("div");
+        meal.isfavourite = false;
         card.innerHTML =  `
             <div class="card d-flex flex-column scale-105 boder-0 rounded-4 overflow-hidden " > 
-                            <picture class="rounded-top overflow-hidden">
-                                <img class="  card-img-top " style="aspect-ratio: 4/3; object-fit: cover; cursor:pointer" src="${meal.image_url}"
-                                    alt="">
-                                         
-                            </picture>
-                            <h5 class="px-3 mt-2" >${meal.name}</h5>
-                            <div class="d-flex  gap-3 px-3 mb-2">
-                                <div class="meal-icon">
-                                    <i class="fas fa-fire"></i>
-                                    ${meal.calories} kcal
-                                </div>
-                                <div class="meal-icon">
-                                    <i class="fas fa-stopwatch"></i>
-                                    ${meal.preptime} min
+                                <picture class="rounded-top overflow-hidden">
+                                    <img class="card-img-top" style="aspect-ratio: 4/3; object-fit: cover; cursor:pointer" src="${meal.image_url}"
+                                        alt="">
+                                </picture>
+                                <div class="d-flex">
+                                    <div class="infomation_meal flex-fill">
+                                        <h5 class="px-3 mt-2" >${meal.name}</h5>
+                                        <div class="d-flex gap-3 px-3 mb-2">
+                                            <div class="meal-icon">
+                                                <i class="fas fa-fire"></i>
+                                                ${meal.calories} kcal
+                                            </div>
+                                            <div class="meal-icon">
+                                                <i class="fas fa-stopwatch"></i>
+                                                ${meal.preptime} min
+                                            </div> 
+                                        </div>
+                                    </div>
+                                    <form>
+                                        <button class="farvourite-btn m-2 p-3 ${meal.isfavourite ? "color-danger" :""}" id="${meal.id}" type="submit">
+                                            <input type="hidden" value="${meal.id}">
+                                            <i class="fas fa-heart"></i>
+                                        </button>
+                                    </form>
+                                        
                                 </div>
                                 
-                            </div>
-                            
-                        </div>
+            </div>
         `
         card.addEventListener('click', () => {    
             opencard(meal);
@@ -57,6 +66,20 @@ function render(meals, id){
             
         });
         element.appendChild(card);
+
+        let favourite_btn =  document.getElementById(meal.id);
+
+        favourite_btn.addEventListener("click", (e)=>{
+            
+            isfavourite =false;
+            e.stopPropagation();
+            e.preventDefault();
+            if(favourite_btn.classList.contains("active")) meal.isfavourite = true;
+            else meal.isfavourite = true;
+            meal_favourite.push(meal);
+            render(meal_favourite, "mealfavourite--menu");
+
+        })
         
     });
 
@@ -84,7 +107,7 @@ function opencard (meal){
             <div class="mealcontent d-grid grid-col-5">
                 <div>
                     <picture>
-                        <img src="${meal.image}" class="rounded w-100" style="aspect-ratio: 4/3; object-fit: cover;"  alt="">
+                        <img src="${meal.image_url}" class="rounded w-100" style="aspect-ratio: 4/3; object-fit: cover;"  alt="">
                     </picture>
                     ${tagsHTML}
                     <p class="my-2" >${meal.description}</p>

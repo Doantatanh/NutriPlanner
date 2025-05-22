@@ -29,6 +29,11 @@ body {
   gap: 20px;
 }
 
+.grid-col-favourite {
+  grid-template-columns: repeat(auto-fill , minmax(300px , 1fr));
+  gap: 30px;
+}
+
 .header--banner {
   background-color: var(--orange);
 }
@@ -37,6 +42,24 @@ body {
   font-size: 4rem!important;
   line-height: 1.5;
   font-weight: 700;
+}
+
+.farvourite-btn:hover {
+    transform: scale(1.1);
+}
+
+.farvourite-btn{
+  all: unset;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 50%;
+  width: auto;
+  height: 16px;
+  transition: all ease 0.2s;
+  color: #ccc;
+}
+
+.farvourite-btn.active {
+  color: red!important;
 }
 
 .logo-box,
@@ -71,7 +94,7 @@ body {
   width: 0;
   height: 2px;
   background-color: #f78014;
-  transition: width 0.3s ease, left 0.3s ease;
+  transition: 0.3s ease, left 0.3s ease;
 }
 
 .nav ul li a:hover::after {
