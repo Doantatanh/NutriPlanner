@@ -1,0 +1,149 @@
+:root {
+    --primary: #2ecc71;
+    --primary-dark: #27ae60;
+    --orange: #ff9838;
+    --blue: #1ebfc1;
+    --text-light: #7f8c8d;
+    --text-dark: #2c3e50;
+    --bg-light: #f9f9f9;
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    background-color: #f8f9fc;
+  }
+
+  .sidebar {
+    min-height: 100vh;
+    box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
+    background-color: #fff !important;
+    z-index: 1;
+    max-width: 300px;
+  }
+
+  .sidebar .nav-item {
+    position: relative;
+    margin-bottom: 0.25rem;
+  }
+
+  .sidebar .nav-item:hover {
+    background-color: rgba(78, 115, 223, 0.1);
+    border: none;
+    border-radius: 6px;
+    color: #6052A9 !important;
+  }
+
+  .sidebar .nav-item .nav-link {
+    padding: 0.75rem 1rem;
+    color: #5a5c69 !important;
+    font-weight: 600;
+    font-size: 1rem;
+  }
+
+  .sidebar .nav-item .active {
+    background-color: #27ae60;
+    color: #fff !important;
+    border: none;
+    border-radius: 6px;
+  }
+
+  .logo-admin {
+    display: flex;
+    align-items: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #2ecc71 !important;
+    text-decoration: none;
+    gap: 0.5rem;
+    white-space: nowrap;
+    margin-bottom: 30px;
+}
+
+.text-login {
+    position: relative;
+    bottom: 10px;
+    left: 2px;
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.fa-seedling {
+    color: #2ecc71;
+}
+
+/* Card styles */
+
+.card {
+    box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.1);
+    border: none;
+    border-radius: 0.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .card-header {
+    background-color: #f8f9fc;
+    border-bottom: 1px solid #e3e6f0;
+    padding: 0.75rem 1.25rem;
+    font-weight: 700;
+  }
+
+  .card-footer {
+    border-top: 1px solid #e3e6f0;
+    padding: 0.75rem 1.25rem;
+    background-color: transparent;
+  }
+
+  .card-body h5.card-title {
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+
+  .card-body .display-4 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    line-height: 1;
+}
+
+/* Table styles */
+
+.table th {
+    background-color: #f8f9fc;
+    font-weight: 600;
+    border-top: none;
+    vertical-align: middle;
+  }
+
+.table td {
+    vertical-align: middle;
+  }
+
+  /* Button styles */
+.btn {
+    border-radius: 0.35rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+
+  .btn-sm {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
+  }
+
+  .add-material-btn {
+    box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .075);
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: background 0.2s, box-shadow 0.2s;
+}
+
+
