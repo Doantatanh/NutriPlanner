@@ -1,23 +1,49 @@
 const meals = [];
-fetch('meals.json')
-  .then(response => response.json())
-  .then(data => {
-    data.forEach(meal => {
-        meals.push(meal);
-        console.log(meals);
-        render(meals, "mealplan--menu");
-    });
-  })
-  .catch(error => console.error('Lỗi khi đọc JSON:', error));
+let meal_favourite = [];
 
-  let meal_favourite = [];
+async function loadFavouriteMeals() {
+    try {
+      const res = await fetch("favourite.php");
+      const result = await res.json();
+      if (result.success) {
+        meal_favourite = result.data.map(item => ({ id: item.meal_id, name: item.name }));
+      } else {
+        console.error("Không lấy được dữ liệu yêu thích:", result.message);
+      }
+    } catch (err) {
+      console.error("Lỗi kết nối:", err);
+    }
+  }
+
+
+  async function init() {
+    try {
+        const response = await fetch('meals.json');
+        const data = await response.json();
+        data.forEach(meal => meals.push(meal));
+
+        await loadFavouriteMeals(); 
+
+        render(meals, "mealplan--menu");
+        render(meal_favourite, "mealfavourite--menu");
+    } catch (error) {
+        console.error('Lỗi khi đọc JSON:', error);
+    }
+}
+init();
+
+
+
+
+
 function render(meals, id){
 
     let element = document.getElementById(id);
     element.innerHTML = "";
     meals.forEach(meal => {
         let card = document.createElement("div");
-        meal.isfavourite = false;
+        meal.isfavourite = meal_favourite.some(fav => fav.id === meal.id);
+
         card.innerHTML =  `
             <div class="card d-flex flex-column scale-105 boder-0 rounded-4 overflow-hidden " > 
                                 <picture class="rounded-top overflow-hidden">
@@ -38,8 +64,8 @@ function render(meals, id){
                                             </div> 
                                         </div>
                                     </div>
-                                    <form>
-                                        <button class="farvourite-btn m-2 p-3 ${meal.isfavourite ? "color-danger" :""}" id="${meal.id}" type="submit">
+                                    <form class="myForm">
+                                        <button class="farvourite-btn m-2 p-3 ${meal.isfavourite ? "text-danger" :""}" type="submit" id="fav-${meal.id}">
                                             <input type="hidden" value="${meal.id}">
                                             <i class="fas fa-heart"></i>
                                         </button>
@@ -65,25 +91,50 @@ function render(meals, id){
                 },0)
             
         });
+
         element.appendChild(card);
 
-        let favourite_btn =  document.getElementById(meal.id);
+        let favourite_btn =  card.querySelector(`#fav-${meal.id}`);
 
-        favourite_btn.addEventListener("click", (e)=>{
-            
-            isfavourite =false;
+        favourite_btn.addEventListener('click', async function(e) {
             e.stopPropagation();
             e.preventDefault();
-            if(favourite_btn.classList.contains("active")) meal.isfavourite = true;
-            else meal.isfavourite = true;
-            meal_favourite.push(meal);
-            render(meal_favourite, "mealfavourite--menu");
+            let isLiked = favourite_btn.classList.contains('text-danger');
+            const action = isLiked ? "remove" : "add";
+            try {
+                const res = await fetch("favourite.php", {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/json"
+                  },
+                  body: JSON.stringify({
+                    id: meal.id,
+                    name: meal.name,
+                    action: action
+                  })
+                });
+            
+                const result = await res.json();
+            
+                if (result.success) {
+                  favourite_btn.classList.toggle("text-danger"); // Toggle màu trái tim
+                  if (action === "add") {
+                    meal_favourite.push(meal);
+                  } else {
+                    meal_favourite = meal_favourite.filter(item => item.id !== meal.id);
+                  }
+                } else {
+                  alert("Lỗi: " + result.message);
+                }
+                render(meal_favourite, "mealfavourite--menu");
+              } catch (error) {
+                alert("Lỗi kết nối: " + error.message);
+              }
+        })});
+    }
 
-        })
-        
-    });
 
-}
+
 
 function opencard (meal){
     let element = document.getElementById("detail__food");
