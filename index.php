@@ -1,3 +1,122 @@
+<?php
+    $connect = new PDO("mysql:host=localhost;dbname=quyen", "root", "");
+    $sql = "SELECT * FROM Meals";
+    $result = $connect->query($sql);
+    $meals = [];
+
+    class nutrition {
+        public $protein;
+        public $fat;
+        public $carb;
+        public $fiber;
+        public $sugar;
+        public $sodium;
+
+        public function __construct($protein ,$fat, $carb, $fiber, $sugar, $sodium) {
+            $this->protein = $protein;
+            $this->fat = $fat;
+            $this->carb = $carb;
+            $this->fiber = $fiber;
+            $this->sugar = $sugar;
+            $this->sodium = $sodium;
+            
+        }
+
+    }
+
+    class Meal {
+        public $id;
+        public $name;
+        public $description;
+        public $calories;
+        public $preptime;
+        public $difficulty;
+        public $instruction;
+        public $image_url; 
+        public $nutrition;
+        public $tags;
+        public $type;
+        public $ingredients;
+
+
+    
+        public function __construct($id, $name, $description, $calories, $preptime, $difficulty, $instruction, $image_url,
+         $nutrition, $tags, $type, $ingredients ) {
+            $this->id = $id;
+            $this->name = $name;
+            $this->description = $description;
+            $this->calories = $calories;
+            $this->preptime = $preptime;
+            $this->difficulty = $difficulty;
+            $this->instruction = explode("\n", $instruction);
+            $this->image_url = $image_url;
+            $this->nutrition = $nutrition;
+            $this->tags = $tags;
+            $this->type = $type;
+            $this->ingredients = $ingredients;
+
+
+        }
+    }
+
+    
+    $ingredients_sql = "SELECT Ingredients.name 
+        FROM meal_ingredients 
+        JOIN Ingredients ON meal_ingredients.ingredient_id = Ingredients.id 
+        WHERE meal_ingredients.meal_id = ?";
+
+    $nutrition_sql = "SELECT nutrition.name, amount 
+    FROM meal_nutrition 
+    JOIN nutrition ON meal_nutrition.nutrition_id = nutrition.id 
+    WHERE meal_nutrition.meal_id = ?";
+
+    $tags_sql = "SELECT tags.name
+    FROM meal_tags 
+    JOIN tags ON meal_tags.tag_id = tags.id 
+    WHERE meal_tags.meal_id = ?";
+
+    $types_sql = "SELECT type.name
+    FROM meal_types 
+    JOIN type ON meal_types.type_id = type.id 
+    WHERE meal_types.meal_id = ?";
+
+    while($row = $result->fetch(PDO::FETCH_ASSOC)){
+        $result_ingredients = [];
+        $stmt = $connect->prepare($ingredients_sql);
+        $stmt->execute([$row['id']]);
+        $result_ingredients = $stmt->fetchAll(PDO::FETCH_COLUMN);
+
+        $result_nutrition = [];
+        $nutri = $connect->prepare($nutrition_sql);
+        $nutri->execute([$row['id']]);
+        $result_nutrition = $nutri->fetchAll(PDO::FETCH_ASSOC);
+        $nutritions = new nutrition($result_nutrition[0]["amount"], $result_nutrition[1]["amount"], $result_nutrition[2]["amount"],
+        $result_nutrition[3]["amount"], $result_nutrition[4]["amount"], $result_nutrition[5]["amount"] );
+
+        $result_tag = [];
+        $tags = $connect->prepare($tags_sql);
+        $tags->execute([$row['id']]);
+        $result_tag = $tags->fetchAll(PDO::FETCH_COLUMN);
+
+        $result_type = [];
+        $types = $connect->prepare($types_sql);
+        $types->execute([$row['id']]);
+        $result_type = $types->fetchAll(PDO::FETCH_COLUMN);
+
+
+         $Meal = new Meal($row['id'], $row['name'], $row['description'], $row['Calories'],
+          $row['prep_time'], $row['difficulty'],$row['instructions'],
+           $row['image_url'], $nutritions, $result_tag, $result_type, $result_ingredients); 
+         $meals[] = $Meal; 
+    };
+    
+    
+    file_put_contents('meals.json', json_encode($meals, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
+
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -66,7 +185,7 @@
         <div class="col-xxl-10 col-xl-10 col-sm-11 mx-auto my-4">
             <div class="" id="meal-cate">
                 <div class="item ">                   
-                    <div class="d-grid grid-col-5 my-1" id="mealplan--menu" style="">
+                    <div class="d-grid grid-col-5 my-1" id="mealplan--menu" >
                         <div class="firstcard d-flex flex-column align-items-center rounded shadow  "> 
                             <picture class="rounded scale-105 p-3 overflow-hidden">
                                 <img class="rounded" src="assets/images/thitkhotau.jpg"
