@@ -13,7 +13,7 @@
             "Step 4: Add vegetables and cook until tender.",
             "Step 5: Serve with steamed rice."
         ],
-        "image_url": "assets\/images\/thitkhotau.jpg",
+        "image_url": "https:\/\/example.com\/images\/beef-stir-fry.jpg",
         "nutrition": {
             "protein": 12,
             "fat": 18,
@@ -31,11 +31,11 @@
             "Lunch"
         ],
         "ingredients": [
+            "Salt",
             "Onion",
             "Tomato",
-            "Cooking Oil",
-            "Salt",
-            "Pepper"
+            "Pepper",
+            "Cooking Oil"
         ]
     },
     {
@@ -62,20 +62,20 @@
         },
         "tags": [
             "Vegan",
-            "Low Carb",
-            "High Protein"
+            "High Protein",
+            "Low Carb"
         ],
         "type": [
             "Lunch"
         ],
         "ingredients": [
-            "Chicken",
             "Rice",
-            "Vegetable",
-            "Cooking Oil",
-            "Garlic",
+            "Chicken",
             "Salt",
-            "Pepper"
+            "Vegetable",
+            "Garlic",
+            "Pepper",
+            "Cooking Oil"
         ]
     },
     {
@@ -110,12 +110,12 @@
             "Dinner"
         ],
         "ingredients": [
-            "Onion",
-            "Garlic",
-            "Vegetable",
-            "Cooking Oil",
             "Salt",
-            "Pepper"
+            "Vegetable",
+            "Garlic",
+            "Onion",
+            "Pepper",
+            "Cooking Oil"
         ]
     },
     {
@@ -184,11 +184,11 @@
         ],
         "ingredients": [
             "Egg",
+            "Salt",
             "Vegetable",
             "Tomato",
-            "Cooking Oil",
-            "Salt",
-            "Pepper"
+            "Pepper",
+            "Cooking Oil"
         ]
     }
 ]
