@@ -1,5 +1,5 @@
 <?php
-    $connect = new PDO("mysql:host=localhost;dbname=quyen", "root", "");
+    $connect = new PDO("mysql:host=localhost;dbname=nutriplanner-1", "root", "");
     $sql = "SELECT * FROM Meals";
     $result = $connect->query($sql);
     $meals = [];
@@ -108,8 +108,9 @@
           $row['prep_time'], $row['difficulty'],$row['instructions'],
            $row['image_url'], $nutritions, $result_tag, $result_type, $result_ingredients); 
          $meals[] = $Meal; 
+
     };
-    
+    $connect = null;
     
     file_put_contents('meals.json', json_encode($meals, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
 
@@ -128,6 +129,7 @@
     <link href="../assets/css/bootstrap.css" rel="stylesheet">
     <link rel="stylesheet" href="assets/fontawesome-free-6.7.2-web/css/all.min.css">
     <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/calculator.css">
 </head>
 
 
@@ -172,8 +174,8 @@
                     </ul>
                 </div>
                 <div class="header_cta d-flex justify-content-center align-items-center">
-                    <a href="login.php" class="btn header_cta_sec">Đăng nhập</a>
-                    <a href="signup.php" class="btn btn-darkk">Đăng Kí</a>
+                    <a  class="btn header_cta_sec" id="pop-login">Đăng nhập</a>
+                    <a  class="btn btn-darkk" id="pop-register">Đăng Kí</a>
                 </div>
             </div>
 
@@ -260,6 +262,132 @@
     </div>
     <div class="h-100 w-100 z-3 position-fixed top-0 d-none" style="background-color: rgba(0, 0, 0, 0.7);" id="detail__food">
         
+    </div>
+
+    <section style="margin-top: 50px; margin-bottom: 50px; ">
+        <div class="container">
+            <div class="header-calculator">
+                <h2>Nutrition Calculator</h2>
+                <p>Enter ingredients and portions to calculate nutritional values for your dish.</p>
+            </div>
+            <div class="container-calculator">
+                <div class="calculator-form">
+                    <h3>Enter Ingredients</h3>
+                    <p>Select ingredients and enter the amount in grams to calculate nutrition.</p>
+                    <div class="ingredients-list">
+                        <div class="ingredient-item">
+                            <select id="ingredient-option">
+                                <option value="Rice">Rice</option>
+                                <option value="Chicken Breast">Chicken Breast</option>
+                                <option value="Avocado">Avocado</option>
+                                <option value="Spinach">Spinach</option>
+                                <option value="Banana">Banana</option>
+                                <option value="Pumpkin">Pumpkin</option>
+                                <option value="Quinoa">Quinoa</option>
+                                <option value="Soybeans">Soybeans</option>
+                                <option value="Sweet Potato">Sweet Potato</option>
+                                <option value="Egg">Egg</option>
+                                <option value="Oats">Oats</option>
+                                <option value="Salmon">Salmon</option>
+                                <option value="Lentils">Lentils</option>
+                                <option value="Tomato">Tomato</option>
+                                <option value="Apple">Apple</option>
+                                <option value="Almonds">Almonds</option>
+                                <option value="Greek Yogurt">Greek Yogurt</option>
+                                <option value="Mushroom">Mushroom</option>
+                                <option value="Black Beans">Black Beans</option>
+                                <option value="Cabbage">Cabbage</option>
+                            </select>
+                            <input type="number"  placeholder="Gram">
+                        </div>
+                    </div>
+                    <button class="add-ingredient" id="add-ingredient">Add Ingredient</button>
+                    <button class="button calculate-btn" id="calculate-btn">Calculate Nutrition</button>
+                </div>
+                <div class="calculator-result">
+                    <h3>Nutrition Analysis Results</h3>
+                    <div class="total-calories" id="total-calories">
+                        0 kcal
+                    </div>
+                    <div class="nutrition-results" id="nutrition-results">
+                        <div class="nutrition-result-item">
+                            <div class="nutrition-result-name">Protein</div>
+                            <div class="nutrition-result-value" id="protein-result">0g</div>
+                        </div>
+                        <div class="nutrition-result-item">
+                            <div class="nutrition-result-name">Carbs</div>
+                            <div class="nutrition-result-value" id="carbs-result">0g</div>
+                        </div>
+                        <div class="nutrition-result-item">
+                            <div class="nutrition-result-name">Chất béo</div>
+                            <div class="nutrition-result-value" id="fat-result">0g</div>
+                        </div>
+                        <div class="nutrition-result-item">
+                            <div class="nutrition-result-name">Đường</div>
+                            <div class="nutrition-result-value" id="sugar-result">0g</div>
+                        </div>
+                        <div class="nutrition-result-item">
+                            <div class="nutrition-result-name">Chất xơ</div>
+                            <div class="nutrition-result-value" id="fiber-result">0g</div>
+                        </div>
+                        <div class="nutrition-result-item">
+                            <div class="nutrition-result-name">Natri</div>
+                            <div class="nutrition-result-value" id="sodium-result">0g</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="d-none popup-overlay" id="pop-login-form">
+        <div class="popup-content bg-white p-4 rounded shadow">
+            <form class="form">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h4>Login Form</h4>
+                    <span class="close-popup-login" id="close-popup-login">X</span>
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email:</label>
+                    <input type="email" class="form-control" id="email-login">
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label">Password:</label>
+                    <input type="password" class="form-control" id="password-login">
+                </div>
+                <p>Don't have an account? <a id="to-register" style="cursor: pointer;"> Register here</a></p>
+                <button type="submit" class="bttn">Log In</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="d-none popup-overlay" id="pop-register-form">
+        <div class="popup-content bg-white p-4 rounded shadow">
+            <form>
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h4>Register Form</h4>
+                    <span class="close-popup-login" id="close-pop-register">X</span>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">User Name:</label>
+                    <input class="form-control" id="username-signup">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Email:</label>
+                    <input class="form-control" id="email-signup">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Passwork:</label>
+                    <input type="password" class="form-control" id="passwork-signup">
+                </div>
+                <div class="mb-3">
+                    <p class="mt-2">Already have an account? 
+                        <a id="to-login" style="cursor: pointer;">Log in here</a>
+                    </p>
+                    <button type="submit" class="bttn">Log In</button>
+                </div>
+            </form>
+        </div>
     </div>
 
     <div class="linkplan d-flex flex-column bg-orange p-4">
