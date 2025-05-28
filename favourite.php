@@ -24,7 +24,8 @@ $pdo = new PDO($dsn, $user, $pass, $options);
 
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-        $stmt = $pdo->query("SELECT meal_id, name FROM  favourites");
+        $stmt = $pdo->query("SELECT * name FROM  favourites
+        JOIN nutrition ON meals.id = meal_id");
         $favourites = $stmt->fetchAll();
         echo json_encode(["success" => true, "data" => $favourites]);
         exit();

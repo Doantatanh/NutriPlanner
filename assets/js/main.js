@@ -138,10 +138,6 @@ function render(meals, id){
 
 function opencard (meal){
     let element = document.getElementById("detail__food");
-    let ingredientsHTML = '';
-    meal.ingredients.forEach(ingredient => {
-        ingredientsHTML += `<li>${ingredient}</li>`;
-    });
 
     let stepHTML ="";
     meal.instruction.forEach(element=>stepHTML += `<li>${element}</li>`)
@@ -203,7 +199,7 @@ function opencard (meal){
                 <div class=" mx-3">
                     <h3>Ingredients</h3>
                     <ul>
-                        ${ingredientsHTML}
+                        ${meal.ingredients}
                     </ul>
                     <h3>Instruction</h3>
                     <ul>
@@ -227,6 +223,36 @@ function opencard (meal){
 
 }
 
+
+let meal_search = [];
+        document.getElementById('search-form').addEventListener('click', async function() {
+            let meal_name = document.getElementById("input_search").value;
+            let meal_type = document.getElementById("input_type").value;
+            let meal_diet = document.getElementById("meal_diet").value;
+            let meal_calo = document.getElementById("meal_calo").value;
+            try {
+                const res = await fetch("backend/search.php", {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/json"
+                  },
+                  body: JSON.stringify({
+                    name: meal_name,
+                    type: meal_type,
+                    diet: meal_diet,
+                    calo: meal_calo
+                  })
+                });
+            
+                const data = await res.json();
+                meal_search = data.data;
+                
+                console.log("Dữ liệu trả về:", meal_search);
+            } catch (error) {
+                console.error("Lỗi khi gọi API:", error);
+            }
+            render(meal_search, "mealplan--menu");    
+        });
 
 
 
