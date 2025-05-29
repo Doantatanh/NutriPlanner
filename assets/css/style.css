@@ -14,6 +14,14 @@ body {
 :root { 
   --orange: #2ecc71;
   --blue: #1ebfc1;
+  --primary: #2ecc71;
+  --primary-dark: #27ae60;
+  --text-dark: #2c3e50;
+  --text-light: #7f8c8d;
+  --bg-white: #ffffff;
+  --shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  --radius: 12px;
+  --transition: all 0.3s ease;
 }
 
 .bg-orange {
@@ -282,4 +290,83 @@ footer ul {
 
 .a-color{
   cursor: pointer;
+}
+
+/* feature */
+
+.feature-section{
+  margin-top: 50px;
+  margin-bottom: 150px;
+}
+
+
+
+.feature-header{
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto 60px;
+}
+
+.feature-header p{
+  color: var(--text-light);
+}
+
+.feature-main{
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 50px;
+}
+
+.feature-box{
+  border-top: 5px solid var(--primary);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+  background: var(--bg-white);
+  border-radius: var(--radius);
+  padding: 40px 30px;
+  box-shadow: var(--shadow);
+  transition: var(--transition);
+  transform: translateY(0);
+}
+
+.feature-box:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+
+.feature-icon{
+  width: 70px;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background-color: rgba(46, 204, 113, 0.1);
+  margin-bottom: 10px;
+}
+
+.feature-icon i {
+  font-size: 1.5rem;
+  color: var(--primary);
+}
+
+.feature-box h3{
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.feature-box p{
+  color: var(--text-light);
+}
+
+@media (max-width: 768px) {
+  .feature-main{
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width:576px) {
+  .feature-main{
+    grid-template-columns: 1fr;
+  }
 }

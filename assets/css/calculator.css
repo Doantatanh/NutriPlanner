@@ -18,6 +18,11 @@
     max-width: 700px;
     margin: 0 auto 60px;
 }
+
+.header-calculator p{
+    color: var(--text-light);
+}
+
 .container-calculator{
     display: grid;
     grid-template-columns: 1fr 1fr;

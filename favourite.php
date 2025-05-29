@@ -8,7 +8,7 @@ header("Content-Type: application/json");
 
 // Cấu hình kết nối PDO
 $host = 'localhost';
-$db   = 'quyen';
+$db   = 'nutriplanner-1';
 $user = 'root';
 $pass = '';
 $charset = 'utf8mb4';

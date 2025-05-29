@@ -174,8 +174,8 @@ $connect = null;
     </header>
     <div class="header-lower position-sticky top-0 bg-white shadow z-3">
         <div class="container col-xl-10">
-            <div class="outer-box clearfix d-flex justify-content-center align-items-center">
-                <div class="logo-box">
+            <div class="outer-box rounded-top clearfix d-flex justify-content-center align-items-center">
+                <div class="logo-box rounded-top">
                     <figure class="logo">
                         <a href="index.html"><img class="" src="../assets/images/NUTRIPLANNER.png" alt=""></a>
                     </figure>
@@ -200,6 +200,59 @@ $connect = null;
 
         </div>
     </div>
+
+    <section class="feature-section">
+        <div class="feature-container col-xl-10 col-11 mx-auto ">
+            <div class="feature-header">
+                <h2>Key Features</h2>
+                <p>Explore powerful tools that help you plan meals, track nutrition, and achieve your health goals with ease.</p>
+            </div>
+            <div class="feature-main">
+                <div class="feature-box rounded-top ">
+                    <div class="feature-icon">
+                        <i class="fas fa-list-check"></i>
+                    </div>
+                    <h3>Personalized Meal Plans</h3>
+                    <p>Create meal plans tailored to your goals, whether it's weight loss, muscle gain, or managing specific health conditions.</p>
+                </div>
+                <div class="feature-box rounded-top">
+                    <div class="feature-icon">
+                        <i class="fas fa-filter"></i>
+                    </div>
+                    <h3>Smart Filters</h3>
+                    <p>Easily search and filter meals by ingredients, calories, special diets, or food allergies.</p>
+                </div>
+                <div class="feature-box rounded-top">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-pie"></i>
+                    </div>
+                    <h3>Nutrition Analysis</h3>
+                    <p>View detailed nutritional breakdowns such as calories, protein, carbs, fats, and micronutrients for each dish.</p>
+                </div>
+                <div class="feature-box rounded-top">
+                    <div class="feature-icon">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <h3>Favorite Dishes</h3>
+                    <p>Bookmark and quickly access your favorite meals to simplify your future meal planning.</p>
+                </div>
+                <div class="feature-box rounded-top">
+                    <div class="feature-icon">
+                        <i class="fas fa-calculator"></i>
+                    </div>
+                    <h3>Nutrition Calculator</h3>
+                    <p>Input ingredients and portion sizes to instantly calculate the total nutritional value of your meal.</p>
+                </div>
+                <div class="feature-box rounded-top">
+                    <div class="feature-icon">
+                        <i class="fas fa-comment-dots"></i>
+                    </div>
+                    <h3>Comments & Sharing</h3>
+                    <p>Comment, share your experiences, and review meals with the NutriPlanner community.</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <div class="examPlan container">
         <div class="col-xxl-10 col-xl-10 col-sm-11 mx-auto my-4">
