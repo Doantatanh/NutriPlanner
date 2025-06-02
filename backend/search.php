@@ -24,7 +24,7 @@
 }
 
 
-    $sql = "SELECT m.id , m.name, m.description, m.calories, m.prep_time ,m.instructions ,m.image_url from meals m 
+    $sql = "SELECT m.id , m.name, m.description, m.ingredients, m.calories, m.prep_time ,m.instructions ,m.image_url from meals m 
         INNER JOIN tags ON m.tag_id = tags.id
         INNER JOIN type ON m.type_id = type.id
         WHERE m.name LIKE ?";
@@ -33,15 +33,17 @@
     $meal_diet = isset($data["diet"]) ? $data["diet"] : "";
     $meal_calo = isset($data["calo"]) ? $data["calo"] : "";
 
+    
+
     $params = [$meal_name];
 
     if(!empty($meal_type)){
-        $sql .= " AND type.name = ?";
+        $sql .= " AND type.id = ?";
         $params[] = $meal_type; 
     }
 
     if(!empty($meal_diet)){
-        $sql .= " AND tags.name = ?";
+        $sql .= " AND tags.id = ?";
         $params[] = $meal_diet; 
     }
 
@@ -63,6 +65,9 @@
         }
     }
 
+
+
+
     $tags_sql = "SELECT tags.name
     FROM meal_tags 
     JOIN tags ON meal_tags.tag_id = tags.id 
@@ -76,7 +81,6 @@
     $stmt = $connect->prepare($sql);
     $arr = $stmt->execute($params);
     $result = [];
-
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 
         $nutri = $connect->prepare($nutrition_sql);

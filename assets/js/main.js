@@ -222,6 +222,137 @@ function opencard (meal){
     });
 
 }
+// phần calculator
+
+let ingredients = [];
+
+fetch('assets/js/ingredients.json')
+  .then(response => response.json())
+  .then(data => {
+    ingredients = data;
+  })
+  .catch(error => console.error('Lỗi khi load JSON:', error));
+
+
+document.getElementById('add-ingredient').addEventListener('click', ()=>{
+    const container = document.querySelector('.ingredients-list');
+    console.log(container);
+    const newIngredientItem = document.createElement("div");
+    newIngredientItem.classList.add('ingredient-item')
+
+    newIngredientItem.innerHTML = `
+        <select>
+            ${ingredients.map(i => `<option value="${i.name}">${i.name}</option>`).join("")}
+        </select>
+        <input type="number" placeholder="Gram" />
+        <button class="remove-ingredient">x</button>
+    `;
+    container.appendChild(newIngredientItem);
+
+    newIngredientItem.querySelector('.remove-ingredient').addEventListener('click',() => {
+        newIngredientItem.remove();
+    })
+})
+
+document.getElementById('calculate-btn').addEventListener('click',()=>{
+    calculator();
+})
+function calculator (){
+    console.log('hàm calculator');
+    const items = document.querySelectorAll(".ingredient-item");
+    console.log(items)
+    let total = {
+        calories: 0,
+        protein: 0,
+        carbs: 0,
+        fat: 0,
+        fiber: 0,
+        sugar: 0,
+        sodium: 0
+    };
+
+    items.forEach(item => {
+        const name = item.querySelector("select").value;
+        const amount = parseFloat(item.querySelector("input").value) || 0;
+
+        const selected = ingredients.find(ing => ing.name === name);
+        console.log(selected)
+        if (selected) {
+            const ratio = amount / 100;
+
+            total.calories += selected.calories * ratio;
+            total.protein += selected.protein * ratio;
+            total.carbs += selected.carbs * ratio;
+            total.fat += selected.fat * ratio;
+            total.fiber += selected.fiber * ratio;
+            total.sugar += selected.sugar * ratio;
+            total.sodium += selected.sodium * ratio;
+        }
+    });
+
+    document.getElementById("total-calories").innerText = `${total.calories.toFixed(2)} kcal`;
+    document.getElementById("protein-result").innerText = `${total.protein.toFixed(2)}g`;
+    document.getElementById("carbs-result").innerText = `${total.carbs.toFixed(2)}g`;
+    document.getElementById("fat-result").innerText = `${total.fat.toFixed(2)}g`;
+    document.getElementById("fiber-result").innerText = `${total.fiber.toFixed(2)}g`;
+    document.getElementById("sugar-result").innerText = `${total.sugar.toFixed(2)}g`;
+    document.getElementById("sodium-result").innerText = `${total.sodium.toFixed(2)}g`;
+}
+
+//login
+document.getElementById('pop-login').addEventListener("click", ()=>{
+    console.log('openpp')
+    showPopupLogin();
+})
+
+document.getElementById('close-popup-login').addEventListener("click", ()=>{
+    console.log('closepp')
+    closePopupLogin();
+})
+
+function showPopupLogin (){
+    console.log('showlogin')
+    document.getElementById("pop-login-form").classList.remove('d-none');
+}
+
+function closePopupLogin(){
+    console.log('closelogin')
+    document.getElementById("pop-login-form").classList.add('d-none');
+}
+//register
+document.getElementById('pop-register').addEventListener("click", ()=>{
+    console.log('openpp')
+    showPopupRegister();
+})
+
+document.getElementById('close-pop-register').addEventListener("click", ()=>{
+    console.log('closepp')
+    closePopupRegister();
+})
+
+function showPopupRegister (){
+    console.log('showregis')
+    document.getElementById("pop-register-form").classList.remove('d-none');
+}
+
+function closePopupRegister(){
+    console.log('closeregis')
+    document.getElementById("pop-register-form").classList.add('d-none');
+}
+
+// chuyển đổi giữa các popup
+
+document.getElementById('to-register').addEventListener('click',()=>{
+    console.log('log-regis')
+    closePopupLogin();
+    showPopupRegister();
+})
+
+document.getElementById('to-login').addEventListener('click',()=>{
+    console.log('regis-log')
+    closePopupRegister();
+    showPopupLogin();
+})
 
 
 let meal_search = [];
@@ -230,6 +361,12 @@ let meal_search = [];
             let meal_type = document.getElementById("input_type").value;
             let meal_diet = document.getElementById("meal_diet").value;
             let meal_calo = document.getElementById("meal_calo").value;
+            meal_search.push(meal_name);
+            meal_search.push(meal_type);
+            meal_search.push(meal_diet);
+            meal_search.push(meal_calo);
+            console.log(meal_search);
+            meal_search = [];
             try {
                 const res = await fetch("backend/search.php", {
                   method: "POST",
@@ -243,15 +380,19 @@ let meal_search = [];
                     calo: meal_calo
                   })
                 });
-            
-                const data = await res.json();
-                meal_search = data.data;
                 
-                console.log("Dữ liệu trả về:", meal_search);
+
+
+
+            const data = await res.json();
+
+            meal_search = data.data;
+
+    console.log(meal_search);
             } catch (error) {
                 console.error("Lỗi khi gọi API:", error);
             }
-            render(meal_search, "mealplan--menu");    
+            render(meal_search, "mealplan--menu");
         });
 
 
