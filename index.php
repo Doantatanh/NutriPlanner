@@ -1,119 +1,136 @@
 <?php
-    $connect = new PDO("mysql:host=localhost;dbname=nutriplanner-1", "root", "");
-    $sql = "SELECT * FROM Meals";
-    $result = $connect->query($sql);
-    $meals = [];
+$connect = new PDO("mysql:host=localhost;dbname=quyen", "root", "");
+$sql = "SELECT * FROM Meals";
+$result = $connect->query($sql);
+$meals = [];
 
-    class nutrition {
-        public $protein;
-        public $fat;
-        public $carb;
-        public $fiber;
-        public $sugar;
-        public $sodium;
+class nutrition
+{
+    public $protein;
+    public $fat;
+    public $carb;
+    public $fiber;
+    public $sugar;
+    public $sodium;
 
-        public function __construct($protein ,$fat, $carb, $fiber, $sugar, $sodium) {
-            $this->protein = $protein;
-            $this->fat = $fat;
-            $this->carb = $carb;
-            $this->fiber = $fiber;
-            $this->sugar = $sugar;
-            $this->sodium = $sodium;
-            
-        }
-
+    public function __construct($protein, $fat, $carb, $fiber, $sugar, $sodium)
+    {
+        $this->protein = $protein;
+        $this->fat = $fat;
+        $this->carb = $carb;
+        $this->fiber = $fiber;
+        $this->sugar = $sugar;
+        $this->sodium = $sodium;
     }
+}
 
-    class Meal {
-        public $id;
-        public $name;
-        public $description;
-        public $calories;
-        public $preptime;
-        public $difficulty;
-        public $instruction;
-        public $image_url; 
-        public $nutrition;
-        public $tags;
-        public $type;
-        public $ingredients;
-
-
-    
-        public function __construct($id, $name, $description, $calories, $preptime, $difficulty, $instruction, $image_url,
-         $nutrition, $tags, $type, $ingredients ) {
-            $this->id = $id;
-            $this->name = $name;
-            $this->description = $description;
-            $this->calories = $calories;
-            $this->preptime = $preptime;
-            $this->difficulty = $difficulty;
-            $this->instruction = explode("\n", $instruction);
-            $this->image_url = $image_url;
-            $this->nutrition = $nutrition;
-            $this->tags = $tags;
-            $this->type = $type;
-            $this->ingredients = $ingredients;
+class Meal
+{
+    public $id;
+    public $name;
+    public $description;
+    public $calories;
+    public $preptime;
+    public $difficulty;
+    public $instruction;
+    public $image_url;
+    public $nutrition;
+    public $tags;
+    public $type;
+    public $ingredients;
 
 
-        }
+
+    public function __construct(
+        $id,
+        $name,
+        $description,
+        $calories,
+        $preptime,
+        $instruction,
+        $image_url,
+        $nutrition,
+        $tags,
+        $type,
+        $ingredients
+    ) {
+        $this->id = $id;
+        $this->name = $name;
+        $this->description = $description;
+        $this->calories = $calories;
+        $this->preptime = $preptime;
+        $this->instruction = explode("\n", $instruction);
+        $this->image_url = $image_url;
+        $this->nutrition = $nutrition;
+        $this->tags = $tags;
+        $this->type = $type;
+        $this->ingredients = $ingredients;
     }
+}
 
-    
-    $ingredients_sql = "SELECT Ingredients.name 
-        FROM meal_ingredients 
-        JOIN Ingredients ON meal_ingredients.ingredient_id = Ingredients.id 
-        WHERE meal_ingredients.meal_id = ?";
 
-    $nutrition_sql = "SELECT nutrition.name, amount 
+
+
+$nutrition_sql = "SELECT nutrition.name, amount 
     FROM meal_nutrition 
     JOIN nutrition ON meal_nutrition.nutrition_id = nutrition.id 
     WHERE meal_nutrition.meal_id = ?";
 
-    $tags_sql = "SELECT tags.name
+$tags_sql = "SELECT tags.name
     FROM meal_tags 
     JOIN tags ON meal_tags.tag_id = tags.id 
     WHERE meal_tags.meal_id = ?";
 
-    $types_sql = "SELECT type.name
+$types_sql = "SELECT type.name
     FROM meal_types 
     JOIN type ON meal_types.type_id = type.id 
     WHERE meal_types.meal_id = ?";
 
-    while($row = $result->fetch(PDO::FETCH_ASSOC)){
-        $result_ingredients = [];
-        $stmt = $connect->prepare($ingredients_sql);
-        $stmt->execute([$row['id']]);
-        $result_ingredients = $stmt->fetchAll(PDO::FETCH_COLUMN);
+while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
 
-        $result_nutrition = [];
-        $nutri = $connect->prepare($nutrition_sql);
-        $nutri->execute([$row['id']]);
-        $result_nutrition = $nutri->fetchAll(PDO::FETCH_ASSOC);
-        $nutritions = new nutrition($result_nutrition[0]["amount"], $result_nutrition[1]["amount"], $result_nutrition[2]["amount"],
-        $result_nutrition[3]["amount"], $result_nutrition[4]["amount"], $result_nutrition[5]["amount"] );
+    $result_nutrition = [];
+    $nutri = $connect->prepare($nutrition_sql);
+    $nutri->execute([$row['id']]);
+    $result_nutrition = $nutri->fetchAll(PDO::FETCH_ASSOC);
+    $nutritions = new nutrition(
+        $result_nutrition[0]["amount"],
+        $result_nutrition[1]["amount"],
+        $result_nutrition[2]["amount"],
+        $result_nutrition[3]["amount"],
+        $result_nutrition[4]["amount"],
+        $result_nutrition[5]["amount"]
+    );
 
-        $result_tag = [];
-        $tags = $connect->prepare($tags_sql);
-        $tags->execute([$row['id']]);
-        $result_tag = $tags->fetchAll(PDO::FETCH_COLUMN);
+    $result_tag = [];
+    $tags = $connect->prepare($tags_sql);
+    $tags->execute([$row['id']]);
+    $result_tag = $tags->fetchAll(PDO::FETCH_COLUMN);
 
-        $result_type = [];
-        $types = $connect->prepare($types_sql);
-        $types->execute([$row['id']]);
-        $result_type = $types->fetchAll(PDO::FETCH_COLUMN);
+    $result_type = [];
+    $types = $connect->prepare($types_sql);
+    $types->execute([$row['id']]);
+    $result_type = $types->fetchAll(PDO::FETCH_COLUMN);
 
 
-         $Meal = new Meal($row['id'], $row['name'], $row['description'], $row['Calories'],
-          $row['prep_time'], $row['difficulty'],$row['instructions'],
-           $row['image_url'], $nutritions, $result_tag, $result_type, $result_ingredients); 
-         $meals[] = $Meal; 
+    $Meal = new Meal(
+        $row['id'],
+        $row['name'],
+        $row['description'],
+        $row['Calories'],
+        $row['prep_time'],
+        $row['instructions'],
+        $row['image_url'],
+        $nutritions,
+        $result_tag,
+        $result_type,
+        $row['ingredients']
+    );
+    $meals[] = $Meal;
+};
 
-    };
-    $connect = null;
-    
-    file_put_contents('meals.json', json_encode($meals, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
 
+file_put_contents('meals.json', json_encode($meals, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
+$connect = null;
 
 ?>
 
@@ -127,6 +144,7 @@
     <title>Document</title>
     <link rel="stylesheet" href="assets/css/reset.css">
     <link href="../assets/css/bootstrap.css" rel="stylesheet">
+    <link href="../assets/css/style-admin.css" rel="stylesheet">
     <link rel="stylesheet" href="assets/fontawesome-free-6.7.2-web/css/all.min.css">
     <link rel="stylesheet" href="../assets/css/style.css">
     <link rel="stylesheet" href="../assets/css/calculator.css">
@@ -185,83 +203,121 @@
 
     <div class="examPlan container">
         <div class="col-xxl-10 col-xl-10 col-sm-11 mx-auto my-4">
+            <section>
+                <div class="container">
+                    <div class="section-header">
+                        <h2>Khám phá thực đơn</h2>
+                        <p>Tìm kiếm và lọc hàng trăm công thức phù hợp với mục tiêu dinh dưỡng và khẩu vị của bạn.</p>
+                    </div>
+                    <div class="meal-filter">
+                        <div id="searchForm">
+                            <div class="search-container">
+                                <input type="text" class="search-input" name="search_query" id="input_search" placeholder="Enter name meal...">
+                                <button class="search-btn text-dark" id="search-form">
+                                    <i class="fas fa-search"></i>
+                                    Search
+                                </button>
+                            </div>
+                            <div class="filter">
+                                <div class="filter-group">
+                                    <label class="filter-title">Loại món</label>
+                                    <select class="filter-select" name="meal_type" id="input_type">
+                                        <option value="">Tất cả</option>
+                                        <option value="1">Bữa Sáng</option>
+                                        <option value="2">Bữa Trưa</option>
+                                        <option value="3">Bữa Tối</option>
+                                        <option value="4">Đồ ăn nhẹ</option>
+                                        <option value="5">Đồ uống</option>
+                                    </select>
+                                </div>
+                                <div class="filter-group">
+                                    <label class="filter-title">Chế độ ăn</label>
+                                    <select class="filter-select" name="diet_type" id="meal_diet">
+                                        <option value="">Tất cả</option>
+                                        <option value="1">Vegan</option>
+                                        <option value="2">Vegetarian</option>
+                                        <option value="3">Keto</option>
+                                        <option value="4">Paleo</option>
+                                        <option value="5">Low Carb</option>
+                                        <option value="6">High Protein</option>
+                                    </select>
+                                </div>
+                                <div class="filter-group">
+                                    <label class="filter-title">Calories</label>
+                                    <select class="filter-select" name="calories" id="meal_calo">
+                                        <option value="">Tất cả</option>
+                                        <option value="under300">Dưới 300 kcal</option>
+                                        <option value="300-500">300 - 500 kcal</option>
+                                        <option value="500-800">500 - 800 kcal</option>
+                                        <option value="over800">Trên 800 kcal</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="meals-grid" id="meals-grid">
+
+
+
+                    </div>
+                </div>
+            </section>
             <div class="" id="meal-cate">
-                <div class="item ">                   
-                    <div class="d-grid grid-col-5 my-1" id="mealplan--menu" >
-                        <div class="firstcard d-flex flex-column align-items-center rounded shadow  "> 
+                <div class="item ">
+                    <div class="d-grid grid-col-5 my-1" id="mealplan--menu">
+                        <div class="firstcard d-flex flex-column align-items-center rounded shadow  ">
                             <picture class="rounded scale-105 p-3 overflow-hidden">
                                 <img class="rounded" src="assets/images/thitkhotau.jpg"
                                     alt="">
                             </picture>
                             <p class="pt-2">Meat</p>
                         </div>
-                        <div class="firstcard d-flex flex-column align-items-center rounded shadow  "> 
+                        <div class="firstcard d-flex flex-column align-items-center rounded shadow  ">
                             <picture class="rounded scale-105 p-3">
                                 <img class="rounded" src="assets/images/thitkhotau.jpg"
                                     alt="">
                             </picture>
                             <p class="pt-2">Meat</p>
                         </div>
-                        <div class="firstcard d-flex flex-column align-items-center rounded shadow  "> 
+                        <div class="firstcard d-flex flex-column align-items-center rounded shadow  ">
                             <picture class="rounded scale-105 p-3">
                                 <img class="rounded" src="assets/images/thitkhotau.jpg"
                                     alt="">
                             </picture>
                             <p class="pt-2">Meat</p>
                         </div>
-                        <div class="firstcard d-flex flex-column align-items-center rounded shadow  "> 
+                        <div class="firstcard d-flex flex-column align-items-center rounded shadow  ">
                             <picture class="rounded scale-105 p-3">
                                 <img class="rounded" src="assets/images/thitkhotau.jpg"
                                     alt="">
                             </picture>
                             <p class="pt-2">Meat</p>
                         </div>
-                        <div class="firstcard d-flex flex-column align-items-center rounded shadow  "> 
+                        <div class="firstcard d-flex flex-column align-items-center rounded shadow  ">
                             <picture class="rounded scale-105 p-3">
                                 <img class="rounded" src="assets/images/thitkhotau.jpg"
                                     alt="">
                             </picture>
                             <p class="pt-2">Meat</p>
                         </div>
-                        
+
                     </div>
-                    
-                </div>
-                
-                <div class="mealcate--nav  justify-content-between align-items-center">
-                    <ul class="nav nav-pills d-flex justify-content-between" id="mealTabs" role="tablist">
-                        <li class="nav-item" role="presentation">
-                          <button class="nav-link active" id="breakfast-tab" data-bs-toggle="tab" data-bs-target="#all" type="button" role="tab">All</button>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link " id="breakfast-tab" data-bs-toggle="tab" data-bs-target="#breakfast" type="button" role="tab">Breakfast</button>
-                          </li>
-                        <li class="nav-item" role="presentation">
-                          <button class="nav-link" id="lunch-tab" data-bs-toggle="tab" data-bs-target="#lunch" type="button" role="tab">Lunch</button>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                          <button class="nav-link" id="dinner-tab" data-bs-toggle="tab" data-bs-target="#dinner" type="button" role="tab">Dinner</button>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                          <button class="nav-link" id="snacks-tab" data-bs-toggle="tab" data-bs-target="#snacks" type="button" role="tab">Snacks</button>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                          <button class="nav-link" id="smoothies-tab" data-bs-toggle="tab" data-bs-target="#smoothies" type="button" role="tab">Smoothies</button>
-                        </li>
-                      </ul>
 
                 </div>
-                
-              
-                </div>
+
+
+
+
             </div>
-
         </div>
-        
-        
+
+    </div>
+
+
     </div>
     <div class="h-100 w-100 z-3 position-fixed top-0 d-none" style="background-color: rgba(0, 0, 0, 0.7);" id="detail__food">
-        
+
     </div>
 
     <section style="margin-top: 50px; margin-bottom: 50px; ">
@@ -392,8 +448,24 @@
 
     <div class="linkplan d-flex flex-column bg-orange p-4">
         <h1 class="mx-auto">Create a full weekly plan from scratch</h1>
-        <button class="btn text-white rounded-5 px-3 mx-auto" style="background-color: var(--orange);"><h3>Get Free Plan</h3></button>
+        <button class="btn text-white rounded-5 px-3 mx-auto" style="background-color: var(--orange);">
+            <h3>Get Free Plan</h3>
+        </button>
     </div>
+    <div class="mealfavourite bg-light py-3">
+        <div class=" col-xl-7 col-sm-11 mx-auto my-4">
+            <div class="" id="">
+                <div class="item">
+                    <div class="d-grid grid-col-favourite my-1" id="mealfavourite--menu">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    </div>
+
 
     <footer class="main-footer">
         <div class="container">

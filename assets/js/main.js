@@ -1,44 +1,79 @@
 const meals = [];
-fetch('meals.json')
-  .then(response => response.json())
-  .then(data => {
-    data.forEach(meal => {
-        meals.push(meal);
-        console.log(meals);
+let meal_favourite = [];
+
+async function loadFavouriteMeals() {
+    try {
+      const res = await fetch("favourite.php");
+      const result = await res.json();
+      if (result.success) {
+        meal_favourite = result.data.map(item => ({ id: item.meal_id, name: item.name }));
+      } else {
+        console.error("Không lấy được dữ liệu yêu thích:", result.message);
+      }
+    } catch (err) {
+      console.error("Lỗi kết nối:", err);
+    }
+  }
+
+
+  async function init() {
+    try {
+        const response = await fetch('meals.json');
+        const data = await response.json();
+        data.forEach(meal => meals.push(meal));
+
+        await loadFavouriteMeals(); 
+
         render(meals, "mealplan--menu");
-    });
-  })
-  .catch(error => console.error('Lỗi khi đọc JSON:', error));
+        render(meal_favourite, "mealfavourite--menu");
+    } catch (error) {
+        console.error('Lỗi khi đọc JSON:', error);
+    }
+}
+init();
+
+
 
 
 
 function render(meals, id){
-    console.log("quyen");
+
     let element = document.getElementById(id);
     element.innerHTML = "";
     meals.forEach(meal => {
         let card = document.createElement("div");
+        meal.isfavourite = meal_favourite.some(fav => fav.id === meal.id);
+
         card.innerHTML =  `
             <div class="card d-flex flex-column scale-105 boder-0 rounded-4 overflow-hidden " > 
-                            <picture class="rounded-top overflow-hidden">
-                                <img class="  card-img-top " style="aspect-ratio: 4/3; object-fit: cover; cursor:pointer" src="${meal.image_url}"
-                                    alt="">
-                                         
-                            </picture>
-                            <h5 class="px-3 mt-2" >${meal.name}</h5>
-                            <div class="d-flex  gap-3 px-3 mb-2">
-                                <div class="meal-icon">
-                                    <i class="fas fa-fire"></i>
-                                    ${meal.calories} kcal
-                                </div>
-                                <div class="meal-icon">
-                                    <i class="fas fa-stopwatch"></i>
-                                    ${meal.preptime} min
+                                <picture class="rounded-top overflow-hidden">
+                                    <img class="card-img-top" style="aspect-ratio: 4/3; object-fit: cover; cursor:pointer" src="${meal.image_url}"
+                                        alt="">
+                                </picture>
+                                <div class="d-flex">
+                                    <div class="infomation_meal flex-fill">
+                                        <h5 class="px-3 mt-2" >${meal.name}</h5>
+                                        <div class="d-flex gap-3 px-3 mb-2">
+                                            <div class="meal-icon">
+                                                <i class="fas fa-fire"></i>
+                                                ${meal.calories} kcal
+                                            </div>
+                                            <div class="meal-icon">
+                                                <i class="fas fa-stopwatch"></i>
+                                                ${meal.preptime} min
+                                            </div> 
+                                        </div>
+                                    </div>
+                                    <form class="myForm">
+                                        <button class="farvourite-btn m-2 p-3 ${meal.isfavourite ? "text-danger" :""}" type="submit" id="fav-${meal.id}">
+                                            <input type="hidden" value="${meal.id}">
+                                            <i class="fas fa-heart"></i>
+                                        </button>
+                                    </form>
+                                        
                                 </div>
                                 
-                            </div>
-                            
-                        </div>
+            </div>
         `
         card.addEventListener('click', () => {    
             opencard(meal);
@@ -56,18 +91,53 @@ function render(meals, id){
                 },0)
             
         });
-        element.appendChild(card);
-        
-    });
 
-}
+        element.appendChild(card);
+
+        let favourite_btn =  card.querySelector(`#fav-${meal.id}`);
+
+        favourite_btn.addEventListener('click', async function(e) {
+            e.stopPropagation();
+            e.preventDefault();
+            let isLiked = favourite_btn.classList.contains('text-danger');
+            const action = isLiked ? "remove" : "add";
+            try {
+                const res = await fetch("favourite.php", {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/json"
+                  },
+                  body: JSON.stringify({
+                    id: meal.id,
+                    name: meal.name,
+                    action: action
+                  })
+                });
+            
+                const result = await res.json();
+            
+                if (result.success) {
+                  favourite_btn.classList.toggle("text-danger"); // Toggle màu trái tim
+                  if (action === "add") {
+                    meal_favourite.push(meal);
+                  } else {
+                    meal_favourite = meal_favourite.filter(item => item.id !== meal.id);
+                  }
+                } else {
+                  alert("Lỗi: " + result.message);
+                }
+                render(meal_favourite, "mealfavourite--menu");
+              } catch (error) {
+                alert("Lỗi kết nối: " + error.message);
+              }
+        })});
+    }
+
+
+
 
 function opencard (meal){
     let element = document.getElementById("detail__food");
-    let ingredientsHTML = '';
-    meal.ingredients.forEach(ingredient => {
-        ingredientsHTML += `<li>${ingredient}</li>`;
-    });
 
     let stepHTML ="";
     meal.instruction.forEach(element=>stepHTML += `<li>${element}</li>`)
@@ -84,7 +154,7 @@ function opencard (meal){
             <div class="mealcontent d-grid grid-col-5">
                 <div>
                     <picture>
-                        <img src="${meal.image}" class="rounded w-100" style="aspect-ratio: 4/3; object-fit: cover;"  alt="">
+                        <img src="${meal.image_url}" class="rounded w-100" style="aspect-ratio: 4/3; object-fit: cover;"  alt="">
                     </picture>
                     ${tagsHTML}
                     <p class="my-2" >${meal.description}</p>
@@ -129,7 +199,7 @@ function opencard (meal){
                 <div class=" mx-3">
                     <h3>Ingredients</h3>
                     <ul>
-                        ${ingredientsHTML}
+                        ${meal.ingredients}
                     </ul>
                     <h3>Instruction</h3>
                     <ul>
@@ -160,7 +230,6 @@ fetch('assets/js/ingredients.json')
   .then(response => response.json())
   .then(data => {
     ingredients = data;
-    console.log('Dữ liệu đã load:', ingredients);
   })
   .catch(error => console.error('Lỗi khi load JSON:', error));
 
@@ -285,6 +354,46 @@ document.getElementById('to-login').addEventListener('click',()=>{
     showPopupLogin();
 })
 
+
+let meal_search = [];
+        document.getElementById('search-form').addEventListener('click', async function() {
+            let meal_name = document.getElementById("input_search").value;
+            let meal_type = document.getElementById("input_type").value;
+            let meal_diet = document.getElementById("meal_diet").value;
+            let meal_calo = document.getElementById("meal_calo").value;
+            meal_search.push(meal_name);
+            meal_search.push(meal_type);
+            meal_search.push(meal_diet);
+            meal_search.push(meal_calo);
+            console.log(meal_search);
+            meal_search = [];
+            try {
+                const res = await fetch("backend/search.php", {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/json"
+                  },
+                  body: JSON.stringify({
+                    name: meal_name,
+                    type: meal_type,
+                    diet: meal_diet,
+                    calo: meal_calo
+                  })
+                });
+                
+
+
+
+            const data = await res.json();
+
+            meal_search = data.data;
+
+    console.log(meal_search);
+            } catch (error) {
+                console.error("Lỗi khi gọi API:", error);
+            }
+            render(meal_search, "mealplan--menu");
+        });
 
 
 
