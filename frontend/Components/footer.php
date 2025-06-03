@@ -5,12 +5,177 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link href="../assets/css/bootstrap.css" rel="stylesheet">
-    <link rel="stylesheet" href="../assets/css/style.css">
+    <link href="../../assets/css/bootstrap.css" rel="stylesheet">
+    <link href="../../assets/css/reset.css" rel=" stylesheet">
+    <link rel="stylesheet" href="../../assets/fontawesome-free-6.7.2-web/css/all.min.css">
+    <script src=" https://kit.fontawesome.com/1852d76d47.js" crossorigin="anonymous">
+    </script>
+    <!-- <link rel="stylesheet" href="../../assets/css/style.css"> -->
+    <style>
+        footer {
+            background: #2c3e50;
+            color: white;
+            padding: 15px 0 30px;
+        }
+
+        body {
+            font-family: "Poppins", sans-serif;
+            color: #2c3e50;
+            line-height: 1.6;
+            background-color: var(--bg-light);
+            overflow-x: hidden;
+            position: relative;
+        }
+
+
+        h1,
+        h2,
+        h3,
+        h4 {
+            font-family: "Montserrat", sans-serif;
+            font-weight: 700;
+            line-height: 1.3;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #2ecc71 !important;
+            text-decoration: none;
+            gap: 0.5rem;
+            color: #ecf0f1 !important;
+            white-space: nowrap;
+            margin-bottom: 20px;
+        }
+
+        .footer-logo i {
+            font-size: 1.8rem;
+        }
+
+        .fa-seedling {
+            color: #ecf0f1;
+        }
+
+        .footer-top {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            padding: 20px;
+            background-color: #2c3e50;
+            color: #ecf0f1;
+        }
+
+        .nav_menu {
+            flex: 1;
+            min-width: 200px;
+            margin: 10px;
+        }
+
+        .widget-title h3 {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .widget-title h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            background: #2ecc71;
+            width: 30px;
+            height: 2px;
+            border-radius: 5px;
+        }
+
+        .footer-links {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-links li {
+            margin-bottom: 5px;
+            /* Space between links */
+        }
+
+        .footer-links li a {
+            color: #ecf0f1;
+            text-decoration: none;
+            transition: color 0.3s;
+            transition: all 0.3s ease;
+        }
+
+        .footer-links li a:hover {
+            color: #2ecc71 !important;
+            padding-left: 5px;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            opacity: 0.7;
+            font-size: 0.9rem;
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .contact-info div {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 20px;
+            padding: 20px;
+
+        }
+
+        .contact-info i {
+            margin-right: 10px;
+            margin-top: 5px;
+            color: #2ecc71;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            padding: 20px 0 0 0;
+        }
+
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            background: #2ecc71;
+            transform: translateY(-3px);
+        }
+
+        .contact-info {
+            margin: 10px 0;
+        }
+
+        .contact-info i {
+            position: absolute;
+            right: 395px;
+        }
+    </style>
 </head>
 
-<body> 
-    
+<body>
+
     <footer class="main-footer">
         <div class="container">
             <div class="row">
@@ -18,24 +183,20 @@
                     <div class="col-lg-3 nav_menu">
                         <div class="text">
                             <div class="widget-title">
-                                <h3>NUTRIPLANNER</h3>
+                                <a href="#" class="footer-logo">
+                                    <i class="fas fa-seedling"></i>
+                                    NutriPlanner
+                                </a>
                             </div>
                             <div class="widget-content">
-                                <ul class="info-list clearfix">
-                                    <li>
-                                        <p><a href="">Web App</a></p>
-                                    </li>
-                                    <li>
-                                        <p><a href="">Mobile App</a></p>
-
-                                    </li>
-                                    <li>
-                                        <p><a href="">Chrome Extension</a></p>
-                                    </li>
-                                    <li>
-                                        <p><a href="">Food Plus</a></p>
-                                    </li>
-                                </ul>
+                                <p>Smart nutrition solutions to help you build healthy eating habits and achieve your
+                                    health goals.</p>
+                                <div class="social-links">
+                                    <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                                    <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                                    <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                                    <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -43,120 +204,63 @@
                     <div class="col-lg-3 nav_menu">
                         <div class="text">
                             <div class="widget-title">
-                                <h3>Features</h3>
+                                <h3>Quick Links</h3>
                             </div>
                             <div class="widget-content">
-                                <ul class="info-list clearfix">
-                                    <li>
-                                        <p><a href="">Recipe Box</a></p>
-                                    </li>
-                                    <li>
-                                        <p><a href="">Shopping</a></p>
-
-                                    </li>
-                                    <li>
-                                        <p><a href="">Meal Planner</a></p>
-                                    </li>
-                                    <li>
-                                        <p><a href="">Communities</a></p>
-                                    </li>
+                                <ul class="footer-links">
+                                    <li><a href="#features">Features</a></li>
+                                    <li><a href="#meals">Meals</a></li>
+                                    <li><a href="#calculator">Tools</a></li>
+                                    <li><a href="#testimonials">Testimonials</a></li>
+                                    <li><a href="#contact">Contact</a></li>
                                 </ul>
+
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-3 nav_menu">
                         <div class="text">
                             <div class="widget-title">
-                                <h3>Resources</h3>
+                                <h3>Support</h3>
+
                             </div>
                             <div class="widget-content">
-                                <ul class="info-list clearfix">
-                                    <li>
-                                        <p><a href="">Nutrition and <br> Calorie Calculator</a></p>
-                                    </li>
-                                    <li>
-                                        <p><a href="">Recipe Converter</a></p>
-
-                                    </li>
-                                    <li>
-                                        <p><a href="">Support</a></p>
-                                    </li>
-                                    <li>
-                                        <p><a href="">Blog</a></p>
-                                    </li>
-                                    <li>
-                                        <p><a href="">Open Food Facts</a></p>
-                                    </li>
+                                <ul class="footer-links">
+                                    <li><a href="#">Support Center</a></li>
+                                    <li><a href="#">FAQ</a></li>
+                                    <li><a href="#">Terms of Use</a></li>
+                                    <li><a href="#">Privacy Policy</a></li>
+                                    <li><a href="#feedback">Feedback</a></li>
                                 </ul>
+
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-3 nav_menu">
                         <div class="text">
                             <div class="widget-title">
-                                <h3>Company</h3>
+                                <h3>Contact</h3>
+
                             </div>
                             <div class="widget-content">
-                                <ul class="info-list clearfix">
-                                    <li>
-                                        <p><a href="">About us</a></p>
-                                    </li>
-                                    <li>
-                                        <p><a href="">Creators</a></p>
-
-                                    </li>
-                                    <li>
-                                        <p><a href="">Partners</a></p>
-                                    </li>
-                                    <li>
-                                        <p><a href="">Press</a></p>
-                                    </li>
-                                    <li>
-                                        <p><a href="">Careers</a></p>
-                                    </li>
-                                </ul>
+                                <div class="contact-info">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    <p>123 Nguyen Hue Street, District 1, Ho Chi Minh City</p>
+                                </div>
+                                <div class="contact-info">
+                                    <i class="fas fa-phone-alt"></i>
+                                    <p>+84 28 1234 5678</p>
+                                </div>
+                                <div class="contact-info">
+                                    <i class="fas fa-envelope"></i>
+                                    <p>support@nutriplanner.com</p>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="footer-bottom">
-                    <p class="copyright">
-                        © 2025 Nutriplanner. All rights reserved.
-                    </p>
-                    <ul id="menu-policies" class="menu">
-                        <li class="menu-item"><a href="">Privacy Policy</a></li>
-                        <li class="menu-item"><a href="">Terms</a></li>
-                        <li class="menu-item "><a href="">Security</a>
-                        </li>
-                        <li class="menu-item"><a href="">Do not sell my data</a></li>
-                        <li class="menu-item "><a href="">Promotional Terms</a></li>
-                    </ul>
-                    <div class="social_links">
-                        <a href=""> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="20" height="20"
-                                fill="#3b5998">
-                                <path
-                                    d="M512 256C512 114.6 397.4 0 256 0S0 114.6 0 256C0 376 82.7 476.8 194.2 504.5V334.2H141.4V256h52.8V222.3c0-87.1 39.4-127.5 125-127.5c16.2 0 44.2 3.2 55.7 6.4V172c-6-.6-16.5-1-29.6-1c-42 0-58.2 15.9-58.2 57.2V256h83.6l-14.4 78.2H287V510.1C413.8 494.8 512 386.9 512 256h0z" />
-                            </svg></a>
-
-                        <a href=""> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="20" height="20"
-                                viewBox="0 0 448 512">
-                                <path
-                                    d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z" />
-                            </svg></a>
-
-                        <a href=""> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="20"
-                                height="20">
-                                <path
-                                    d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z" />
-                            </svg></a>
-
-                        <a href=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" width="20" height="20">
-                                <path
-                                    d="M549.7 124.1c-6.3-23.7-24.8-42.3-48.3-48.6C458.8 64 288 64 288 64S117.2 64 74.6 75.5c-23.5 6.3-42 24.9-48.3 48.6-11.4 42.9-11.4 132.3-11.4 132.3s0 89.4 11.4 132.3c6.3 23.7 24.8 41.5 48.3 47.8C117.2 448 288 448 288 448s170.8 0 213.4-11.5c23.5-6.3 42-24.2 48.3-47.8 11.4-42.9 11.4-132.3 11.4-132.3s0-89.4-11.4-132.3zm-317.5 213.5V175.2l142.7 81.2-142.7 81.2z" />
-                            </svg></a>
-
-
-                    </div>
+                    <p>© 2023 NutriPlanner. Project by Team 3. All rights reserved.</p>
                 </div>
             </div>
         </div>

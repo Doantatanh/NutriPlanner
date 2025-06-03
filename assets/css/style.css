@@ -29,12 +29,74 @@ body {
   box-sizing: border-box;
 }
 
+
 body {
   font-family: "Poppins", sans-serif;
   color: var(--text-dark);
   line-height: 1.6;
   background-color: var(--bg-light);
   overflow-x: hidden;
+}
+.bg-blue{
+  border: 1px solid var(--blue);
+}
+
+.grid-col-5 {
+  grid-template-columns: repeat(auto-fit , minmax(300px , 1fr));
+  gap: 20px;
+}
+
+.grid-col-favourite {
+  grid-template-columns: repeat(auto-fill , minmax(300px , 1fr));
+  gap: 30px;
+}
+
+.header--banner {
+  background-color: var(--orange);
+}
+
+.header--text label{
+  font-size: 4rem!important;
+  line-height: 1.5;
+  font-weight: 700;
+}
+
+.farvourite-btn:hover {
+    transform: scale(1.1);
+}
+
+.farvourite-btn{
+  all: unset;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 50%;
+  width: auto;
+  height: 16px;
+  transition: all ease 0.2s;
+  color: #ccc;
+}
+
+.farvourite-btn.active {
+  color: red!important;
+}
+
+.logo-box,
+.nav,
+.header_cta {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.nav {
+  padding: 17px 0px 0px;
+  margin: 0px 50px 0px 50px;
+}
+
+.nav ul li {
+  display: inline;
+  margin: 0 15px;
+}
+
+.nav ul li a {
   position: relative;
 }
 
@@ -52,6 +114,16 @@ a {
   color: inherit;
 }
 
+.nav ul li a::after {
+  position: absolute;
+  content: "";
+  bottom: -5px;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background-color: #f78014;
+  transition: 0.3s ease, left 0.3s ease;
+}
 
 
 /* footer */
@@ -129,10 +201,7 @@ footer ul {
 .social_links a {
   margin: 0 2px;
 }
-/*CSS Login*/
-/* body {
-  background-color: #F6F6F6;
-} */
+
 
 .container-login {
   width: 1000px;
@@ -229,4 +298,46 @@ footer ul {
 
 .grid-col-2{
   grid-template-columns: 1fr 1fr;
+}
+/* pop */
+.popup-overlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5); 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.popup-content {
+  max-width: 450px;
+  width: 100%;
+}
+
+.close-popup-login{
+  cursor: pointer;
+}
+
+.close-pop-register{
+  cursor: pointer;
+}
+
+.bttn{
+  width: 100%;
+  background: #2ecc71;
+  color: white;
+  padding: 12px 28px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+}
+
+.bttn:hover{
+  background: #27ae60;
+}
+
+.a-color{
+  cursor: pointer;
 }

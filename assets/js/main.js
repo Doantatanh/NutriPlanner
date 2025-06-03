@@ -1,44 +1,81 @@
+console.log('main.js đã được load!');
+
 const meals = [];
-fetch('meals.json')
-  .then(response => response.json())
-  .then(data => {
-    data.forEach(meal => {
-        meals.push(meal);
-        console.log(meals);
+let meal_favourite = [];
+
+async function loadFavouriteMeals() {
+    try {
+      const res = await fetch("favourite.php");
+      const result = await res.json();
+      if (result.success) {
+        meal_favourite = result.data.map(item => ({ id: item.meal_id, name: item.name }));
+      } else {
+        console.error("Không lấy được dữ liệu yêu thích:", result.message);
+      }
+    } catch (err) {
+      console.error("Lỗi kết nối:", err);
+    }
+  }
+
+
+  async function init() {
+    try {
+        const response = await fetch('meals.json');
+        const data = await response.json();
+        data.forEach(meal => meals.push(meal));
+
+        await loadFavouriteMeals(); 
+
         render(meals, "mealplan--menu");
-    });
-  })
-  .catch(error => console.error('Lỗi khi đọc JSON:', error));
+        render(meal_favourite, "mealfavourite--menu");
+    } catch (error) {
+        console.error('Lỗi khi đọc JSON:', error);
+    }
+}
+init();
+
+
 
 
 
 function render(meals, id){
-    console.log("quyen");
+
     let element = document.getElementById(id);
     element.innerHTML = "";
     meals.forEach(meal => {
         let card = document.createElement("div");
+        meal.isfavourite = meal_favourite.some(fav => fav.id === meal.id);
+
         card.innerHTML =  `
             <div class="card d-flex flex-column scale-105 boder-0 rounded-4 overflow-hidden " > 
-                            <picture class="rounded-top overflow-hidden">
-                                <img class="  card-img-top " style="aspect-ratio: 4/3; object-fit: cover; cursor:pointer" src="${meal.image_url}"
-                                    alt="">
-                                         
-                            </picture>
-                            <h5 class="px-3 mt-2" >${meal.name}</h5>
-                            <div class="d-flex  gap-3 px-3 mb-2">
-                                <div class="meal-icon">
-                                    <i class="fas fa-fire"></i>
-                                    ${meal.calories} kcal
-                                </div>
-                                <div class="meal-icon">
-                                    <i class="fas fa-stopwatch"></i>
-                                    ${meal.preptime} min
+                                <picture class="rounded-top overflow-hidden">
+                                    <img class="card-img-top" style="aspect-ratio: 4/3; object-fit: cover; cursor:pointer" src="${meal.image_url}"
+                                        alt="">
+                                </picture>
+                                <div class="d-flex">
+                                    <div class="infomation_meal flex-fill">
+                                        <h5 class="px-3 mt-2" >${meal.name}</h5>
+                                        <div class="d-flex gap-3 px-3 mb-2">
+                                            <div class="meal-icon">
+                                                <i class="fas fa-fire"></i>
+                                                ${meal.calories} kcal
+                                            </div>
+                                            <div class="meal-icon">
+                                                <i class="fas fa-stopwatch"></i>
+                                                ${meal.preptime} min
+                                            </div> 
+                                        </div>
+                                    </div>
+                                    <form class="myForm">
+                                        <button class="farvourite-btn m-2 p-3 ${meal.isfavourite ? "text-danger" :""}" type="submit" id="fav-${meal.id}">
+                                            <input type="hidden" value="${meal.id}">
+                                            <i class="fas fa-heart"></i>
+                                        </button>
+                                    </form>
+                                        
                                 </div>
                                 
-                            </div>
-                            
-                        </div>
+            </div>
         `
         card.addEventListener('click', () => {    
             opencard(meal);
@@ -56,11 +93,50 @@ function render(meals, id){
                 },0)
             
         });
-        element.appendChild(card);
-        
-    });
 
-}
+        element.appendChild(card);
+
+        let favourite_btn =  card.querySelector(`#fav-${meal.id}`);
+
+        favourite_btn.addEventListener('click', async function(e) {
+            e.stopPropagation();
+            e.preventDefault();
+            let isLiked = favourite_btn.classList.contains('text-danger');
+            const action = isLiked ? "remove" : "add";
+            try {
+                const res = await fetch("favourite.php", {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/json"
+                  },
+                  body: JSON.stringify({
+                    id: meal.id,
+                    name: meal.name,
+                    action: action
+                  })
+                });
+            
+                const result = await res.json();
+            
+                if (result.success) {
+                  favourite_btn.classList.toggle("text-danger"); // Toggle màu trái tim
+                  if (action === "add") {
+                    meal_favourite.push(meal);
+                  } else {
+                    meal_favourite = meal_favourite.filter(item => item.id !== meal.id);
+                  }
+                } else {
+                  alert("Lỗi: " + result.message);
+                }
+                render(meal_favourite, "mealfavourite--menu");
+              } catch (error) {
+                alert("Lỗi kết nối: " + error.message);
+              }
+        })});
+    }
+
+
+
 
 function opencard (meal){
     let element = document.getElementById("detail__food");
@@ -84,7 +160,7 @@ function opencard (meal){
             <div class="mealcontent d-grid grid-col-5">
                 <div>
                     <picture>
-                        <img src="${meal.image}" class="rounded w-100" style="aspect-ratio: 4/3; object-fit: cover;"  alt="">
+                        <img src="${meal.image_url}" class="rounded w-100" style="aspect-ratio: 4/3; object-fit: cover;"  alt="">
                     </picture>
                     ${tagsHTML}
                     <p class="my-2" >${meal.description}</p>
@@ -151,6 +227,214 @@ function opencard (meal){
         });
     });
 
+}
+// phần calculator
+
+let ingredients = [];
+
+fetch('assets/js/ingredients.json')
+  .then(response => response.json())
+  .then(data => {
+    ingredients = data;
+    console.log('Dữ liệu đã load:', ingredients);
+  })
+  .catch(error => console.error('Lỗi khi load JSON:', error));
+
+
+document.getElementById('add-ingredient').addEventListener('click', ()=>{
+    const container = document.querySelector('.ingredients-list');
+    console.log(container);
+    const newIngredientItem = document.createElement("div");
+    newIngredientItem.classList.add('ingredient-item')
+
+    newIngredientItem.innerHTML = `
+        <select>
+            ${ingredients.map(i => `<option value="${i.name}">${i.name}</option>`).join("")}
+        </select>
+        <input type="number" placeholder="Gram" />
+        <button class="remove-ingredient">x</button>
+    `;
+    container.appendChild(newIngredientItem);
+
+    newIngredientItem.querySelector('.remove-ingredient').addEventListener('click',() => {
+        newIngredientItem.remove();
+    })
+})
+
+document.getElementById('calculate-btn').addEventListener('click',()=>{
+    calculator();
+})
+function calculator (){
+    console.log('hàm calculator');
+    const items = document.querySelectorAll(".ingredient-item");
+    console.log(items)
+    let total = {
+        calories: 0,
+        protein: 0,
+        carbs: 0,
+        fat: 0,
+        fiber: 0,
+        sugar: 0,
+        sodium: 0
+    };
+
+    items.forEach(item => {
+        const name = item.querySelector("select").value;
+        const amount = parseFloat(item.querySelector("input").value) || 0;
+
+        const selected = ingredients.find(ing => ing.name === name);
+        console.log(selected)
+        if (selected) {
+            const ratio = amount / 100;
+
+            total.calories += selected.calories * ratio;
+            total.protein += selected.protein * ratio;
+            total.carbs += selected.carbs * ratio;
+            total.fat += selected.fat * ratio;
+            total.fiber += selected.fiber * ratio;
+            total.sugar += selected.sugar * ratio;
+            total.sodium += selected.sodium * ratio;
+        }
+    });
+
+    document.getElementById("total-calories").innerText = `${total.calories.toFixed(2)} kcal`;
+    document.getElementById("protein-result").innerText = `${total.protein.toFixed(2)}g`;
+    document.getElementById("carbs-result").innerText = `${total.carbs.toFixed(2)}g`;
+    document.getElementById("fat-result").innerText = `${total.fat.toFixed(2)}g`;
+    document.getElementById("fiber-result").innerText = `${total.fiber.toFixed(2)}g`;
+    document.getElementById("sugar-result").innerText = `${total.sugar.toFixed(2)}g`;
+    document.getElementById("sodium-result").innerText = `${total.sodium.toFixed(2)}g`;
+}
+
+//login
+document.getElementById('pop-login').addEventListener("click", ()=>{
+    console.log('openpp')
+    showPopupLogin();
+})
+
+document.getElementById('close-popup-login').addEventListener("click", ()=>{
+    console.log('closepp')
+    closePopupLogin();
+})
+
+function showPopupLogin (){
+    console.log('showlogin')
+    document.getElementById("pop-login-form").classList.remove('d-none');
+}
+
+function closePopupLogin(){
+    console.log('closelogin')
+    document.getElementById("pop-login-form").classList.add('d-none');
+}
+//register
+document.getElementById('pop-register').addEventListener("click", ()=>{
+    console.log('openpp')
+    showPopupRegister();
+})
+
+document.getElementById('close-pop-register').addEventListener("click", ()=>{
+    console.log('closepp')
+    closePopupRegister();
+})
+
+function showPopupRegister (){
+    console.log('showregis')
+    document.getElementById("pop-register-form").classList.remove('d-none');
+}
+
+function closePopupRegister(){
+    console.log('closeregis')
+    document.getElementById("pop-register-form").classList.add('d-none');
+}
+
+// chuyển đổi giữa các popup
+
+document.getElementById('to-register').addEventListener('click',()=>{
+    console.log('log-regis')
+    closePopupLogin();
+    showPopupRegister();
+})
+
+document.getElementById('to-login').addEventListener('click',()=>{
+    console.log('regis-log')
+    closePopupRegister();
+    showPopupLogin();
+})
+
+// Xử lý sự kiện submit form tìm kiếm
+if (document.getElementById('searchForm')) {
+    document.getElementById('searchForm').addEventListener('submit', function(e) {
+        try {
+            e.preventDefault();
+            console.log('Đã chặn submit mặc định, bắt đầu tìm kiếm...');
+            // Ẩn phần mặc định
+            var defaultList = document.getElementById('default-meal-list');
+            if (defaultList) defaultList.style.display = 'none';
+            // Xóa nội dung cũ của meals-grid
+            const resultsDiv = document.getElementById('meals-grid');
+            resultsDiv.innerHTML = '';
+            // Tạo đối tượng FormData từ form
+            const formData = new FormData(this);
+            // Chuyển đổi FormData thành chuỗi query parameters
+            const params = new URLSearchParams(formData);
+            // Gọi API tìm kiếm
+            fetch('../backend/search.php?' + params.toString())
+                .then(response => response.json())
+                .then(response => {
+                    console.log('Kết quả trả về từ API:', response);
+                    if (!response.data || response.data.length === 0) {
+                        resultsDiv.innerHTML = '<div style="grid-column: 1 / -1; text-align: center; padding: 50px 0;"><i class="fas fa-search" style="font-size: 3rem; color: #ddd; margin-bottom: 20px;"></i><h3>Không tìm thấy món ăn nào phù hợp</h3><p>Vui lòng thử lại với các bộ lọc khác</p></div>';
+                        return;
+                    }
+                    response.data.forEach(meal => {
+                        // Xử lý đường dẫn ảnh an toàn
+                        let imgSrc;
+                        if (meal.image && (meal.image.startsWith('http://') || meal.image.startsWith('https://'))) {
+                            imgSrc = meal.image;
+                        } else if (meal.image && meal.image.trim() !== '') {
+                            imgSrc = '../' + meal.image.replace(/^\/+/,'');
+                        } else {
+                            imgSrc = 'assets/images/no-image.png';
+                        }
+                        const tagsHTML = meal.diet_tags ? meal.diet_tags.map(tag => `<span class=\"meal-tag\">${tag.trim()}</span>`).join(' ') : '';
+                        const card = `
+                            <div class=\"meal-card shadow\">
+                                <div class=\"meal-image-wrapper\">
+                                    <img src=\"${imgSrc}\" alt=\"${meal.name}\" class=\"meal-img\">
+                                    <button class=\"favorite-btn\" data-id=\"${meal.id}\">\n<i class=\"fas fa-heart\"></i>\n</button>
+                                </div>
+                                <div class=\"meal-content\">
+                                    <div class=\"meal-header\">
+                                        <input type=\"checkbox\" class=\"meal-checkbox\" />
+                                        <h3 class=\"meal-title\">${meal.name}</h3>
+                                    </div>
+                                    <div class=\"meal-tags\">
+                                        ${tagsHTML}
+                                    </div>
+                                    <div class=\"meal-stats\">
+                                        <div class=\"meal-stat\">
+                                            <i class=\"fas fa-fire\"></i>
+                                            ${meal.calories || 'Chưa có'} kcal
+                                        </div>
+                                        <div class=\"meal-stat\">
+                                            <i class=\"fas fa-stopwatch\"></i>
+                                            ${meal.prep_time || 'Chưa có'} phút
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                        resultsDiv.insertAdjacentHTML('beforeend', card);
+                    });
+                })
+                .catch(err => {
+                    console.error('Lỗi khi gọi API tìm kiếm:', err);
+                    resultsDiv.innerHTML = '<div style="grid-column: 1 / -1; text-align: center; padding: 50px 0;"><i class="fas fa-exclamation-circle" style="font-size: 3rem; color: #ddd; margin-bottom: 20px;"></i><h3>Có lỗi xảy ra khi tìm kiếm</h3><p>Vui lòng thử lại sau</p></div>';
+                });
+        } catch (err) {
+            console.error('Lỗi JS khi submit form tìm kiếm:', err);
+        }
+    });
 }
 
 

@@ -1,0 +1,63 @@
+<div class="meal-card item">
+    <div class="d-grid grid-col-5 my-1" id="mealplan--menu">
+        <div class="meal-image firstcard d-flex flex-column align-items-center rounded shadow">
+            <picture class="rounded scale-105 p-3 overflow-hidden">
+                <img src="${fullImgSrc}" alt="${meal.name}">
+            </picture>
+            <button class="favorite-btn active" data-id="${meal.id}">
+                <i class="fas fa-heart"></i>
+            </button>
+        </div>
+        <div class="meal-content">
+            <div class="meal-tags">
+                ${tagsHTML}
+            </div>
+            <h3>${meal.name}</h3>
+            <div class="meal-stats">
+                <div class="meal-stat">
+                    <i class="fas fa-fire"></i>
+                    ${meal.calories || 'Chưa có'} kcal
+                </div>
+                <div class="meal-stat">
+                    <i class="fas fa-stopwatch"></i>
+                    ${meal.prep_time || 'Chưa có'} phút
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+<div class="card d-flex flex-column scale-105 boder-0 rounded-4 overflow-hidden">
+    <picture class="rounded-top overflow-hidden">
+        <img class="card-img-top" style="aspect-ratio: 4/3; object-fit: cover; cursor:pointer" src="${fullImgSrc}"
+            alt="${meal.name}">
+    </picture>
+    <div class="d-flex">
+        <div class="infomation_meal flex-fill">
+            <h5 class="px-3 mt-2">${meal.name}</h5>
+            <div class="d-flex gap-3 px-3 mb-2">
+                <div class="meal-icon">
+                    <i class="fas fa-fire"></i>
+                    ${meal.calories || 'Chưa có'} kcal
+                </div>
+                <div class="meal-icon">
+                    <i class="fas fa-stopwatch"></i>
+                    ${meal.prep_time || 'Chưa có'} phút
+                </div>
+            </div>
+        </div>
+        <form class="myForm">
+            <button class="farvourite-btn m-2 p-3 " type="submit" id="fav-1">
+                <input type="hidden" value="1">
+                <i class="fas fa-heart"></i>
+            </button>
+        </form>
+
+    </div>
+</div>
