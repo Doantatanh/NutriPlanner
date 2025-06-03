@@ -299,60 +299,68 @@ function calculator (){
     document.getElementById("sodium-result").innerText = `${total.sodium.toFixed(2)}g`;
 }
 
-//login
-document.getElementById('pop-login').addEventListener("click", ()=>{
-    console.log('openpp')
-    showPopupLogin();
-})
+//feedback
+document.addEventListener("DOMContentLoaded", () => {
+  const starContainer = document.getElementById("starRating");
+  if (!starContainer) {
+    console.error("Không tìm thấy starRating container!");
+    return;
+  }
+  const stars = starContainer.querySelectorAll("span");
+  if (stars.length === 0) {
+    console.error("Không tìm thấy ngôi sao nào trong starRating!");
+    return;
+  }
+  let currentRating = 0;
 
-document.getElementById('close-popup-login').addEventListener("click", ()=>{
-    console.log('closepp')
-    closePopupLogin();
-})
+  function updateStars(rating) {
+    stars.forEach((star, index) => {
+      if (index < rating) {
+        star.classList.add("selected");
+        star.textContent = "★"; 
+      } else {
+        star.classList.remove("selected");
+        star.textContent = "☆"; 
+      }
+    });
+  }
 
-function showPopupLogin (){
-    console.log('showlogin')
-    document.getElementById("pop-login-form").classList.remove('d-none');
-}
+  stars.forEach((star) => {
+    star.addEventListener("click", () => {
+      const rating = parseInt(star.getAttribute("data-value"));
+      if (isNaN(rating)) {
+        console.error(`data-value không hợp lệ trên ngôi sao: ${star.textContent}`);
+        return;
+      }
+      currentRating = rating;
+      updateStars(currentRating);
+    });
+  });
 
-function closePopupLogin(){
-    console.log('closelogin')
-    document.getElementById("pop-login-form").classList.add('d-none');
-}
-//register
-document.getElementById('pop-register').addEventListener("click", ()=>{
-    console.log('openpp')
-    showPopupRegister();
-})
+  const form = document.getElementById("feedbackForm");
+  if (!form) {
+    console.error("Không tìm thấy feedbackForm!");
+    return;
+  }
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
 
-document.getElementById('close-pop-register').addEventListener("click", ()=>{
-    console.log('closepp')
-    closePopupRegister();
-})
+    const name = form.querySelector('input[type="text"]').value.trim();
+    const email = form.querySelector('input[type="email"]').value.trim();
+    const message = form.querySelector("textarea").value.trim();
 
-function showPopupRegister (){
-    console.log('showregis')
-    document.getElementById("pop-register-form").classList.remove('d-none');
-}
+    console.log("Đánh giá mới:", {
+      stars: currentRating,
+      name,
+      email,
+      message,
+    });
 
-function closePopupRegister(){
-    console.log('closeregis')
-    document.getElementById("pop-register-form").classList.add('d-none');
-}
-
-// chuyển đổi giữa các popup
-
-document.getElementById('to-register').addEventListener('click',()=>{
-    console.log('log-regis')
-    closePopupLogin();
-    showPopupRegister();
-})
-
-document.getElementById('to-login').addEventListener('click',()=>{
-    console.log('regis-log')
-    closePopupRegister();
-    showPopupLogin();
-})
+    form.reset();
+    updateStars(0);
+    currentRating = 0;
+  });
+});
 
 
 let meal_search = [];

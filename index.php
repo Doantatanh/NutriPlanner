@@ -152,54 +152,101 @@ $connect = null;
 
 
 <body>
-    <header class="main-header ">
-        <div class="header--banner text-white">
-            <div class="col-xxl-8 col-xl-10 col-sm-11 mx-auto d-flex">
-                <div class="header--text mt-5">
-                    <label>Create your perfect meal plan</label>
-                    <span class="mt-4 text-center">2,000 calories per day <i class="fas fa-question-circle"
-                            title="Infomation about calo"></i></span>
-
-                </div>
-                <div class="header--image">
-                    <picture>
-                        <img class="" src="https://samsungfood.com/wp-content/cache/thumb/3c/def98820344fe3c_600x520.jpeg"
-                            alt="">
-                    </picture>
-                </div>
-
-            </div>
-        </div>
-
-    </header>
-    <div class="header-lower position-sticky top-0 bg-white shadow z-3">
-        <div class="container col-xl-10">
-            <div class="outer-box clearfix d-flex justify-content-center align-items-center">
-                <div class="logo-box">
-                    <figure class="logo">
-                        <a href="index.html"><img class="" src="../assets/images/NUTRIPLANNER.png" alt=""></a>
-                    </figure>
-
-                </div>
-                <div class="nav m-0 p-0 text-center">
-                    <ul class="d-flex m-0">
-                        <li><a href="" class="">Công thức nấu ăn</a></li>
-                        <li><a href="" class="">Mua sắm</a></li>
-                        <li><a href="" class="">Lập kế hoạch bữa ăn</a></li>
-                        <li><a href="" class="">Cộng đồng</a></li>
-                        <li><a href="" class="">Blog</a></li>
-                        <li><a href="" class="">Thực phẩm</a></li>
+    <header class="main-header">
+        <nav class="navbar navbar-expand-lg navbar-light">
+            <div class="container">
+                <a href="#" class="logo">
+                    <i class="fas fa-seedling"></i>
+                    NutriPlanner
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="nav-links ms-auto">
+                        <li class="nav-item"><a class="nav-link" href="#feature">Feature</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#">Menu</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#favorite">Favorite</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#calculator">Calculator</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#feedback">Feedback</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+                        <li class="nav-item dropdown">
+                            <div class="btn-toolbar mb-2 mb-md-0">
+                                <div class="dropdown">
+                                    <button class="btn btn-sm btn-outline-none dropdown-toggle d-flex justify-content-center align-items-center"
+                                        data-bs-toggle="dropdown" type="button">
+                                        <img src="../../assets/images/ad.jpg" alt="admin" class="rounded-circle"
+                                            width="30" height="30" style="object-fit: fit;">
+                                        <span class="text-login">Admin</span>
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" href="profile.html">Hồ sơ</a></li>
+                                        <li><a class="dropdown-item" href="login.html">Đăng xuất</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </li>
                     </ul>
                 </div>
-                <div class="header_cta d-flex justify-content-center align-items-center">
-                    <a  class="btn header_cta_sec" id="pop-login">Đăng nhập</a>
-                    <a  class="btn btn-darkk" id="pop-register">Đăng Kí</a>
+            </div>
+        </nav>
+    </header>
+
+    
+
+    <section class="feature-section" id="feature">
+        <div class="feature-container col-xl-10 col-11 mx-auto ">
+            <div class="feature-header">
+                <h2>Key Features</h2>
+                <p>Explore powerful tools that help you plan meals, track nutrition, and achieve your health goals with ease.</p>
+            </div>
+            <div class="feature-main">
+                <div class="feature-box rounded-top ">
+                    <div class="feature-icon">
+                        <i class="fas fa-list-check"></i>
+                    </div>
+                    <h3>Personalized Meal Plans</h3>
+                    <p>Create meal plans tailored to your goals, whether it's weight loss, muscle gain, or managing specific health conditions.</p>
+                </div>
+                <div class="feature-box rounded-top">
+                    <div class="feature-icon">
+                        <i class="fas fa-filter"></i>
+                    </div>
+                    <h3>Smart Filters</h3>
+                    <p>Easily search and filter meals by ingredients, calories, special diets, or food allergies.</p>
+                </div>
+                <div class="feature-box rounded-top">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-pie"></i>
+                    </div>
+                    <h3>Nutrition Analysis</h3>
+                    <p>View detailed nutritional breakdowns such as calories, protein, carbs, fats, and micronutrients for each dish.</p>
+                </div>
+                <div class="feature-box rounded-top">
+                    <div class="feature-icon">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <h3><a href="#favorite">Favorite Dishes</a></h3>
+                    <p> <a href="#favorite">Bookmark and quickly access your favorite meals to simplify your future meal planning.</a></p>
+                </div>
+                <div class="feature-box rounded-top">
+                    <div class="feature-icon">
+                        <i class="fas fa-calculator"></i>
+                    </div>
+                    <h3><a href="#calculator">Nutrition Calculator</a></h3>
+                    <p><a href="#calculator">Input ingredients and portion sizes to instantly calculate the total nutritional value of your meal.</a></p>
+                </div>
+                <div class="feature-box rounded-top">
+                    <div class="feature-icon">
+                        <i class="fas fa-comment-dots"></i>
+                    </div>
+                    <h3>Comments & Sharing</h3>
+                    <p>Comment, share your experiences, and review meals with the NutriPlanner community.</p>
                 </div>
             </div>
-
-
         </div>
-    </div>
+    </section>
 
     <div class="examPlan container">
         <div class="col-xxl-10 col-xl-10 col-sm-11 mx-auto my-4">
@@ -305,22 +352,30 @@ $connect = null;
                     </div>
 
                 </div>
-
-
-
-
+                </div>
             </div>
         </div>
-
-    </div>
-
-
+ 
     </div>
     <div class="h-100 w-100 z-3 position-fixed top-0 d-none" style="background-color: rgba(0, 0, 0, 0.7);" id="detail__food">
 
     </div>
 
-    <section style="margin-top: 50px; margin-bottom: 50px; ">
+    <div class="mealfavourite bg-light py-3" id="favorite">
+        <div class=" col-xl-7 col-sm-11 mx-auto my-4">
+            <div class="" id="">
+                <div class="item">                   
+                    <div class="d-grid grid-col-favourite my-1" id="mealfavourite--menu" > 
+
+                    </div>    
+                </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <section style="margin-top: 50px; margin-bottom: 50px;" id="calculator">
         <div class="container">
             <div class="header-calculator">
                 <h2>Nutrition Calculator</h2>
@@ -396,77 +451,143 @@ $connect = null;
         </div>
     </section>
 
-    <div class="d-none popup-overlay" id="pop-login-form">
-        <div class="popup-content bg-white p-4 rounded shadow">
-            <form class="form">
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h4>Login Form</h4>
-                    <span class="close-popup-login" id="close-popup-login">X</span>
+    <div id="feedback">
+        <section class="testimonials-section">
+            <h2>Người dùng nói gì?</h2>
+            <p class="testimonials-subtext">
+            Khám phá trải nghiệm thực tế từ cộng đồng NutriPlanner về việc cải thiện thói<br>
+            quen ăn uống và sức khỏe.
+            </p>
+            <div class="testimonials-container">
+            <!-- thẻ 1 -->
+            <article class="testimonial-card">
+                <div class="quote-icon"><i class="fas fa-quote-left"></i></div>
+                <div class="stars-static">
+                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i><i class="fas fa-star"></i>
                 </div>
-                <div class="mb-3">
-                    <label for="email" class="form-label">Email:</label>
-                    <input type="email" class="form-control" id="email-login">
-                </div>
-                <div class="mb-3">
-                    <label for="email" class="form-label">Password:</label>
-                    <input type="password" class="form-control" id="password-login">
-                </div>
-                <p>Don't have an account? <a id="to-register" style="cursor: pointer;"> Register here</a></p>
-                <button type="submit" class="bttn">Log In</button>
-            </form>
-        </div>
-    </div>
-
-    <div class="d-none popup-overlay" id="pop-register-form">
-        <div class="popup-content bg-white p-4 rounded shadow">
-            <form>
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h4>Register Form</h4>
-                    <span class="close-popup-login" id="close-pop-register">X</span>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">User Name:</label>
-                    <input class="form-control" id="username-signup">
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Email:</label>
-                    <input class="form-control" id="email-signup">
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Passwork:</label>
-                    <input type="password" class="form-control" id="passwork-signup">
-                </div>
-                <div class="mb-3">
-                    <p class="mt-2">Already have an account? 
-                        <a id="to-login" style="cursor: pointer;">Log in here</a>
-                    </p>
-                    <button type="submit" class="bttn">Log In</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <div class="linkplan d-flex flex-column bg-orange p-4">
-        <h1 class="mx-auto">Create a full weekly plan from scratch</h1>
-        <button class="btn text-white rounded-5 px-3 mx-auto" style="background-color: var(--orange);">
-            <h3>Get Free Plan</h3>
-        </button>
-    </div>
-    <div class="mealfavourite bg-light py-3">
-        <div class=" col-xl-7 col-sm-11 mx-auto my-4">
-            <div class="" id="">
-                <div class="item">
-                    <div class="d-grid grid-col-favourite my-1" id="mealfavourite--menu">
-
+                <p>NutriPlanner đã thay đổi hoàn toàn cách tôi ăn uống. Việc theo dõi dinh dưỡng giờ đây trở nên dễ dàng, và những món ăn gợi ý rất phù hợp với mục tiêu giảm cân của tôi.</p>
+                <div class="author">
+                    <img src="https://i.pravatar.cc/100?img=47" alt="Minh Anh">
+                    <div>
+                        <div class="author-name">Tất Anh</div>
+                        <div class="author-role">Đã giảm 8 kg sau 3 tháng</div>
                     </div>
+                </div>
+            </article>
+            <!-- thẻ 2 -->
+            <article class="testimonial-card">
+                <div class="quote-icon"><i class="fas fa-quote-left"></i></div>
+                <div class="stars-static">
+                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i><i class="fas fa-star"></i>
+                </div>
+                <p>Là một người mắc tiểu đường, việc tìm kiếm thực đơn phù hợp luôn là thách thức. NutriPlanner giúp tôi dễ dàng lọc các món ăn phù hợp với chỉ số đường huyết thấp.</p>
+                <div class="author">
+                    <img src="https://i.pravatar.cc/100?img=12" alt="Quang Hùng">
+                    <div>
+                        <div class="author-name">Kim Hiếu</div>
+                        <div class="author-role">Kiểm soát tiểu đường type 2</div>
+                    </div>
+                </div>
+            </article>
+            <!-- thẻ 3 -->
+            <article class="testimonial-card">
+                <div class="quote-icon"><i class="fas fa-quote-left"></i></div>
+                <div class="stars-static">
+                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                <i class="fas fa-star"></i><i class="far fa-star"></i>
+                </div>
+                <p>Tôi tập gym và cần một chế độ ăn giàu protein. Máy tính dinh dưỡng của NutriPlanner giúp tôi theo dõi lượng protein hằng ngày một cách chính xác và dễ dàng.</p>
+                <div class="author">
+                    <img src="https://i.pravatar.cc/100?img=30" alt="Thanh Trúc">
+                    <div>
+                        <div class="author-name">Huy Đức</div>
+                        <div class="author-role">HLV thể hình</div>
+                    </div>
+                </div>
+            </article>
+        </div>
+        </section>
+  <!-- phần feedback -->
+        <section class="feedback-section">
+            <div class="logo">
+                <img src="assets/images/Leonardo_Phoenix_10_A_topdown_view_of_a_food_table_divided_in_3.jpg" alt="NutriPlanner Logo" />
+            </div>
+            <div class="feedback-card">
+            <h3>Gửi đánh giá</h3>
+            <div class="star-rating" id="starRating">
+                <span data-value="1">☆</span>
+                <span data-value="2">☆</span>
+                <span data-value="3">☆</span>
+                <span data-value="4">☆</span>
+                <span data-value="5">☆</span>
+            </div>
+            <form id="feedbackForm">
+                <input type="text" placeholder="Họ và tên" required />
+                <input type="email" placeholder="Email" required />
+                <textarea placeholder="Chia sẻ trải nghiệm của bạn..." required rows="3"></textarea>
+                <button type="submit">Gửi đánh giá</button>
+            </form>
+            </div>
+        </section>
+    </div>
+
+    <section class="section contact" id="contact">
+        <div class="container">
+            <div class="section-header">
+                <h2>Liên hệ với chúng tôi</h2>
+                <p>Bạn có câu hỏi hoặc cần hỗ trợ? Đội ngũ NutriPlanner luôn sẵn sàng giúp đỡ bạn.</p>
+            </div>
+            <div class="contact-container">
+                <div class="contact-info">
+                    <h3>Thông tin liên hệ</h3>
+                    <div class="contact-details">
+                        <div>
+                            <div class="contact-icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div class="contact-text" style="display: inline-block;">
+                                <h4>Địa chỉ</h4>
+                                <p>285 Đội Cấn, quận Ba Đình, thành phố Hà Nội</p>
+                            </div>
+                        </div>      
+                        <div>
+                            <div class="contact-icon">
+                                    <i class="fas fa-phone-alt"></i>
+                            </div>
+                            <div class="contact-text" style="display: inline-block;">
+                                    <h4>Điện thoại</h4>
+                                    <p>+84 28 1234 5678</p>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="contact-icon">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div class="contact-text" style="display: inline-block;">
+                                <h4>Email</h4>
+                                <p>support@nutriplanner.com</p>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="contact-icon">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div class="contact-text" style="display: inline-block;">
+                                <h4>Giờ làm việc</h4>
+                                <p>Thứ 2 - Thứ 6: 8:00 - 18:00<br>Thứ 7: 9:00 - 12:00</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="map-container">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3723.9231239864!2d105.81641017601285!3d21.035761787536657!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135ab0d127a01e7%3A0xab069cd4eaa76ff2!2zMjg1IFAuIMSQ4buZaSBD4bqlbiwgTGnhu4V1IEdpYWksIEJhIMSQw6xuaCwgSMOgIE7hu5lpIDEwMDAwMCwgVmlldG5hbQ!5e0!3m2!1sen!2s!4v1747836344495!5m2!1sen!2s" width="400" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                 </div>
             </div>
         </div>
-
-    </div>
-    </div>
-
-
+    </section>
+    
     <footer class="main-footer">
         <div class="container">
             <div class="row">
@@ -474,24 +595,20 @@ $connect = null;
                     <div class="col-lg-3 nav_menu">
                         <div class="text">
                             <div class="widget-title">
-                                <h3>NUTRIPLANNER</h3>
+                                <a href="#" class="footer-logo">
+                                    <i class="fas fa-seedling"></i>
+                                    NutriPlanner
+                                </a>
                             </div>
                             <div class="widget-content">
-                                <ul class="info-list clearfix">
-                                    <li>
-                                        <p><a href="">Web App</a></p>
-                                    </li>
-                                    <li>
-                                        <p><a href="">Mobile App</a></p>
-
-                                    </li>
-                                    <li>
-                                        <p><a href="">Chrome Extension</a></p>
-                                    </li>
-                                    <li>
-                                        <p><a href="">Food Plus</a></p>
-                                    </li>
-                                </ul>
+                                <p>Smart nutrition solutions to help you build healthy eating habits and achieve your
+                                    health goals.</p>
+                                <div class="social-links">
+                                    <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                                    <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                                    <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                                    <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -499,126 +616,85 @@ $connect = null;
                     <div class="col-lg-3 nav_menu">
                         <div class="text">
                             <div class="widget-title">
-                                <h3>Features</h3>
+                                <h3>Quick Links</h3>
                             </div>
                             <div class="widget-content">
-                                <ul class="info-list clearfix">
-                                    <li>
-                                        <p><a href="">Recipe Box</a></p>
-                                    </li>
-                                    <li>
-                                        <p><a href="">Shopping</a></p>
-
-                                    </li>
-                                    <li>
-                                        <p><a href="">Meal Planner</a></p>
-                                    </li>
-                                    <li>
-                                        <p><a href="">Communities</a></p>
-                                    </li>
+                                <ul class="footer-links">
+                                    <li><a href="#features">Features</a></li>
+                                    <li><a href="#meals">Meals</a></li>
+                                    <li><a href="#calculator">Tools</a></li>
+                                    <li><a href="#testimonials">Testimonials</a></li>
+                                    <li><a href="#contact">Contact</a></li>
                                 </ul>
+
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-3 nav_menu">
                         <div class="text">
                             <div class="widget-title">
-                                <h3>Resources</h3>
+                                <h3>Support</h3>
+
                             </div>
                             <div class="widget-content">
-                                <ul class="info-list clearfix">
-                                    <li>
-                                        <p><a href="">Nutrition and <br> Calorie Calculator</a></p>
-                                    </li>
-                                    <li>
-                                        <p><a href="">Recipe Converter</a></p>
-
-                                    </li>
-                                    <li>
-                                        <p><a href="">Support</a></p>
-                                    </li>
-                                    <li>
-                                        <p><a href="">Blog</a></p>
-                                    </li>
-                                    <li>
-                                        <p><a href="">Open Food Facts</a></p>
-                                    </li>
+                                <ul class="footer-links">
+                                    <li><a href="#">Support Center</a></li>
+                                    <li><a href="#">FAQ</a></li>
+                                    <li><a href="#">Terms of Use</a></li>
+                                    <li><a href="#">Privacy Policy</a></li>
+                                    <li><a href="#feedback">Feedback</a></li>
                                 </ul>
+
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-3 nav_menu">
                         <div class="text">
                             <div class="widget-title">
-                                <h3>Company</h3>
+                                <h3>Contact</h3>
+
                             </div>
                             <div class="widget-content">
-                                <ul class="info-list clearfix">
-                                    <li>
-                                        <p><a href="">About us</a></p>
-                                    </li>
-                                    <li>
-                                        <p><a href="">Creators</a></p>
-
-                                    </li>
-                                    <li>
-                                        <p><a href="">Partners</a></p>
-                                    </li>
-                                    <li>
-                                        <p><a href="">Press</a></p>
-                                    </li>
-                                    <li>
-                                        <p><a href="">Careers</a></p>
-                                    </li>
-                                </ul>
+                                <div class="contact-info">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    <p>123 Nguyen Hue Street, District 1, Ho Chi Minh City</p>
+                                </div>
+                                <div class="contact-info">
+                                    <i class="fas fa-phone-alt"></i>
+                                    <p>+84 28 1234 5678</p>
+                                </div>
+                                <div class="contact-info">
+                                    <i class="fas fa-envelope"></i>
+                                    <p>support@nutriplanner.com</p>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="footer-bottom">
-                    <p class="copyright">
-                        © 2025 Nutriplanner. All rights reserved.
-                    </p>
-                    <ul id="menu-policies" class="menu">
-                        <li class="menu-item"><a href="">Privacy Policy</a></li>
-                        <li class="menu-item"><a href="">Terms</a></li>
-                        <li class="menu-item "><a href="">Security</a>
-                        </li>
-                        <li class="menu-item"><a href="">Do not sell my data</a></li>
-                        <li class="menu-item "><a href="">Promotional Terms</a></li>
-                    </ul>
-                    <div class="social_links">
-                        <a href=""> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="20" height="20"
-                                fill="#3b5998">
-                                <path
-                                    d="M512 256C512 114.6 397.4 0 256 0S0 114.6 0 256C0 376 82.7 476.8 194.2 504.5V334.2H141.4V256h52.8V222.3c0-87.1 39.4-127.5 125-127.5c16.2 0 44.2 3.2 55.7 6.4V172c-6-.6-16.5-1-29.6-1c-42 0-58.2 15.9-58.2 57.2V256h83.6l-14.4 78.2H287V510.1C413.8 494.8 512 386.9 512 256h0z" />
-                            </svg></a>
-
-                        <a href=""> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="20" height="20"
-                                viewBox="0 0 448 512">
-                                <path
-                                    d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z" />
-                            </svg></a>
-
-                        <a href=""> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="20"
-                                height="20">
-                                <path
-                                    d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z" />
-                            </svg></a>
-
-                        <a href=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" width="20" height="20">
-                                <path
-                                    d="M549.7 124.1c-6.3-23.7-24.8-42.3-48.3-48.6C458.8 64 288 64 288 64S117.2 64 74.6 75.5c-23.5 6.3-42 24.9-48.3 48.6-11.4 42.9-11.4 132.3-11.4 132.3s0 89.4 11.4 132.3c6.3 23.7 24.8 41.5 48.3 47.8C117.2 448 288 448 288 448s170.8 0 213.4-11.5c23.5-6.3 42-24.2 48.3-47.8 11.4-42.9 11.4-132.3 11.4-132.3s0-89.4-11.4-132.3zm-317.5 213.5V175.2l142.7 81.2-142.7 81.2z" />
-                            </svg></a>
-
-
-                    </div>
+                    <p>© 2023 NutriPlanner. Project by Team 3. All rights reserved.</p>
                 </div>
             </div>
         </div>
     </footer>
+
     <script src="assets/js/main.js"></script>
-    <script src="assets/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const tabbutton = document.querySelectorAll('.tab-btn');
+
+            tabbutton.forEach(button => {
+                button.addEventListener('click', () => {
+                    tabbutton.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                });
+            });
+        });
+    </script>
 </body>
 
 </html>
