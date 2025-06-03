@@ -1,5 +1,3 @@
-console.log('main.js đã được load!');
-
 const meals = [];
 let meal_favourite = [];
 
@@ -391,82 +389,6 @@ let meal_search = [];
                   })
                 });
                 
-
-// Xử lý sự kiện submit form tìm kiếm
-if (document.getElementById('searchForm')) {
-    document.getElementById('searchForm').addEventListener('submit', function(e) {
-        try {
-            e.preventDefault();
-            console.log('Đã chặn submit mặc định, bắt đầu tìm kiếm...');
-            // Ẩn phần mặc định
-            var defaultList = document.getElementById('default-meal-list');
-            if (defaultList) defaultList.style.display = 'none';
-            // Xóa nội dung cũ của meals-grid
-            const resultsDiv = document.getElementById('meals-grid');
-            resultsDiv.innerHTML = '';
-            // Tạo đối tượng FormData từ form
-            const formData = new FormData(this);
-            // Chuyển đổi FormData thành chuỗi query parameters
-            const params = new URLSearchParams(formData);
-            // Gọi API tìm kiếm
-            fetch('../backend/search.php?' + params.toString())
-                .then(response => response.json())
-                .then(response => {
-                    console.log('Kết quả trả về từ API:', response);
-                    if (!response.data || response.data.length === 0) {
-                        resultsDiv.innerHTML = '<div style="grid-column: 1 / -1; text-align: center; padding: 50px 0;"><i class="fas fa-search" style="font-size: 3rem; color: #ddd; margin-bottom: 20px;"></i><h3>Không tìm thấy món ăn nào phù hợp</h3><p>Vui lòng thử lại với các bộ lọc khác</p></div>';
-                        return;
-                    }
-                    response.data.forEach(meal => {
-                        // Xử lý đường dẫn ảnh an toàn
-                        let imgSrc;
-                        if (meal.image && (meal.image.startsWith('http://') || meal.image.startsWith('https://'))) {
-                            imgSrc = meal.image;
-                        } else if (meal.image && meal.image.trim() !== '') {
-                            imgSrc = '../' + meal.image.replace(/^\/+/,'');
-                        } else {
-                            imgSrc = 'assets/images/no-image.png';
-                        }
-                        const tagsHTML = meal.diet_tags ? meal.diet_tags.map(tag => `<span class=\"meal-tag\">${tag.trim()}</span>`).join(' ') : '';
-                        const card = `
-                            <div class=\"meal-card shadow\">
-                                <div class=\"meal-image-wrapper\">
-                                    <img src=\"${imgSrc}\" alt=\"${meal.name}\" class=\"meal-img\">
-                                    <button class=\"favorite-btn\" data-id=\"${meal.id}\">\n<i class=\"fas fa-heart\"></i>\n</button>
-                                </div>
-                                <div class=\"meal-content\">
-                                    <div class=\"meal-header\">
-                                        <input type=\"checkbox\" class=\"meal-checkbox\" />
-                                        <h3 class=\"meal-title\">${meal.name}</h3>
-                                    </div>
-                                    <div class=\"meal-tags\">
-                                        ${tagsHTML}
-                                    </div>
-                                    <div class=\"meal-stats\">
-                                        <div class=\"meal-stat\">
-                                            <i class=\"fas fa-fire\"></i>
-                                            ${meal.calories || 'Chưa có'} kcal
-                                        </div>
-                                        <div class=\"meal-stat\">
-                                            <i class=\"fas fa-stopwatch\"></i>
-                                            ${meal.prep_time || 'Chưa có'} phút
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        `;
-                        resultsDiv.insertAdjacentHTML('beforeend', card);
-                    });
-                })
-                .catch(err => {
-                    console.error('Lỗi khi gọi API tìm kiếm:', err);
-                    resultsDiv.innerHTML = '<div style="grid-column: 1 / -1; text-align: center; padding: 50px 0;"><i class="fas fa-exclamation-circle" style="font-size: 3rem; color: #ddd; margin-bottom: 20px;"></i><h3>Có lỗi xảy ra khi tìm kiếm</h3><p>Vui lòng thử lại sau</p></div>';
-                });
-        } catch (err) {
-            console.error('Lỗi JS khi submit form tìm kiếm:', err);
-        }
-    });
-}
 
 
 
