@@ -4,25 +4,7 @@ $sql = "SELECT * FROM Meals";
 $result = $connect->query($sql);
 $meals = [];
 
-class nutrition
-{
-    public $protein;
-    public $fat;
-    public $carb;
-    public $fiber;
-    public $sugar;
-    public $sodium;
 
-    public function __construct($protein, $fat, $carb, $fiber, $sugar, $sodium)
-    {
-        $this->protein = $protein;
-        $this->fat = $fat;
-        $this->carb = $carb;
-        $this->fiber = $fiber;
-        $this->sugar = $sugar;
-        $this->sodium = $sodium;
-    }
-}
 
 class Meal
 {
@@ -38,7 +20,8 @@ class Meal
     public $tags;
     public $type;
     public $ingredients;
-
+    public $create_at;
+    public $status;
 
 
     public function __construct(
@@ -52,7 +35,9 @@ class Meal
         $nutrition,
         $tags,
         $type,
-        $ingredients
+        $ingredients,
+        $create_at,
+        $status
     ) {
         $this->id = $id;
         $this->name = $name;
@@ -65,6 +50,8 @@ class Meal
         $this->tags = $tags;
         $this->type = $type;
         $this->ingredients = $ingredients;
+        $this->create_at = $create_at;
+        $this->status = $status;
     }
 }
 
@@ -123,7 +110,9 @@ while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
         $nutritions,
         $result_tag,
         $result_type,
-        $row['ingredients']
+        $row['ingredients'],
+        $row['created_at'], 
+        $row['status']
     );
     $meals[] = $Meal;
 };
@@ -141,10 +130,11 @@ $connect = null;
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Nutriplanner - Health & Nutri</title>
     <link rel="stylesheet" href="assets/css/reset.css">
-    <link href="../assets/css/bootstrap.css" rel="stylesheet">
-    <link href="../assets/css/style-admin.css" rel="stylesheet">
+    <link rel="icon" type="image/svg+xml" href="./assets/images/logo.svg">
+    <link href="assets/css/bootstrap.css" rel="stylesheet">
+    <link href="assets/css/style-admin.css" rel="stylesheet">
     <link rel="stylesheet" href="assets/fontawesome-free-6.7.2-web/css/all.min.css">
     <link rel="stylesheet" href="../assets/css/style.css">
     <link rel="stylesheet" href="../assets/css/calculator.css">
@@ -152,7 +142,7 @@ $connect = null;
 
 
 <body>
-    <header class="main-header">
+    <header class="main-header py-2">
         <nav class="navbar navbar-expand-lg navbar-light">
             <div class="container">
                 <a href="#" class="logo">
