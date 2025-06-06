@@ -4,6 +4,25 @@ $sql = "SELECT * FROM Meals";
 $result = $connect->query($sql);
 $meals = [];
 
+class nutrition
+{
+    public $protein;
+    public $fat;
+    public $carb;
+    public $fiber;
+    public $sugar;
+    public $sodium;
+
+    public function __construct($protein, $fat, $carb, $fiber, $sugar, $sodium)
+    {
+        $this->protein = $protein;
+        $this->fat = $fat;
+        $this->carb = $carb;
+        $this->fiber = $fiber;
+        $this->sugar = $sugar;
+        $this->sodium = $sodium;
+    }
+}
 
 
 class Meal

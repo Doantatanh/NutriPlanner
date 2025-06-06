@@ -1,4 +1,7 @@
 <?php
+    header('Content-Type: application/json');
+    ini_set('display_errors', 1);
+    error_reporting(E_ALL);
     $connect = new PDO("mysql:host=localhost;dbname=quyen", "root", "");
     class nutrition
 {
@@ -26,12 +29,13 @@
     }
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $name = $_POST['name'];
-        $prep_time = $_POST['prep_time'];
-        $calories = $_POST['calories'];
-        $status = $_POST['status'];
-        $description = $_POST['description'];
-        $instructions = $_POST['instructions'];
+        $name = $_POST['name'] ?? "";
+        $prep_time = $_POST['prep_time']?? "";
+        $calories = $_POST['calories'] ?? "";
+        $status = $_POST['status'] ?? "";
+        $description = $_POST['description'] ?? "";
+        $instructions = $_POST['instructions'] ?? "";
+        $ingredients = $_POST['ingredients'] ?? "";
 
         // Lấy checkbox mảng: tags, meal_types
         $tags = isset($_POST['tags']) ? implode(',', (array)$_POST['tags']) : '';
@@ -46,36 +50,36 @@
         
 
         // Xử lý ảnh
-        $image_path = null;
+        $targetFile = null;
         if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
             $fileName = uniqid() . "-" . basename($_FILES["image"]["name"]);
             $targetFile = $targetDir . $fileName;
 
             if (move_uploaded_file($_FILES["image"]["tmp_name"], $targetFile)) {
-                $image_path = $targetFile;
+                $response = [
+                    "status" => "success",
+                    "path" => $targetFile // hoặc chỉ $fileName nếu chỉ cần tên ảnh
+                ];
             }
         }
         // tags, meal_types, 2 bảng riêng cần insert
         try {
         $pdo = new PDO("mysql:host=localhost;dbname=quyen", "root", "");
         $stmt = $pdo->prepare("INSERT INTO meals 
-            (name, prep_time,  description, instructions, status, image_path, create_at, Calories) 
+            (name, prep_time,  description, instructions, status, image_url, ingredients, Calories) 
             VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
 
         $stmt->execute([
-            $name, $prep_time, $tags, $meal_types, $description, $instructions, $status, $image_path,$ingredients
+            $name, $prep_time, $description, $instructions, $status, $targetFile,$ingredients,$calories 
         ]);
 
-            echo json_encode(["status" => "success", "image_path" => $image_path]);
+            echo json_encode([
+                "status" => "success",
+                "path" => $targetFile // hoặc chỉ $fileName nếu chỉ cần tên ảnh
+            ]);
         } catch (Exception $e) {
             echo json_encode(["status" => "error", "message" => $e->getMessage()]);
         }
-
-
-
-
-
-
     }
 
 

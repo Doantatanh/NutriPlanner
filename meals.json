@@ -32,7 +32,7 @@
         ],
         "ingredients": "<ol>\r\n  <li>Onion<\/li>\r\n  <li>Tomato<\/li>\r\n  <li>Cooking Oil<\/li>\r\n  <li>Salt<\/li>\r\n  <li>Pepper<\/li>\r\n<\/ol>",
         "create_at": "2025-05-26 15:22:38",
-        "status": "hidden"
+        "status": "visible"
     },
     {
         "id": 2,
@@ -66,7 +66,7 @@
         ],
         "ingredients": "<ol>\r\n  <li>Onion<\/li>\r\n  <li>Tomato<\/li>\r\n  <li>Cooking Oil<\/li>\r\n  <li>Salt<\/li>\r\n  <li>Pepper<\/li>\r\n<\/ol>",
         "create_at": "2025-05-26 15:22:38",
-        "status": "hidden"
+        "status": "visible"
     },
     {
         "id": 3,
@@ -137,7 +137,7 @@
         ],
         "ingredients": "<ol>\r\n  <li>Onion<\/li>\r\n  <li>Tomato<\/li>\r\n  <li>Cooking Oil<\/li>\r\n  <li>Salt<\/li>\r\n  <li>Pepper<\/li>\r\n<\/ol>",
         "create_at": "2025-05-26 15:22:38",
-        "status": "hidden"
+        "status": "visible"
     },
     {
         "id": 5,

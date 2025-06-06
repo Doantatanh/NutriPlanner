@@ -376,37 +376,43 @@
                                     </div>
 
                                     <!-- Mô tả và hướng dẫn -->
-                                    <div class="card mb-3">
+                                    <div class="card mb-3 overflow-hidden">
                                         <div class="card-header bg-light">
-                                            <h6 class="mb-0">Mô tả và hướng dẫn</h6>
+                                            <h6 class="mb-0">Description</h6>
                                         </div>
                                         <div class="card-body">
                                             <div class="row g-3">
                                                 <div class="col-md-12">
-                                                    <label class="form-label">Mô tả món ăn</label>
-                                                    <textarea name="description" class="form-control"
-                                                        rows="2"></textarea>
-                                                </div>
-                                                <div class="col-md-12">
-                                                    <label class="form-label">Hướng dẫn chế biến</label>
-                                                    <textarea name="instructions" class="form-control"
-                                                        rows="4"></textarea>
+                                                    <div id="editor__description"></div>
+                                                    <input type="hidden" name="description" id="description">
                                                 </div>
                                             </div>
-                                        </div>
+                                        </div> 
                                     </div>
 
-                                    <div class="card mb-3">
+                                    <div class="card mb-3 overflow-hidden">
+                                        <div class="card-header bg-light">
+                                            <h6 class="mb-0">Instruction</h6>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="row g-3">
+                                                <div class="col-md-12">
+                                                    <div id="editor__instruction"></div>
+                                                    <input type="hidden" name="instruction" id="instruction">
+                                                </div>
+                                            </div>
+                                        </div> 
+                                    </div>
+                                    
+
+                                    <div class="card mb-3 overflow-hidden">
                                         <div class="card-header bg-light">
                                             <h6 class="mb-0">Ingredients</h6>
                                         </div>
                                         <div class="card-body">
                                             <div class="row g-3">
-                                                <div id="editor"></div>
-
-                                                <!-- Trường ẩn để lưu HTML -->
-                                                <input type="hidden" name="description" id="description">
-
+                                                <div id="editor__ingredients"></div>
+                                                <input type="hidden" name="ingredients" id="ingredients">
                                             </div>
                                         </div>
                                     </div>
@@ -588,31 +594,43 @@
                                 document.getElementById("body_listmeals").appendChild(element);
             });
             }
+            
+            const quill = new Quill('#editor__description', {theme: 'snow'});
+            const quill2 = new Quill('#editor__ingredients', { theme: 'snow' });
+            const quill3 = new Quill('#editor__instruction', { theme: 'snow' });
             //xử lý form
-        document.getElementById('mealForm').addEventListener('submit', function(e) {
+    document.getElementById('mealForm').addEventListener('submit', function(e) {
+
             e.preventDefault(); // Ngăn form reload trang
 
+            document.getElementById('description').value = quill.root.innerHTML;
+            document.getElementById('ingredients').value = quill2.root.innerHTML;
+            document.getElementById('instruction').value = quill3.root.innerHTML;
             const formData = new FormData(this);
 
             fetch('upload.php', {
                 method: 'POST',
                 body: formData
             })
-            .then(res => res.json())
-            .then(data => {
+            .then(async res => {
+            const text = await res.text(); // lấy nguyên nội dung trả về
+            console.log('Raw response:', text);
+            try {
+                const data = JSON.parse(text);
                 if (data.status === 'success') {
-                alert('Upload thành công! Đường dẫn: ' + data.path);
-                console.log(data.data);
+                    alert('Upload thành công! Đường dẫn: ' + data.path);
                 } else {
-                alert('Upload thất bại!');
+                    alert('Upload thất bại!');
                 }
-            })
-            .catch(err => console.error(err));
+            } catch (e) {
+                console.error('Không thể parse JSON:', e);
+            }
+        })
+        .catch(err => {
+            console.error('Lỗi fetch:', err);
         });
-
-        const quill = new Quill('#editor', {
-            theme: 'snow'
-        });
+    });
+    
     </script>
 </body>
 
