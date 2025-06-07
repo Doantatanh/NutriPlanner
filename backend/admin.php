@@ -15,6 +15,13 @@
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
         $totalDish = $result['total'];
 
+
+        $sqlTotalIngredients = "SELECT COUNT(*) AS total FROM ingredients";
+        $stmt = $conn->prepare($sqlTotalIngredients);
+        $stmt->execute();
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        $TotalIngredients = $result['total'];
+
         $sqlTotalUsers = "SELECT COUNT(*) AS total FROM users";
         $stmt = $conn->prepare($sqlTotalUsers);
         $stmt->execute();
@@ -149,8 +156,8 @@
                 </div>
                 <!-- Dashboard stats -->
                 <div class="row">
-                    <div class="col-md-4 mb-4">
-                        <div class="card bg-primary text-white ">
+                    <div class="col-md-3 mb-4">
+                        <div class="card bg-primaryy text-white ">
                             <div class="card-body">
                                 <h5 class="card-title">TOTAL DISHES</h5>
                                 <h2 class="display-4 "><?php echo $totalDish; ?></h2>
@@ -169,7 +176,27 @@
 
                     </div>
 
-                    <div class="col-md-4 mb-4">
+                    <div class="col-md-3 mb-4">
+                        <div class="card bg-orangee text-white ">
+                            <div class="card-body">
+                                <h5 class="card-title">TOTAL INGREDIENTS</h5>
+                                <h2 class="display-4"><?php echo $TotalIngredients; ?></h2>
+                            </div>
+                            <div class="card-footer d-flex">
+                                Ingredient Management
+                                <span class="ms-auto">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                        class="bi bi-chevron-right" viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd"
+                                            d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708" />
+                                    </svg>
+                                </span>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-3 mb-4">
                         <div class="card text-white  bg-primary">
                             <div class="card-body">
                                 <h5 class="card-title">TOTAL USERS</h5>
@@ -189,8 +216,8 @@
 
                     </div>
 
-                    <div class="col-md-4 mb-4">
-                        <div class="card bg-primary text-white">
+                    <div class="col-md-3 mb-4">
+                        <div class="card bg-danger text-white">
                             <div class="card-body">
                                 <h5 class="card-title">TOTAL FEEDBACK</h5>
                                 <h2 class="display-4"><?php echo $totalFeedback; ?></h2>
