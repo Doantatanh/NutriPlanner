@@ -1,148 +1,3 @@
-<?php
-$connect = new PDO("mysql:host=localhost;dbname=quyen", "root", "");
-$sql = "SELECT * FROM Meals";
-$result = $connect->query($sql);
-$meals = [];
-
-class nutrition
-{
-    public $protein;
-    public $fat;
-    public $carb;
-    public $fiber;
-    public $sugar;
-    public $sodium;
-
-    public function __construct($protein, $fat, $carb, $fiber, $sugar, $sodium)
-    {
-        $this->protein = $protein;
-        $this->fat = $fat;
-        $this->carb = $carb;
-        $this->fiber = $fiber;
-        $this->sugar = $sugar;
-        $this->sodium = $sodium;
-    }
-}
-
-
-class Meal
-{
-    public $id;
-    public $name;
-    public $description;
-    public $calories;
-    public $preptime;
-    public $difficulty;
-    public $instruction;
-    public $image_url;
-    public $nutrition;
-    public $tags;
-    public $type;
-    public $ingredients;
-    public $create_at;
-    public $status;
-
-
-    public function __construct(
-        $id,
-        $name,
-        $description,
-        $calories,
-        $preptime,
-        $instruction,
-        $image_url,
-        $nutrition,
-        $tags,
-        $type,
-        $ingredients,
-        $create_at,
-        $status
-    ) {
-        $this->id = $id;
-        $this->name = $name;
-        $this->description = $description;
-        $this->calories = $calories;
-        $this->preptime = $preptime;
-        $this->instruction = explode("\n", $instruction);
-        $this->image_url = $image_url;
-        $this->nutrition = $nutrition;
-        $this->tags = $tags;
-        $this->type = $type;
-        $this->ingredients = $ingredients;
-        $this->create_at = $create_at;
-        $this->status = $status;
-    }
-}
-
-
-
-
-$nutrition_sql = "SELECT nutrition.name, amount 
-    FROM meal_nutrition 
-    JOIN nutrition ON meal_nutrition.nutrition_id = nutrition.id 
-    WHERE meal_nutrition.meal_id = ?";
-
-$tags_sql = "SELECT tags.name
-    FROM meal_tags 
-    JOIN tags ON meal_tags.tag_id = tags.id 
-    WHERE meal_tags.meal_id = ?";
-
-$types_sql = "SELECT type.name
-    FROM meal_types 
-    JOIN type ON meal_types.type_id = type.id 
-    WHERE meal_types.meal_id = ?";
-
-while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
-
-    $result_nutrition = [];
-    $nutri = $connect->prepare($nutrition_sql);
-    $nutri->execute([$row['id']]);
-    $result_nutrition = $nutri->fetchAll(PDO::FETCH_ASSOC);
-    $nutritions = new nutrition(
-        $result_nutrition[0]["amount"],
-        $result_nutrition[1]["amount"],
-        $result_nutrition[2]["amount"],
-        $result_nutrition[3]["amount"],
-        $result_nutrition[4]["amount"],
-        $result_nutrition[5]["amount"]
-    );
-
-    $result_tag = [];
-    $tags = $connect->prepare($tags_sql);
-    $tags->execute([$row['id']]);
-    $result_tag = $tags->fetchAll(PDO::FETCH_COLUMN);
-
-    $result_type = [];
-    $types = $connect->prepare($types_sql);
-    $types->execute([$row['id']]);
-    $result_type = $types->fetchAll(PDO::FETCH_COLUMN);
-
-
-    $Meal = new Meal(
-        $row['id'],
-        $row['name'],
-        $row['description'],
-        $row['Calories'],
-        $row['prep_time'],
-        $row['instructions'],
-        $row['image_url'],
-        $nutritions,
-        $result_tag,
-        $result_type,
-        $row['ingredients'],
-        $row['created_at'], 
-        $row['status']
-    );
-    $meals[] = $Meal;
-};
-
-
-file_put_contents('meals.json', json_encode($meals, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
-$connect = null;
-
-?>
-
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -174,9 +29,8 @@ $connect = null;
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="nav-links ms-auto">
-                        <li class="nav-item"><a class="nav-link" href="#feature">Feature</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#">Menu</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#favorite">Favorite</a></li>
+                        <li class="nav-item"><a class="nav-link active" href="#feature">Feature</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#favourite">Favorite</a></li>
                         <li class="nav-item"><a class="nav-link" href="#calculator">Calculator</a></li>
                         <li class="nav-item"><a class="nav-link" href="#feedback">Feedback</a></li>
                         <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
@@ -202,7 +56,7 @@ $connect = null;
         </nav>
     </header>
 
-    
+
 
     <section class="feature-section" id="feature">
         <div class="feature-container col-xl-10 col-11 mx-auto ">
@@ -232,7 +86,7 @@ $connect = null;
                     <h3>Nutrition Analysis</h3>
                     <p>View detailed nutritional breakdowns such as calories, protein, carbs, fats, and micronutrients for each dish.</p>
                 </a>
-                <a href="#favorite" class="feature-box rounded-top">
+                <a href="#favourite" class="feature-box rounded-top">
                     <div class="feature-icon">
                         <i class="fas fa-heart"></i>
                     </div>
@@ -261,8 +115,8 @@ $connect = null;
         <div class="col-xxl-10 col-xl-10 col-sm-11 mx-auto my-4">
             <section>
                 <div class="container" id="filter">
-                    <div class="section-header">
-                        <h2>Discover Meal Plans</h2>
+                    <div class="feature-header">
+                        <h2>Search meal</h2>
                         <p>Search and filter hundreds of recipes that fit your nutrition goals and taste preferences.</p>
                     </div>
                     <div class="meal-filter">
@@ -274,7 +128,7 @@ $connect = null;
                                     Search
                                 </button>
                             </div>
-                            <div class="filter">
+                            <div class="filters">
                                 <div class="filter-group">
                                     <label class="filter-title">Meal Type</label>
                                     <select class="filter-select" name="meal_type" id="input_type">
@@ -360,27 +214,31 @@ $connect = null;
                     </div>
 
                 </div>
-                </div>
             </div>
         </div>
- 
+    </div>
+
     </div>
     <div class="h-100 w-100 z-3 position-fixed top-0 d-none" style="background-color: rgba(0, 0, 0, 0.7);" id="detail__food">
 
     </div>
 
-    <div class="mealfavourite bg-light py-3" id="favorite">
+    <div class="mealfavourite bg-light py-3">
+        <div class="header-favorite" id="favourite">
+            <h2>Favorite meals</h2>
+            <p>Bookmark and quickly access your favorite meals to simplify your future meal planning.</p>
+        </div>
         <div class=" col-xl-7 col-sm-11 mx-auto my-4">
             <div class="" id="">
-                <div class="item">                   
-                    <div class="d-grid grid-col-favourite my-1" id="mealfavourite--menu" > 
+                <div class="item">
+                    <div class="d-grid grid-col-favourite my-1" id="mealfavourite--menu">
 
-                    </div>    
-                </div>
+                    </div>
                 </div>
             </div>
-
         </div>
+
+    </div>
     </div>
 
     <section style="margin-top: 50px; margin-bottom: 50px;" id="calculator">
@@ -543,7 +401,7 @@ $connect = null;
                                 <h4>Address</h4>
                                 <p>285 Đội Cấn Street, Ba Đình District, Hanoi City</p>
                             </div>
-                        </div>      
+                        </div>
                         <div>
                             <div class="contact-icon">
                                 <i class="fas fa-phone-alt"></i>
@@ -579,7 +437,7 @@ $connect = null;
             </div>
         </div>
     </section>
-    
+
     <footer class="main-footer">
         <div class="container">
             <div class="row">
@@ -647,15 +505,15 @@ $connect = null;
 
                             </div>
                             <div class="widget-content">
-                                <div class="contact-info">
+                                <div class="contact-infoo ">
                                     <i class="fas fa-map-marker-alt"></i>
                                     <p>123 Nguyen Hue Street, District 1, Ho Chi Minh City</p>
                                 </div>
-                                <div class="contact-info">
+                                <div class="contact-infoo ">
                                     <i class="fas fa-phone-alt"></i>
                                     <p>+84 28 1234 5678</p>
                                 </div>
-                                <div class="contact-info">
+                                <div class="contact-infoo ">
                                     <i class="fas fa-envelope"></i>
                                     <p>support@nutriplanner.com</p>
                                 </div>

@@ -1,72 +1,89 @@
 const meals = [];
 let meal_favourite = [];
+ document.querySelectorAll('.nav-link').forEach(link => {
+    link.addEventListener('click', function () {
+      // Xóa class active khỏi tất cả link
+      document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+      // Thêm class active vào link đang được click
+      this.classList.add('active');
+    });
+  });
 
 async function loadFavouriteMeals() {
-    try {
-      const res = await fetch("favourite.php");
-      const result = await res.json();
-      if (result.success) {
-        meal_favourite = result.data.map(item => ({ id: item.meal_id, name: item.name }));
-      } else {
-        console.error("Không lấy được dữ liệu yêu thích:", result.message);
-      }
-    } catch (err) {
-      console.error("Lỗi kết nối:", err);
+  try {
+    const res = await fetch("favourite.php");
+    const result = await res.json();
+    if (result.success) {
+      meal_favourite = result.data.map((item) => ({
+        id: item.meal_id,
+        name: item.name,
+      }));
+    } else {
+      console.error("Không lấy được dữ liệu yêu thích:", result.message);
     }
+  } catch (err) {
+    console.error("Lỗi kết nối:", err);
   }
-
-
-  async function init() {
-    try {
-        const response = await fetch('meals.json');
-        const data = await response.json();
-        data.forEach(meal => meals.push(meal));
-
-        await loadFavouriteMeals(); 
-
-        render(meals, "mealplan--menu");
-        render(meal_favourite, "mealfavourite--menu");
-    } catch (error) {
-        console.error('Lỗi khi đọc JSON:', error);
-    }
 }
-init();
+
+async function init() {
+  try {
+    // const response = await fetch('meals.json');
+    // const data = await response.json();
+    // data.forEach(meal => meals.push(meal));
+    await searchFood();
+    await loadFavouriteMeals();
+
+    // render(meals, "mealplan--menu");
+    render(meal_favourite, "mealfavourite--menu");
+  } catch (error) {
+    console.error("Lỗi khi đọc JSON:", error);
+  }
+}
+
+  init();
+// window.addEventListener("load", function() {
+//   init();
+//     console.log("Page is fully loaded, including images and styles!");
+// });
 
 
+function render(meals, id) {
+  let element = document.getElementById(id);
+  element.innerHTML = "";
+  meals.forEach((meal) => {
+    let card = document.createElement("div");
+    meal.isfavourite = meal_favourite.some((fav) => fav.id === meal.id);
 
-
-
-function render(meals, id){
-
-    let element = document.getElementById(id);
-    element.innerHTML = "";
-    meals.forEach(meal => {
-        let card = document.createElement("div");
-        meal.isfavourite = meal_favourite.some(fav => fav.id === meal.id);
-
-        card.innerHTML =  `
+    card.innerHTML = `
             <div class="card d-flex flex-column scale-105 boder-0 rounded-4 overflow-hidden " > 
                                 <picture class="rounded-top overflow-hidden">
-                                    <img class="card-img-top" style="aspect-ratio: 4/3; object-fit: cover; cursor:pointer" src="${meal.image_url}"
+                                    <img class="card-img-top" style="aspect-ratio: 4/3; object-fit: cover; cursor:pointer" src="${
+                                      meal.image_url
+                                    }"
                                         alt="">
                                 </picture>
                                 <div class="d-flex">
                                     <div class="infomation_meal flex-fill">
                                         <h5 class="px-3 mt-2" >${meal.name}</h5>
                                         <div class="d-flex gap-3 px-3 mb-2">
-                                            <div class="meal-icon">
-                                                <i class="fas fa-fire"></i>
+                                            <div class="meal-icon text-success">
+                                                <i class="fas fa-fire "></i>
                                                 ${meal.calories} kcal
                                             </div>
-                                            <div class="meal-icon">
-                                                <i class="fas fa-stopwatch"></i>
-                                                ${meal.preptime} min
+                                            <div class="meal-icon text-success">
+                                                <i class="fas fa-stopwatch "></i>
+                                                ${meal.prep_time} min
                                             </div> 
                                         </div>
                                     </div>
                                     <form class="myForm">
-                                        <button class="farvourite-btn m-2 p-3 ${meal.isfavourite ? "text-danger" :""}" type="submit" id="fav-${meal.id}">
-                                            <input type="hidden" value="${meal.id}">
+                                        <button class="farvourite-btn m-2 p-3 ${
+                                          meal.isfavourite ? "text-danger" : ""
+                                        }" type="submit" id="fav-${meal.id}">
+                                            <input type="hidden" value="${
+                                              meal.id
+                                            }">
                                             <i class="fas fa-heart"></i>
                                         </button>
                                     </form>
@@ -74,81 +91,78 @@ function render(meals, id){
                                 </div>
                                 
             </div>
-        `
-        card.addEventListener('click', () => {    
-            opencard(meal);
-            const clickoutbox = function (event) {
-                const box = document.querySelector(".pop-up__detail");
-                let element = document.getElementById("detail__food")
-                if (!box.contains(event.target)) {
-                    element.classList.add("d-none");
-                    document.removeEventListener("click",clickoutbox);
-                }
-                };
+        `;
+    card.addEventListener("click", () => {
+      opencard(meal);
+      const clickoutbox = function (event) {
+        const box = document.querySelector(".pop-up__detail");
+        let element = document.getElementById("detail__food");
+        if (!box.contains(event.target)) {
+          element.classList.add("d-none");
+          document.removeEventListener("click", clickoutbox);
+        }
+      };
 
-                setTimeout(()=>{
-                    document.addEventListener("click", clickoutbox); 
-                },0)
-            
-        });
-
-        element.appendChild(card);
-
-        let favourite_btn =  card.querySelector(`#fav-${meal.id}`);
-
-        favourite_btn.addEventListener('click', async function(e) {
-            e.stopPropagation();
-            e.preventDefault();
-            let isLiked = favourite_btn.classList.contains('text-danger');
-            const action = isLiked ? "remove" : "add";
-            try {
-                const res = await fetch("favourite.php", {
-                  method: "POST",
-                  headers: {
-                    "Content-Type": "application/json"
-                  },
-                  body: JSON.stringify({
-                    id: meal.id,
-                    name: meal.name,
-                    action: action
-                  })
-                });
-            
-                const result = await res.json();
-            
-                if (result.success) {
-                  favourite_btn.classList.toggle("text-danger"); // Toggle màu trái tim
-                  if (action === "add") {
-                    meal_favourite.push(meal);
-                  } else {
-                    meal_favourite = meal_favourite.filter(item => item.id !== meal.id);
-                  }
-                } else {
-                  alert("Lỗi: " + result.message);
-                }
-                render(meal_favourite, "mealfavourite--menu");
-              } catch (error) {
-                alert("Lỗi kết nối: " + error.message);
-              }
-        })});
-    }
-
-
-
-
-function opencard (meal){
-    let element = document.getElementById("detail__food");
-
-    let stepHTML ="";
-    meal.instruction.forEach(element=>stepHTML += `<li>${element}</li>`)
-    element.classList.remove("d-none");
-
-    let tagsHTML = ""
-    meal.tags.forEach(tag => {
-        tagsHTML += `<lable class="rounded-5 bg-blue px-2 m-2 text-success" style="line-height:40px" >${tag}</lable>`;
+      setTimeout(() => {
+        document.addEventListener("click", clickoutbox);
+      }, 0);
     });
 
-    element.innerHTML=`
+    element.appendChild(card);
+
+    let favourite_btn = card.querySelector(`#fav-${meal.id}`);
+
+    favourite_btn.addEventListener("click", async function (e) {
+      e.stopPropagation();
+      e.preventDefault();
+      let isLiked = favourite_btn.classList.contains("text-danger");
+      const action = isLiked ? "remove" : "add";
+      try {
+        const res = await fetch("favourite.php", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            id: meal.id,
+            name: meal.name,
+            action: action,
+          }),
+        });
+
+        const result = await res.json();
+
+        if (result.success) {
+          favourite_btn.classList.toggle("text-danger"); // Toggle màu trái tim
+          if (action === "add") {
+            meal_favourite.push(meal);
+          } else {
+            meal_favourite = meal_favourite.filter(
+              (item) => item.id !== meal.id
+            );
+          }
+        } else {
+          alert("Lỗi: " + result.message);
+        }
+        render(meal_favourite, "mealfavourite--menu");
+      } catch (error) {
+        alert("Lỗi kết nối: " + error.message);
+      }
+    });
+  });
+}
+
+function opencard(meal) {
+  let element = document.getElementById("detail__food");
+
+  element.classList.remove("d-none");
+
+  let tagsHTML = "";
+  meal.tags.forEach((tag) => {
+    tagsHTML += `<lable class="rounded-5 bg-blue px-2 m-2 text-success" style="line-height:40px" >${tag}</lable>`;
+  });
+
+  element.innerHTML = `
         <div class="pop-up__detail mt-5 col-xl-6 col-sm-10 col-10 mx-auto bg-white rounded-4 overflow-auto p-3" style="height: 600px;" >
             <div class="mealname d-flex justify-content-between"><h3>${meal.name}</h3><button class="close btn bg-white"><i class="fa fa-times"></i></button></div>
             <div class="mealcontent d-grid grid-col-5">
@@ -191,7 +205,7 @@ function opencard (meal){
                         </div>
                         <div class="nutrition-item">
                             <span class="nutrition-name">Thời gian</span>
-                            <span>${meal.prepTime} phút</span>
+                            <span>${meal.prep_time} phút</span>
                         </div>
                     </div>
                 </div>
@@ -203,35 +217,32 @@ function opencard (meal){
                     </ul>
                     <h3>Instruction</h3>
                     <ul>
-                        ${stepHTML}
+                        ${meal.instruction}
                     </ul>
                 </div>
                 
 
             </div>
         </div>
-    `
+    `;
 
-    
-
-    document.querySelectorAll(".close").forEach(closeBtn => {
-        closeBtn.addEventListener("click", () => {
-            console.log("chay roi");
-            element.classList.add("d-none");
-        });
+  document.querySelectorAll(".close").forEach((closeBtn) => {
+    closeBtn.addEventListener("click", () => {
+      console.log("chay roi");
+      element.classList.add("d-none");
     });
-
+  });
 }
 // phần calculator
 
 let ingredients = [];
-fetch('assets/js/ingredients.json')
-  .then(response => response.json())
-  .then(data => {
+fetch("assets/js/ingredients.json")
+  .then((response) => response.json())
+  .then((data) => {
     ingredients = data;
     addIngredient();
   })
-  .catch(error => console.error('Lỗi khi load JSON:', error));
+  .catch((error) => console.error("Lỗi khi load JSON:", error));
 
 document.getElementById('add-ingredient').addEventListener('click',()=>{
   addIngredient();
@@ -330,10 +341,10 @@ document.addEventListener("DOMContentLoaded", () => {
     stars.forEach((star, index) => {
       if (index < rating) {
         star.classList.add("selected");
-        star.textContent = "★"; 
+        star.textContent = "★";
       } else {
         star.classList.remove("selected");
-        star.textContent = "☆"; 
+        star.textContent = "☆";
       }
     });
   }
@@ -342,7 +353,9 @@ document.addEventListener("DOMContentLoaded", () => {
     star.addEventListener("click", () => {
       const rating = parseInt(star.getAttribute("data-value"));
       if (isNaN(rating)) {
-        console.error(`data-value không hợp lệ trên ngôi sao: ${star.textContent}`);
+        console.error(
+          `data-value không hợp lệ trên ngôi sao: ${star.textContent}`
+        );
         return;
       }
       currentRating = rating;
@@ -375,50 +388,46 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
+document
+  .getElementById("search-form")
+  .addEventListener("click", async function () {
+    searchFood();
+  });
 
-let meal_search = [];
-        document.getElementById('search-form').addEventListener('click', async function() {
-            let meal_name = document.getElementById("input_search").value;
-            let meal_type = document.getElementById("input_type").value;
-            let meal_diet = document.getElementById("meal_diet").value;
-            let meal_calo = document.getElementById("meal_calo").value;
-            meal_search.push(meal_name);
-            meal_search.push(meal_type);
-            meal_search.push(meal_diet);
-            meal_search.push(meal_calo);
-            console.log(meal_search);
-            meal_search = [];
-            try {
-                const res = await fetch("backend/search.php", {
-                  method: "POST",
-                  headers: {
-                    "Content-Type": "application/json"
-                  },
-                  body: JSON.stringify({
-                    name: meal_name,
-                    type: meal_type,
-                    diet: meal_diet,
-                    calo: meal_calo
-                  })
-                });
-                
+// search food
+async function searchFood() {
+  let meal_search = [];
+  let meal_name = document.getElementById("input_search").value;
+  let meal_type = document.getElementById("input_type").value;
+  let meal_diet = document.getElementById("meal_diet").value;
+  let meal_calo = document.getElementById("meal_calo").value;
 
+  console.log(meal_name);
+  console.log(meal_type);
+  console.log(meal_diet);
+  console.log(meal_calo);
 
+  try {
+    const res = await fetch("backend/search.php", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name: meal_name,
+        type: meal_type,
+        diet: meal_diet,
+        calo: meal_calo,
+      }),
+    });
 
-            const data = await res.json();
+    const data = await res.json();
 
-            meal_search = data.data;
-
-    console.log(meal_search);
-            } catch (error) {
-                console.error("Lỗi khi gọi API:", error);
-            }
-            render(meal_search, "mealplan--menu");
-        });
-
-
-
+    meal_search = data.data;
+  } catch (error) {
+    console.error("Lỗi khi gọi API:", error);
+  }
+  render(meal_search, "mealplan--menu");
+}
 
 // admin-list meals
-
-

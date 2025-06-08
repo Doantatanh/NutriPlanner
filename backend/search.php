@@ -1,9 +1,9 @@
 <?php
-    header("Content-Type: application/json");
-    $data = json_decode(file_get_contents("php://input"), true);
-    $connect = new PDO("mysql:host=localhost;dbname=quyen","root", "");
+header("Content-Type: application/json");
+$data = json_decode(file_get_contents("php://input"), true);
+$connect = new PDO("mysql:host=localhost;dbname=quyen", "root", "");
 
-    class nutrition
+class nutrition
 {
     public $protein;
     public $fat;
@@ -24,68 +24,70 @@
 }
 
 
-    $sql = "SELECT m.id , m.name, m.description, m.ingredients, m.calories, m.prep_time ,m.instructions ,m.image_url from meals m 
-        INNER JOIN tags ON m.tag_id = tags.id
-        INNER JOIN type ON m.type_id = type.id
-        WHERE m.name LIKE ?";
-    $meal_name =isset($data["name"]) ? "%" . $data['name'] . "%" : "%"; 
-    $meal_type = isset($data['type']) ? $data['type'] : "";
-    $meal_diet = isset($data["diet"]) ? $data["diet"] : "";
-    $meal_calo = isset($data["calo"]) ? $data["calo"] : "";
+$sql = "SELECT id , name, description, ingredients, calories, prep_time ,instructions ,image_url, type, tags from meals  
+        WHERE 1 = 1
+        ";
 
-    
+$meal_type = isset($data['type']) ? $data['type'] : "";
+$meal_diet = isset($data["diet"]) ? $data["diet"] : "";
+$meal_calo = isset($data["calo"]) ? $data["calo"] : "";
 
-    $params = [$meal_name];
+$params = [];
 
-    if(!empty($meal_type)){
-        $sql .= " AND type.id = ?";
-        $params[] = $meal_type; 
+if (!empty($data["name"])) {
+    $sql .= " AND m.name LIKE '%" . $data["name"] . "%'";
+    // $params[] = $data["name"]; 
+}
+
+if (!empty($meal_type)) {
+    $sql .= " AND type LIKE ?";
+    $params[] = '%' . $meal_type . '%'; // thêm dấu % trước và sau
+}
+
+if (!empty($meal_diet)) {
+    $sql .= " AND tags LIKE ?";
+    $params[] = '%' . $meal_diet . '%'; // thêm dấu % trước và sau
+}
+
+
+if (!empty($meal_calo)) {
+    if ($meal_calo === "under300") {
+        $sql .= " AND calories < ?";
+        $params[] = 300;
+    } elseif ($meal_calo === "300-500") {
+        $sql .= " AND calories >= ? AND calories <= ?";
+        $params[] = 300;
+        $params[] = 500;
+    } elseif ($meal_calo === "500-800") {
+        $sql .= " AND calories >= ? AND calories <= ?";
+        $params[] = 500;
+        $params[] = 800;
+    } elseif ($meal_calo === "over800") {
+        $sql .= " AND calories > ?";
+        $params[] = 800;
     }
-
-    if(!empty($meal_diet)){
-        $sql .= " AND tags.id = ?";
-        $params[] = $meal_diet; 
-    }
-
-    if(!empty($meal_calo)){
-        if ($meal_calo === "under300") {
-            $sql .= " AND meals.calories < ?";
-            $params[] = 300;
-        } elseif ($meal_calo === "300-500") {
-            $sql .= " AND meals.calories >= ? AND meals.calories <= ?";
-            $params[] = 300;
-            $params[] = 500;
-        } elseif ($meal_calo === "500-800") {
-            $sql .= " AND meals.calories >= ? AND meals.calories <= ?";
-            $params[] = 500;
-            $params[] = 800;
-        } elseif ($meal_calo === "over800") {
-            $sql .= " AND meals.calories > ?";
-            $params[] = 800;
-        }
-    }
+}
 
 
 
 
-    $tags_sql = "SELECT tags.name
-    FROM meal_tags 
-    JOIN tags ON meal_tags.tag_id = tags.id 
-    WHERE meal_tags.meal_id = ?";
 
-    $nutrition_sql = "SELECT nutrition.name, amount 
+
+$nutrition_sql = "SELECT nutrition.name, amount 
     FROM meal_nutrition 
     JOIN nutrition ON meal_nutrition.nutrition_id = nutrition.id 
     WHERE meal_nutrition.meal_id = ?";
 
-    $stmt = $connect->prepare($sql);
-    $arr = $stmt->execute($params);
-    $result = [];
-    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+$stmt = $connect->prepare($sql);
+$stmt->execute($params);
+$result = [];
 
-        $nutri = $connect->prepare($nutrition_sql);
-        $nutri->execute([$row['id']]);
-        $result_nutrition = $nutri->fetchAll(PDO::FETCH_ASSOC);
+while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+
+    $nutri = $connect->prepare($nutrition_sql);
+    $nutri->execute([$row['id']]);
+    $result_nutrition = $nutri->fetchAll(PDO::FETCH_ASSOC);
+    if (count($result_nutrition) >= 2) {
         $nutritions = new nutrition(
             $result_nutrition[0]["amount"],
             $result_nutrition[1]["amount"],
@@ -94,23 +96,17 @@
             $result_nutrition[4]["amount"],
             $result_nutrition[5]["amount"]
         );
-        $row['nutrition'] = $nutritions;
-        $row['instruction'] = explode("\n", $row['instructions']);
-
-        $result_tag = [];
-        $tags = $connect->prepare($tags_sql);
-        $tags->execute([$row['id']]);
-        $result_tag = $tags->fetchAll(PDO::FETCH_COLUMN);
-        $row['tags'] = $result_tag;
-
-        $type = $connect->prepare("select name from type where id = ?");
-        $type->execute([$row['id']]);
-        $result_type = $type->fetch(PDO::FETCH_COLUMN);
-        $row['type'] = $result_type;
-
-        $result[] = $row;
+    } else {
+        // Gán giá trị mặc định hoặc xử lý khi không đủ dữ liệu
+        $nutritions = new nutrition(0, 0, 0, 0, 0, 0); // hoặc null tùy cách bạn xử lý
     }
-    echo json_encode(["data" => $result]);
+    $row['nutrition'] = $nutritions;
+    $row['instruction'] = explode("\n", $row['instructions']);
 
-    $connect = null;
-?>
+    $row['tags'] = explode(",", $row['tags']);
+    $row['type'] = explode(",", $row['type']);
+    $result[] = $row;
+}
+echo json_encode(["data" => $result]);
+
+$connect = null;

@@ -1,3 +1,5 @@
 {
-  "liveServer.settings.port": 5501
+  "liveServer.settings.port": 5501,
+  "php.debug.execuablePath": "C:\\xampp\\php\\php.exe",
+  "php.validate.execuablePath": "C:\\xampp\\php\\php.exe"
 }
