@@ -60,6 +60,16 @@ body {
   gap: 30px;
 }
 
+.header-favorite{
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto 60px;
+}
+
+.header-favorite p{
+    color: var(--text-light);
+}
+
 .header--banner {
   background-color: var(--orange);
 }
@@ -95,8 +105,6 @@ body {
   margin-top: 50px;
   margin-bottom: 150px;
 }
-
-
 
 .feature-header{
   text-align: center;
@@ -168,8 +176,8 @@ body {
   }
 }
 
-#feature , #calculator , #favourite, #feedback{
-  scroll-margin-top: 100px; /* thay 100px bằng chiều cao header của bạn */
+#feature , #calculator , #favourite, #feedback, #filter,#meal-cate{
+  scroll-margin-top: 100px;
 }
 
 /* header , footer */

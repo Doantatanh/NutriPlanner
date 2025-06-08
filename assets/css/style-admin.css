@@ -8,8 +8,12 @@
     --bg-light: #f9f9f9;
   }
 
-  .bg-primary{
+  .bg-primaryy{
     background-color: var(--primary) !important;
+  }
+
+  .bg-orangee{
+    background-color: #ff4500;
   }
 
   * {

@@ -30,7 +30,7 @@
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="nav-links ms-auto">
                         <li class="nav-item"><a class="nav-link active" href="#feature">Feature</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#favorite">Favorite</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#favourite">Favorite</a></li>
                         <li class="nav-item"><a class="nav-link" href="#calculator">Calculator</a></li>
                         <li class="nav-item"><a class="nav-link" href="#feedback">Feedback</a></li>
                         <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
@@ -65,60 +65,48 @@
                 <p>Explore powerful tools that help you plan meals, track nutrition, and achieve your health goals with ease.</p>
             </div>
             <div class="feature-main">
-                <div class="feature-box rounded-top ">
-                    <div class="d-flex align-items-center">
-                        <div class="feature-icon">
-                            <i class="fas fa-list-check"></i>
-                        </div>
-                        <h4 class="mx-2">Personalized Meal Plans</h4>
+                <a href="#meal-cate" class="feature-box rounded-top ">
+                    <div class="feature-icon">
+                        <i class="fas fa-list-check"></i>
                     </div>
+                    <h3>Personalized Meal Plans</h3>
                     <p>Create meal plans tailored to your goals, whether it's weight loss, muscle gain, or managing specific health conditions.</p>
-                </div>
-                <div class="feature-box rounded-top">
-                    <div class="d-flex align-items-center">
-                        <div class="feature-icon">
-                            <i class="fas fa-filter"></i>
-                        </div>
-                        <h4 class="mx-2">Smart Filters</h4>
+                </a>
+                <a href="#filter" class="feature-box rounded-top">
+                    <div class="feature-icon">
+                        <i class="fas fa-filter"></i>
                     </div>
+                    <h3>Smart Filters</h3>
                     <p>Easily search and filter meals by ingredients, calories, special diets, or food allergies.</p>
-                </div>
-                <div class="feature-box rounded-top">
-                    <div class="d-flex align-items-center">
-                        <div class="feature-icon">
-                            <i class="fas fa-chart-pie"></i>
-                        </div>
-                        <h4 class="mx-2">Nutrition Analysis</h4>
+                </a>
+                <a href="#meal-cate" class="feature-box rounded-top">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-pie"></i>
                     </div>
+                    <h3>Nutrition Analysis</h3>
                     <p>View detailed nutritional breakdowns such as calories, protein, carbs, fats, and micronutrients for each dish.</p>
-                </div>
-                <div class="feature-box rounded-top">
-                    <div class="d-flex align-items-center">
-                        <div class="feature-icon">
-                            <i class="fas fa-heart"></i>
-                        </div>
-                        <h4 class="mx-2"><a href="#favorite">Favorite Dishes</a></h4>
+                </a>
+                <a href="#favourite" class="feature-box rounded-top">
+                    <div class="feature-icon">
+                        <i class="fas fa-heart"></i>
                     </div>
-                    <p> <a href="#favorite">Bookmark and quickly access your favorite meals to simplify your future meal planning.</a></p>
-                </div>
-                <div class="feature-box rounded-top">
-                    <div class="d-flex align-items-center">
-                        <div class="feature-icon">
-                            <i class="fas fa-calculator"></i>
-                        </div>
-                        <h4 class="mx-2"><a href="#calculator">Nutrition Calculator</a></h4>
+                    <h3>Favorite Dishes</h3>
+                    <p>Bookmark and quickly access your favorite meals to simplify your future meal planning.</p>
+                </a>
+                <a href="#calculator" class="feature-box rounded-top">
+                    <div class="feature-icon">
+                        <i class="fas fa-calculator"></i>
                     </div>
-                    <p><a href="#calculator">Input ingredients and portion sizes to instantly calculate the total nutritional value of your meal.</a></p>
-                </div>
-                <div class="feature-box rounded-top">
-                    <div class="d-flex align-items-center">
-                        <div class="feature-icon">
-                            <i class="fas fa-comment-dots"></i>
-                        </div>
-                        <h4 class="mx-2">Comments & Sharing</h4>
+                    <h3>Nutrition Calculator</h3>
+                    <p>Input ingredients and portion sizes to instantly calculate the total nutritional value of your meal.</p>
+                </a>
+                <a href="#feedback" class="feature-box rounded-top">
+                    <div class="feature-icon">
+                        <i class="fas fa-comment-dots"></i>
                     </div>
+                    <h3>Comments & Sharing</h3>
                     <p>Comment, share your experiences, and review meals with the NutriPlanner community.</p>
-                </div>
+                </a>
             </div>
         </div>
     </section>
@@ -126,15 +114,15 @@
     <div class="examPlan container">
         <div class="col-xxl-10 col-xl-10 col-sm-11 mx-auto my-4">
             <section>
-                <div class="container">
+                <div class="container" id="filter">
                     <div class="feature-header">
-                        <h2>Khám phá thực đơn</h2>
-                        <p>Tìm kiếm và lọc hàng trăm công thức phù hợp với mục tiêu dinh dưỡng và khẩu vị của bạn.</p>
+                        <h2>Search meal</h2>
+                        <p>Search and filter hundreds of recipes that fit your nutrition goals and taste preferences.</p>
                     </div>
                     <div class="meal-filter">
                         <div id="searchForm">
                             <div class="search-container">
-                                <input type="text" class="search-input" name="search_query" id="input_search" placeholder="Enter name meal...">
+                                <input type="text" class="search-input" name="search_query" id="input_search" placeholder="Enter meal name...">
                                 <button class="search-btn text-dark" id="search-form">
                                     <i class="fas fa-search"></i>
                                     Search
@@ -142,36 +130,36 @@
                             </div>
                             <div class="filters">
                                 <div class="filter-group">
-                                    <label class="filter-title">Loại món</label>
+                                    <label class="filter-title">Meal Type</label>
                                     <select class="filter-select" name="meal_type" id="input_type">
                                         <option value="">All</option>
-                                        <option value="Breakfast">Breakfast</option>
-                                        <option value="Lunch">Lunch</option>
-                                        <option value="Dinner">Dinner</option>
-                                        <option value="Snacks">Snacks</option>
-                                        <option value="Smoothies">Smoothies</option>
+                                        <option value="1">Breakfast</option>
+                                        <option value="2">Lunch</option>
+                                        <option value="3">Dinner</option>
+                                        <option value="4">Snacks</option>
+                                        <option value="5">Drinks</option>
                                     </select>
                                 </div>
                                 <div class="filter-group">
-                                    <label class="filter-title">Chế độ ăn</label>
+                                    <label class="filter-title">Diet Type</label>
                                     <select class="filter-select" name="diet_type" id="meal_diet">
                                         <option value="">All</option>
-                                        <option value="vegan">Vegan</option>
-                                        <option value="Vegetarian">Vegetarian</option>
-                                        <option value="Keto">Keto</option>
-                                        <option value="Paleo">Paleo</option>
-                                        <option value="Low Carb">Low Carb</option>
-                                        <option value="High Protein">High Protein</option>
+                                        <option value="1">Vegan</option>
+                                        <option value="2">Vegetarian</option>
+                                        <option value="3">Keto</option>
+                                        <option value="4">Paleo</option>
+                                        <option value="5">Low Carb</option>
+                                        <option value="6">High Protein</option>
                                     </select>
                                 </div>
                                 <div class="filter-group">
                                     <label class="filter-title">Calories</label>
                                     <select class="filter-select" name="calories" id="meal_calo">
                                         <option value="">All</option>
-                                        <option value="under300">Dưới 300 kcal</option>
+                                        <option value="under300">Under 300 kcal</option>
                                         <option value="300-500">300 - 500 kcal</option>
                                         <option value="500-800">500 - 800 kcal</option>
-                                        <option value="over800">Trên 800 kcal</option>
+                                        <option value="over800">Over 800 kcal</option>
                                     </select>
                                 </div>
                             </div>
@@ -179,12 +167,11 @@
                     </div>
 
                     <div class="meals-grid" id="meals-grid">
-
-
-
+                        <!-- Meals will be displayed here -->
                     </div>
                 </div>
             </section>
+
             <div class="" id="meal-cate">
                 <div class="item ">
                     <div class="d-grid grid-col-5 my-1" id="mealplan--menu">
@@ -236,7 +223,11 @@
 
     </div>
 
-    <div class="mealfavourite bg-light py-3" id="favorite">
+    <div class="mealfavourite bg-light py-3">
+        <div class="header-favorite" id="favourite">
+            <h2>Favorite meals</h2>
+            <p>Bookmark and quickly access your favorite meals to simplify your future meal planning.</p>
+        </div>
         <div class=" col-xl-7 col-sm-11 mx-auto my-4">
             <div class="" id="">
                 <div class="item">
@@ -309,71 +300,71 @@
         </div>
     </section>
 
-    <div id="feedback">
+    <div>
         <section class="testimonials-section">
-            <h2>Người dùng nói gì?</h2>
+            <h2>What Our Users Say</h2>
             <p class="testimonials-subtext">
-                Khám phá trải nghiệm thực tế từ cộng đồng NutriPlanner về việc cải thiện thói<br>
-                quen ăn uống và sức khỏe.
+                Discover real experiences from the NutriPlanner community about improving eating habits<br>
+                and health.
             </p>
             <div class="testimonials-container">
-                <!-- thẻ 1 -->
+                <!-- Card 1 -->
                 <article class="testimonial-card">
                     <div class="quote-icon"><i class="fas fa-quote-left"></i></div>
                     <div class="stars-static">
                         <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
                         <i class="fas fa-star"></i><i class="fas fa-star"></i>
                     </div>
-                    <p>NutriPlanner đã thay đổi hoàn toàn cách tôi ăn uống. Việc theo dõi dinh dưỡng giờ đây trở nên dễ dàng, và những món ăn gợi ý rất phù hợp với mục tiêu giảm cân của tôi.</p>
+                    <p>NutriPlanner completely changed the way I eat. Tracking nutrition is now easy, and the suggested meals align perfectly with my weight loss goals.</p>
                     <div class="author">
                         <img src="https://i.pravatar.cc/100?img=47" alt="Minh Anh">
                         <div>
-                            <div class="author-name">Tất Anh</div>
-                            <div class="author-role">Đã giảm 8 kg sau 3 tháng</div>
+                            <div class="author-name">Tat Anh</div>
+                            <div class="author-role">Lost 8 kg in 3 months</div>
                         </div>
                     </div>
                 </article>
-                <!-- thẻ 2 -->
+                <!-- Card 2 -->
                 <article class="testimonial-card">
                     <div class="quote-icon"><i class="fas fa-quote-left"></i></div>
                     <div class="stars-static">
                         <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
                         <i class="fas fa-star"></i><i class="fas fa-star"></i>
                     </div>
-                    <p>Là một người mắc tiểu đường, việc tìm kiếm thực đơn phù hợp luôn là thách thức. NutriPlanner giúp tôi dễ dàng lọc các món ăn phù hợp với chỉ số đường huyết thấp.</p>
+                    <p>As someone with diabetes, finding suitable meal plans has always been a challenge. NutriPlanner helps me easily filter meals that fit my low glycemic index needs.</p>
                     <div class="author">
-                        <img src="https://i.pravatar.cc/100?img=12" alt="Quang Hùng">
+                        <img src="https://i.pravatar.cc/100?img=12" alt="Quang Hung">
                         <div>
-                            <div class="author-name">Kim Hiếu</div>
-                            <div class="author-role">Kiểm soát tiểu đường type 2</div>
+                            <div class="author-name">Kim Hieu</div>
+                            <div class="author-role">Managing Type 2 Diabetes</div>
                         </div>
                     </div>
                 </article>
-                <!-- thẻ 3 -->
+                <!-- Card 3 -->
                 <article class="testimonial-card">
                     <div class="quote-icon"><i class="fas fa-quote-left"></i></div>
                     <div class="stars-static">
                         <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
                         <i class="fas fa-star"></i><i class="far fa-star"></i>
                     </div>
-                    <p>Tôi tập gym và cần một chế độ ăn giàu protein. Máy tính dinh dưỡng của NutriPlanner giúp tôi theo dõi lượng protein hằng ngày một cách chính xác và dễ dàng.</p>
+                    <p>I work out and need a high-protein diet. NutriPlanner’s nutrition calculator helps me track my daily protein intake accurately and easily.</p>
                     <div class="author">
-                        <img src="https://i.pravatar.cc/100?img=30" alt="Thanh Trúc">
+                        <img src="https://i.pravatar.cc/100?img=30" alt="Thanh Truc">
                         <div>
-                            <div class="author-name">Huy Đức</div>
-                            <div class="author-role">HLV thể hình</div>
+                            <div class="author-name">Huy Duc</div>
+                            <div class="author-role">Fitness Trainer</div>
                         </div>
                     </div>
                 </article>
             </div>
         </section>
-        <!-- phần feedback -->
-        <section class="feedback-section">
+        <!-- Feedback section -->
+        <section class="feedback-section" id="feedback">
             <div class="logo">
                 <img src="assets/images/Leonardo_Phoenix_10_A_topdown_view_of_a_food_table_divided_in_3.jpg" alt="NutriPlanner Logo" />
             </div>
             <div class="feedback-card">
-                <h3>Gửi đánh giá</h3>
+                <h3>Submit Your Feedback</h3>
                 <div class="star-rating" id="starRating">
                     <span data-value="1">☆</span>
                     <span data-value="2">☆</span>
@@ -382,32 +373,33 @@
                     <span data-value="5">☆</span>
                 </div>
                 <form id="feedbackForm">
-                    <input type="text" placeholder="Họ và tên" required />
+                    <input type="text" placeholder="Full Name" required />
                     <input type="email" placeholder="Email" required />
-                    <textarea placeholder="Chia sẻ trải nghiệm của bạn..." required rows="3"></textarea>
-                    <button type="submit">Gửi đánh giá</button>
+                    <textarea placeholder="Share your experience..." required rows="3"></textarea>
+                    <button type="submit">Submit Feedback</button>
                 </form>
             </div>
         </section>
     </div>
 
+
     <section class="section contact" id="contact">
         <div class="container">
             <div class="section-header">
-                <h2>Liên hệ với chúng tôi</h2>
-                <p>Bạn có câu hỏi hoặc cần hỗ trợ? Đội ngũ NutriPlanner luôn sẵn sàng giúp đỡ bạn.</p>
+                <h2>Contact Us</h2>
+                <p>Have questions or need assistance? The NutriPlanner team is always ready to help you.</p>
             </div>
             <div class="contact-container">
-                <div class="contact-infoo ">
-                    <h3>Thông tin liên hệ</h3>
+                <div class="contact-info">
+                    <h3>Contact Information</h3>
                     <div class="contact-details">
                         <div>
                             <div class="contact-icon">
                                 <i class="fas fa-map-marker-alt"></i>
                             </div>
                             <div class="contact-text" style="display: inline-block;">
-                                <h4>Địa chỉ</h4>
-                                <p>285 Đội Cấn, quận Ba Đình, thành phố Hà Nội</p>
+                                <h4>Address</h4>
+                                <p>285 Đội Cấn Street, Ba Đình District, Hanoi City</p>
                             </div>
                         </div>
                         <div>
@@ -415,7 +407,7 @@
                                 <i class="fas fa-phone-alt"></i>
                             </div>
                             <div class="contact-text" style="display: inline-block;">
-                                <h4>Điện thoại</h4>
+                                <h4>Phone</h4>
                                 <p>+84 28 1234 5678</p>
                             </div>
                         </div>
@@ -433,8 +425,8 @@
                                 <i class="fas fa-clock"></i>
                             </div>
                             <div class="contact-text" style="display: inline-block;">
-                                <h4>Giờ làm việc</h4>
-                                <p>Thứ 2 - Thứ 6: 8:00 - 18:00<br>Thứ 7: 9:00 - 12:00</p>
+                                <h4>Working Hours</h4>
+                                <p>Monday - Friday: 8:00 AM - 6:00 PM<br>Saturday: 9:00 AM - 12:00 PM</p>
                             </div>
                         </div>
                     </div>
