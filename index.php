@@ -261,64 +261,47 @@
                     <h3>Enter Ingredients</h3>
                     <p>Select ingredients and enter the amount in grams to calculate nutrition.</p>
                     <div class="ingredients-list">
-                        <div class="ingredient-item">
-                            <select id="ingredient-option">
-                                <option value="Rice">Rice</option>
-                                <option value="Chicken Breast">Chicken Breast</option>
-                                <option value="Avocado">Avocado</option>
-                                <option value="Spinach">Spinach</option>
-                                <option value="Banana">Banana</option>
-                                <option value="Pumpkin">Pumpkin</option>
-                                <option value="Quinoa">Quinoa</option>
-                                <option value="Soybeans">Soybeans</option>
-                                <option value="Sweet Potato">Sweet Potato</option>
-                                <option value="Egg">Egg</option>
-                                <option value="Oats">Oats</option>
-                                <option value="Salmon">Salmon</option>
-                                <option value="Lentils">Lentils</option>
-                                <option value="Tomato">Tomato</option>
-                                <option value="Apple">Apple</option>
-                                <option value="Almonds">Almonds</option>
-                                <option value="Greek Yogurt">Greek Yogurt</option>
-                                <option value="Mushroom">Mushroom</option>
-                                <option value="Black Beans">Black Beans</option>
-                                <option value="Cabbage">Cabbage</option>
-                            </select>
-                            <input type="number" placeholder="Gram">
-                        </div>
+                        
                     </div>
-                    <button class="add-ingredient" id="add-ingredient">Add Ingredient</button>
-                    <button class="button calculate-btn" id="calculate-btn">Calculate Nutrition</button>
+                    <div class="action-button">
+                        <button class="add-ingredient" id="add-ingredient">Add Ingredient</button>
+                        <button class="clear-ingredients" id="clear-ingredients-in-form">Clear Ingredients</button>
+                    </div>
                 </div>
                 <div class="calculator-result">
-                    <h3>Nutrition Analysis Results</h3>
+                    <div class="header-calculator-result">
+                        <h3>Nutrition Analysis Results</h3>
+                        <div class="header-clear-result">
+                            <button class="clear-calculator-result" id="clear-ingredients-in-result">Clear</button>
+                        </div>
+                    </div>
                     <div class="total-calories" id="total-calories">
-                        0 kcal
+                        0.00 kcal
                     </div>
                     <div class="nutrition-results" id="nutrition-results">
                         <div class="nutrition-result-item">
                             <div class="nutrition-result-name">Protein</div>
-                            <div class="nutrition-result-value" id="protein-result">0g</div>
+                            <div class="nutrition-result-value" id="protein-result">0.00g</div>
                         </div>
                         <div class="nutrition-result-item">
                             <div class="nutrition-result-name">Carbs</div>
-                            <div class="nutrition-result-value" id="carbs-result">0g</div>
+                            <div class="nutrition-result-value" id="carbs-result">0.00g</div>
                         </div>
                         <div class="nutrition-result-item">
-                            <div class="nutrition-result-name">Chất béo</div>
-                            <div class="nutrition-result-value" id="fat-result">0g</div>
+                            <div class="nutrition-result-name">Fat</div>
+                            <div class="nutrition-result-value" id="fat-result">0.00g</div>
                         </div>
                         <div class="nutrition-result-item">
-                            <div class="nutrition-result-name">Đường</div>
-                            <div class="nutrition-result-value" id="sugar-result">0g</div>
+                            <div class="nutrition-result-name">Sugar</div>
+                            <div class="nutrition-result-value" id="sugar-result">0.00g</div>
                         </div>
                         <div class="nutrition-result-item">
                             <div class="nutrition-result-name">Chất xơ</div>
-                            <div class="nutrition-result-value" id="fiber-result">0g</div>
+                            <div class="nutrition-result-value" id="fiber-result">0.00g</div>
                         </div>
                         <div class="nutrition-result-item">
                             <div class="nutrition-result-name">Natri</div>
-                            <div class="nutrition-result-value" id="sodium-result">0g</div>
+                            <div class="nutrition-result-value" id="sodium-result">0.00mg</div>
                         </div>
                     </div>
                 </div>
