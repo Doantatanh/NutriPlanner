@@ -1,14 +1,14 @@
 <?php
-session_start();
+// session_start();
 
 // Kiểm tra xem người dùng đã đăng nhập chưa
-if (!isset($_SESSION['username'])) {
-    header("Location: login.php");
-    exit();
-}
+// if (!isset($_SESSION['username'])) {
+//     header("Location: login.php");
+//     exit();
+// }
 
 // Lấy tên tài khoản từ session
-$username = $_SESSION['username'];
+// $username = $_SESSION['username'];
 ?>
 
 
@@ -192,10 +192,12 @@ $username = $_SESSION['username'];
                     </div>
                 </div>
             </div>
-
-            <div class="meals-grid" id="meals-grid">
-                <!-- Meal cards will be inserted here by JavaScript -->
+            <div class="overflow-auto" style="height: 700px;">
+                <div class="meals-grid "   id="meals-grid">
+                    
             </div>
+            </div>
+            
         </div>
     </section>
 

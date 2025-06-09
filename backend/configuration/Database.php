@@ -11,7 +11,6 @@ class Database
         $password = DatabaseInfo::getDatabasePassword();
         $dbname = DatabaseInfo::getDatabaseName();
         $port = DatabaseInfo::getDatabasePort();
-
         $dsn = "mysql:host=$host;port=$port;dbname=$dbname;charset=utf8";
 
         try {

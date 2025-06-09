@@ -1,7 +1,9 @@
 <?php
+require_once 'configuration/Database.php';
+$db = new Database();
+$connect = $db->getConnection();
 header("Content-Type: application/json");
 $data = json_decode(file_get_contents("php://input"), true);
-$connect = new PDO("mysql:host=localhost;dbname=quyen", "root", "");
 
 class nutrition
 {
@@ -37,18 +39,18 @@ class nutrition
 
     if(!empty($data['name'])){
         $sql .= " AND m.name LIKE ?";
-        $params[] = "%" . $data['name'] . "%"; // ví dụ: "%Beef%"
+        $params[] = "%" . $data['name'] . "%";
 
-    }
-
-    if(!empty($meal_type)){
-        $sql .= " AND type.id = ?";
-        $params[] = $meal_type; 
     }
 
     if(!empty($meal_diet)){
-        $sql .= " AND tags.id = ?";
-        $params[] = $meal_diet; 
+        $sql .= " AND m.tags LIKE ?";
+        $params[] = "%" . $meal_diet . "%"; 
+    }
+
+    if(!empty($meal_type)){
+        $sql .= " AND m.type = ?";
+        $params[] = $meal_type; 
     }
 
     if(!empty($meal_calo)){
@@ -68,11 +70,6 @@ class nutrition
             $params[] = 800;
         }
     }
-
-
-
-
-
 
 $nutrition_sql = "SELECT nutrition.name, amount 
     FROM meal_nutrition 
