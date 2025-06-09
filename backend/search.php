@@ -1,7 +1,7 @@
 <?php
 header("Content-Type: application/json");
 $data = json_decode(file_get_contents("php://input"), true);
-$connect = new PDO("mysql:host=localhost;dbname=quyen", "root", "");
+$connect = new PDO("mysql:host=localhost;dbname=nutriplanner", "root", "");
 
 class nutrition
 {
@@ -23,50 +23,51 @@ class nutrition
     }
 }
 
+    $params = [];
 
-$sql = "SELECT id , name, description, ingredients, calories, prep_time ,instructions ,image_url, type, tags from meals  
-        WHERE 1 = 1
-        ";
+    $sql = "SELECT m.id , m.name, m.description, m.ingredients, m.calories, m.prep_time ,m.instructions ,m.image_url, m.tags, m.type from meals m 
 
-$meal_type = isset($data['type']) ? $data['type'] : "";
-$meal_diet = isset($data["diet"]) ? $data["diet"] : "";
-$meal_calo = isset($data["calo"]) ? $data["calo"] : "";
+        WHERE 1 = 1";
+    $meal_type = isset($data['type']) ? $data['type'] : "";
+    $meal_diet = isset($data["diet"]) ? $data["diet"] : "";
+    $meal_calo = isset($data["calo"]) ? $data["calo"] : "";
 
-$params = [];
-
-if (!empty($data["name"])) {
-    $sql .= " AND m.name LIKE '%" . $data["name"] . "%'";
-    // $params[] = $data["name"]; 
-}
-
-if (!empty($meal_type)) {
-    $sql .= " AND type LIKE ?";
-    $params[] = '%' . $meal_type . '%'; // thêm dấu % trước và sau
-}
-
-if (!empty($meal_diet)) {
-    $sql .= " AND tags LIKE ?";
-    $params[] = '%' . $meal_diet . '%'; // thêm dấu % trước và sau
-}
+    
 
 
-if (!empty($meal_calo)) {
-    if ($meal_calo === "under300") {
-        $sql .= " AND calories < ?";
-        $params[] = 300;
-    } elseif ($meal_calo === "300-500") {
-        $sql .= " AND calories >= ? AND calories <= ?";
-        $params[] = 300;
-        $params[] = 500;
-    } elseif ($meal_calo === "500-800") {
-        $sql .= " AND calories >= ? AND calories <= ?";
-        $params[] = 500;
-        $params[] = 800;
-    } elseif ($meal_calo === "over800") {
-        $sql .= " AND calories > ?";
-        $params[] = 800;
+    if(!empty($data['name'])){
+        $sql .= " AND m.name LIKE ?";
+        $params[] = "%" . $data['name'] . "%"; // ví dụ: "%Beef%"
+
     }
-}
+
+    if(!empty($meal_type)){
+        $sql .= " AND type.id = ?";
+        $params[] = $meal_type; 
+    }
+
+    if(!empty($meal_diet)){
+        $sql .= " AND tags.id = ?";
+        $params[] = $meal_diet; 
+    }
+
+    if(!empty($meal_calo)){
+        if ($meal_calo === "under300") {
+            $sql .= " AND m.calories < ?";
+            $params[] = 300;
+        } elseif ($meal_calo === "300-500") {
+            $sql .= " AND m.calories >= ? AND m.calories <= ?";
+            $params[] = 300;
+            $params[] = 500;
+        } elseif ($meal_calo === "500-800") {
+            $sql .= " AND m.calories >= ? AND m.calories <= ?";
+            $params[] = 500;
+            $params[] = 800;
+        } elseif ($meal_calo === "over800") {
+            $sql .= " AND m.calories > ?";
+            $params[] = 800;
+        }
+    }
 
 
 
@@ -79,7 +80,7 @@ $nutrition_sql = "SELECT nutrition.name, amount
     WHERE meal_nutrition.meal_id = ?";
 
 $stmt = $connect->prepare($sql);
-$stmt->execute($params);
+    $arr = $stmt->execute($params);
 $result = [];
 
 while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {

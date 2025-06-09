@@ -31,6 +31,7 @@
                     <ul class="nav-links ms-auto">
                         <li class="nav-item"><a class="nav-link active" href="#feature">Feature</a></li>
                         <li class="nav-item"><a class="nav-link" href="#favourite">Favorite</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#meals">Meals</a></li>
                         <li class="nav-item"><a class="nav-link" href="#calculator">Calculator</a></li>
                         <li class="nav-item"><a class="nav-link" href="#feedback">Feedback</a></li>
                         <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
@@ -65,162 +66,128 @@
                 <p>Explore powerful tools that help you plan meals, track nutrition, and achieve your health goals with ease.</p>
             </div>
             <div class="feature-main">
-                <a href="#meal-cate" class="feature-box rounded-top ">
-                    <div class="feature-icon">
-                        <i class="fas fa-list-check"></i>
+                <div class="feature-box rounded-top ">
+                    <div class="d-flex align-items-center">
+                        <div class="feature-icon">
+                            <i class="fas fa-list-check"></i>
+                        </div>
+                        <h4 class="mx-2">Personalized Meal Plans</h4>
                     </div>
-                    <h3>Personalized Meal Plans</h3>
-                    <p>Create meal plans tailored to your goals, whether it's weight loss, muscle gain, or managing specific health conditions.</p>
-                </a>
-                <a href="#filter" class="feature-box rounded-top">
-                    <div class="feature-icon">
-                        <i class="fas fa-filter"></i>
+                    <p>Create meal plans tailored to your goals, whether it's weight loss, or managing specific health conditions.</p>
+                </div>
+                <div class="feature-box rounded-top">
+                    <div class="d-flex align-items-center">
+                        <div class="feature-icon">
+                            <i class="fas fa-filter"></i>
+                        </div>
+                        <h4 class="mx-2">Smart Filters</h4>
                     </div>
-                    <h3>Smart Filters</h3>
                     <p>Easily search and filter meals by ingredients, calories, special diets, or food allergies.</p>
-                </a>
-                <a href="#meal-cate" class="feature-box rounded-top">
-                    <div class="feature-icon">
-                        <i class="fas fa-chart-pie"></i>
+                </div>
+                <div class="feature-box rounded-top">
+                    <div class="d-flex align-items-center">
+                        <div class="feature-icon">
+                            <i class="fas fa-chart-pie"></i>
+                        </div>
+                        <h4 class="mx-2">Nutrition Analysis</h4>
                     </div>
-                    <h3>Nutrition Analysis</h3>
                     <p>View detailed nutritional breakdowns such as calories, protein, carbs, fats, and micronutrients for each dish.</p>
-                </a>
-                <a href="#favourite" class="feature-box rounded-top">
-                    <div class="feature-icon">
-                        <i class="fas fa-heart"></i>
+                </div>
+                <div class="feature-box rounded-top">
+                    <div class="d-flex align-items-center">
+                        <div class="feature-icon">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                        <h4 class="mx-2"><a href="#favorite">Favorite Dishes</a></h4>
                     </div>
-                    <h3>Favorite Dishes</h3>
-                    <p>Bookmark and quickly access your favorite meals to simplify your future meal planning.</p>
-                </a>
-                <a href="#calculator" class="feature-box rounded-top">
-                    <div class="feature-icon">
-                        <i class="fas fa-calculator"></i>
+                    <p> <a href="#favorite">Bookmark and quickly access your favorite meals to simplify your future meal planning.</a></p>
+                </div>
+                <div class="feature-box rounded-top">
+                    <div class="d-flex align-items-center">
+                        <div class="feature-icon">
+                            <i class="fas fa-calculator"></i>
+                        </div>
+                        <h4 class="mx-2"><a href="#calculator">Nutrition Calculator</a></h4>
                     </div>
-                    <h3>Nutrition Calculator</h3>
-                    <p>Input ingredients and portion sizes to instantly calculate the total nutritional value of your meal.</p>
-                </a>
-                <a href="#feedback" class="feature-box rounded-top">
-                    <div class="feature-icon">
-                        <i class="fas fa-comment-dots"></i>
+                    <p><a href="#calculator">Input ingredients and portion sizes to instantly calculate the total nutritional value of your meal.</a></p>
+                </div>
+                <div class="feature-box rounded-top">
+                    <div class="d-flex align-items-center">
+                        <div class="feature-icon">
+                            <i class="fas fa-comment-dots"></i>
+                        </div>
+                        <h4 class="mx-2">Comments & Sharing</h4>
                     </div>
-                    <h3>Comments & Sharing</h3>
                     <p>Comment, share your experiences, and review meals with the NutriPlanner community.</p>
-                </a>
+                </div>
             </div>
         </div>
     </section>
 
-    <div class="examPlan container">
-        <div class="col-xxl-10 col-xl-10 col-sm-11 mx-auto my-4">
-            <section>
-                <div class="container" id="filter">
-                    <div class="feature-header">
-                        <h2>Search meal</h2>
-                        <p>Search and filter hundreds of recipes that fit your nutrition goals and taste preferences.</p>
-                    </div>
-                    <div class="meal-filter">
-                        <div id="searchForm">
-                            <div class="search-container">
-                                <input type="text" class="search-input" name="search_query" id="input_search" placeholder="Enter meal name...">
-                                <button class="search-btn text-dark" id="search-form">
-                                    <i class="fas fa-search"></i>
-                                    Search
-                                </button>
-                            </div>
-                            <div class="filters">
-                                <div class="filter-group">
-                                    <label class="filter-title">Meal Type</label>
-                                    <select class="filter-select" name="meal_type" id="input_type">
-                                        <option value="">All</option>
-                                        <option value="1">Breakfast</option>
-                                        <option value="2">Lunch</option>
-                                        <option value="3">Dinner</option>
-                                        <option value="4">Snacks</option>
-                                        <option value="5">Drinks</option>
-                                    </select>
-                                </div>
-                                <div class="filter-group">
-                                    <label class="filter-title">Diet Type</label>
-                                    <select class="filter-select" name="diet_type" id="meal_diet">
-                                        <option value="">All</option>
-                                        <option value="1">Vegan</option>
-                                        <option value="2">Vegetarian</option>
-                                        <option value="3">Keto</option>
-                                        <option value="4">Paleo</option>
-                                        <option value="5">Low Carb</option>
-                                        <option value="6">High Protein</option>
-                                    </select>
-                                </div>
-                                <div class="filter-group">
-                                    <label class="filter-title">Calories</label>
-                                    <select class="filter-select" name="calories" id="meal_calo">
-                                        <option value="">All</option>
-                                        <option value="under300">Under 300 kcal</option>
-                                        <option value="300-500">300 - 500 kcal</option>
-                                        <option value="500-800">500 - 800 kcal</option>
-                                        <option value="over800">Over 800 kcal</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+    <!-- Meal Plan Section -->
+    <!-- Meal Plan Section -->
+    <section class="section meals" id="meals">
+        <div class="container">
+            <div class="section-header">
+                <h2>Khám phá thực đơn</h2>
+                <p>Tìm kiếm và lọc hàng trăm công thức phù hợp với mục tiêu dinh dưỡng và khẩu vị của bạn.</p>
+            </div>
 
-                    <div class="meals-grid" id="meals-grid">
-                        <!-- Meals will be displayed here -->
+            <div class="meal-filter">
+                <div id="searchForm">
+                    <div class="search-container">
+                        <input type="text" class="search-input" name="search_query" id="input_search" placeholder="Enter meal name...">
+                        <button class="search-btn text-dark" id="search-form">
+                            <i class="fas fa-search"></i>
+                            Search
+                        </button>
                     </div>
-                </div>
-            </section>
-
-            <div class="" id="meal-cate">
-                <div class="item ">
-                    <div class="d-grid grid-col-5 my-1" id="mealplan--menu">
-                        <div class="firstcard d-flex flex-column align-items-center rounded shadow  ">
-                            <picture class="rounded scale-105 p-3 overflow-hidden">
-                                <img class="rounded" src="assets/images/thitkhotau.jpg"
-                                    alt="">
-                            </picture>
-                            <p class="pt-2">Meat</p>
+                    <div class="filters">
+                        <div class="filter-group">
+                            <label class="filter-title">Loại món</label>
+                            <select class="filter-select" name="meal_type" id="input_type">
+                                <option value="">All</option>
+                                <option value="Breakfast">Breakfast</option>
+                                <option value="Lunch">Lunch</option>
+                                <option value="Dinner">Dinner</option>
+                                <option value="Snacks">Snacks</option>
+                                <option value="Smoothies">Smoothies</option>
+                            </select>
                         </div>
-                        <div class="firstcard d-flex flex-column align-items-center rounded shadow  ">
-                            <picture class="rounded scale-105 p-3">
-                                <img class="rounded" src="assets/images/thitkhotau.jpg"
-                                    alt="">
-                            </picture>
-                            <p class="pt-2">Meat</p>
+                        <div class="filter-group">
+                            <label class="filter-title">Chế độ ăn</label>
+                            <select class="filter-select" name="diet_type" id="meal_diet">
+                                <option value="">All</option>
+                                <option value="vegan">Vegan</option>
+                                <option value="Vegetarian">Vegetarian</option>
+                                <option value="Keto">Keto</option>
+                                <option value="Paleo">Paleo</option>
+                                <option value="Low Carb">Low Carb</option>
+                                <option value="High Protein">High Protein</option>
+                            </select>
                         </div>
-                        <div class="firstcard d-flex flex-column align-items-center rounded shadow  ">
-                            <picture class="rounded scale-105 p-3">
-                                <img class="rounded" src="assets/images/thitkhotau.jpg"
-                                    alt="">
-                            </picture>
-                            <p class="pt-2">Meat</p>
+                        <div class="filter-group">
+                            <label class="filter-title">Calories</label>
+                            <select class="filter-select" name="calories" id="meal_calo">
+                                <option value="">All</option>
+                                <option value="under300">Under 300 kcal</option>
+                                <option value="300-500">300 - 500 kcal</option>
+                                <option value="500-800">500 - 800 kcal</option>
+                                <option value="over800">Over 800 kcal</option>
+                            </select>
                         </div>
-                        <div class="firstcard d-flex flex-column align-items-center rounded shadow  ">
-                            <picture class="rounded scale-105 p-3">
-                                <img class="rounded" src="assets/images/thitkhotau.jpg"
-                                    alt="">
-                            </picture>
-                            <p class="pt-2">Meat</p>
-                        </div>
-                        <div class="firstcard d-flex flex-column align-items-center rounded shadow  ">
-                            <picture class="rounded scale-105 p-3">
-                                <img class="rounded" src="assets/images/thitkhotau.jpg"
-                                    alt="">
-                            </picture>
-                            <p class="pt-2">Meat</p>
-                        </div>
-
                     </div>
-
                 </div>
             </div>
+
+            <div class="meals-grid" id="meals-grid">
+                <!-- Meal cards will be inserted here by JavaScript -->
+            </div>
         </div>
-    </div>
+    </section>
 
-    </div>
+
     <div class="h-100 w-100 z-3 position-fixed top-0 d-none" style="background-color: rgba(0, 0, 0, 0.7);" id="detail__food">
-
     </div>
 
     <div class="mealfavourite bg-light py-3">
@@ -252,7 +219,7 @@
                     <h3>Enter Ingredients</h3>
                     <p>Select ingredients and enter the amount in grams to calculate nutrition.</p>
                     <div class="ingredients-list">
-                        
+
                     </div>
                     <div class="action-button">
                         <button class="add-ingredient" id="add-ingredient">Add Ingredient</button>
