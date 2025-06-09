@@ -1,3 +1,18 @@
+<?php
+session_start();
+
+// Kiểm tra xem người dùng đã đăng nhập chưa
+if (!isset($_SESSION['username'])) {
+    header("Location: login.php");
+    exit();
+}
+
+// Lấy tên tài khoản từ session
+$username = $_SESSION['username'];
+?>
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -41,7 +56,7 @@
                                         data-bs-toggle="dropdown" type="button">
                                         <img src="../../assets/images/ad.jpg" alt="admin" class="rounded-circle"
                                             width="30" height="30" style="object-fit: fit;">
-                                        <span class="text-login">Admin</span>
+                                        <span class="text-login"><?php echo htmlspecialchars($username); ?></span>
                                     </button>
                                     <ul class="dropdown-menu">
                                         <li><a class="dropdown-item" href="profile.html">Hồ sơ</a></li>
