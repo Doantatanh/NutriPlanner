@@ -111,18 +111,18 @@ $username = $_SESSION['username'];
                         <div class="feature-icon">
                             <i class="fas fa-heart"></i>
                         </div>
-                        <h4 class="mx-2"><a href="#favorite">Favorite Dishes</a></h4>
+                        <h4 class="mx-2">Favorite Dishes</h4>
                     </div>
-                    <p> <a href="#favorite">Bookmark and quickly access your favorite meals to simplify your future meal planning.</a></p>
+                    <p>Bookmark and quickly access your favorite meals to simplify your future meal planning.</p>
                 </div>
                 <div class="feature-box rounded-top">
                     <div class="d-flex align-items-center">
                         <div class="feature-icon">
                             <i class="fas fa-calculator"></i>
                         </div>
-                        <h4 class="mx-2"><a href="#calculator">Nutrition Calculator</a></h4>
+                        <h4 class="mx-2">Nutrition Calculator</h4>
                     </div>
-                    <p><a href="#calculator">Input ingredients and portion sizes to instantly calculate the total nutritional value of your meal.</a></p>
+                    <p>Input ingredients and portion sizes to instantly calculate the total nutritional value of your meal.</p>
                 </div>
                 <div class="feature-box rounded-top">
                     <div class="d-flex align-items-center">

@@ -265,7 +265,7 @@ function addIngredient() {
         .map((i) => `<option value="${i.name}">${i.name}</option>`)
         .join("")}
     </select>
-    <input type="number" placeholder="Gram" />
+    <input type="number" placeholder="Gram" min="0"/>
     <button class="remove-ingredient">x</button>
   `;
   container.appendChild(newIngredient);
@@ -274,6 +274,12 @@ function addIngredient() {
 
   selectIngredient.addEventListener("change", calculator);
   inputIngredient.addEventListener("input", calculator);
+
+
+  inputIngredient.addEventListener("keydown", (e) => {
+  if (e.key === "e" || e.key === "E" || e.key === "-" || e.key === "+") {
+    e.preventDefault();
+  }});
 
   newIngredient
     .querySelector(".remove-ingredient")
@@ -294,13 +300,14 @@ function calculator() {
     sugar: 0,
     sodium: 0,
   };
-  items.forEach((item) => {
-    const ingredient = item.querySelector("select").value;
-    const amount = parseFloat(item.querySelector("input").value) || 0;
-
-    const selected = ingredients.find((ing) => ing.name === ingredient);
-    if (selected) {
-      const ratio = amount / 100;
+  items.forEach((item)=>{
+    const ingredient = item.querySelector('select').value;
+    const amount = parseFloat(item.querySelector('input').value) || 0;
+    const selected = ingredients.find((ing)=>ing.name === ingredient);
+    
+    if(selected){
+      const ratio = amount /100;
+      
       total.calories += selected.calories * ratio;
       total.protein += selected.protein * ratio;
       total.carbs += selected.carbs * ratio;
@@ -309,41 +316,27 @@ function calculator() {
       total.sugar += selected.sugar * ratio;
       total.sodium += selected.sodium * ratio;
     }
-  });
-  document.getElementById(
-    "total-calories"
-  ).innerText = `${total.calories.toFixed(2)} kcal`;
-  document.getElementById(
-    "protein-result"
-  ).innerText = `${total.protein.toFixed(2)}g`;
-  document.getElementById("carbs-result").innerText = `${total.carbs.toFixed(
-    2
-  )}g`;
+      
+  })
+
+  document.getElementById("total-calories").innerText = `${total.calories.toFixed(2)} kcal`;
+  document.getElementById("protein-result").innerText = `${total.protein.toFixed(2)}g`;
+  document.getElementById("carbs-result").innerText = `${total.carbs.toFixed(2)}g`;
   document.getElementById("fat-result").innerText = `${total.fat.toFixed(2)}g`;
-  document.getElementById("fiber-result").innerText = `${total.fiber.toFixed(
-    2
-  )}g`;
-  document.getElementById("sugar-result").innerText = `${total.sugar.toFixed(
-    2
-  )}g`;
-  document.getElementById("sodium-result").innerText = `${total.sodium.toFixed(
-    2
-  )}mg`;
+  document.getElementById("fiber-result").innerText = `${total.fiber.toFixed(2)}g`;
+  document.getElementById("sugar-result").innerText = `${total.sugar.toFixed(2)}g`;
+  document.getElementById("sodium-result").innerText = `${total.sodium.toFixed(2)}mg`;
 }
 
-document
-  .getElementById("clear-ingredients-in-form")
-  .addEventListener("click", () => {
-    document.querySelector(".ingredients-list").innerHTML = "";
-    calculator();
-  });
+document.getElementById("clear-ingredients-in-form").addEventListener("click", () => {
+  document.querySelector(".ingredients-list").innerHTML = "";
+  calculator();
+});
 
-document
-  .getElementById("clear-ingredients-in-result")
-  .addEventListener("click", () => {
-    document.querySelector(".ingredients-list").innerHTML = "";
-    calculator();
-  });
+document.getElementById("clear-ingredients-in-result").addEventListener("click", () => {
+  document.querySelector(".ingredients-list").innerHTML = "";
+  calculator();
+});
 
 //feedback
 document.addEventListener("DOMContentLoaded", () => {
