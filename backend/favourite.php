@@ -5,22 +5,9 @@ header("Content-Type: application/json");
 
 
 
-
-// Cấu hình kết nối PDO
-$host = 'localhost';
-$db   = 'quyen';
-$user = 'root';
-$pass = '';
-$charset = 'utf8mb4';
-
-$dsn = "mysql:host=$host;dbname=$db;charset=$charset";
-$options = [
-    PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION, // Bắt lỗi rõ ràng
-    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,       // Kết quả dạng mảng kết hợp
-    PDO::ATTR_EMULATE_PREPARES   => false,                  // Tắt giả lập
-];
-
-$pdo = new PDO($dsn, $user, $pass, $options);
+require_once 'configuration/Database.php';
+$db = new Database();
+$pdo = $db->getConnection();
 
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {

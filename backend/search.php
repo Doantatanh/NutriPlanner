@@ -1,7 +1,9 @@
 <?php
+require_once 'configuration/Database.php';
+$db = new Database();
+$connect = $db->getConnection();
 header("Content-Type: application/json");
 $data = json_decode(file_get_contents("php://input"), true);
-$connect = new PDO("mysql:host=localhost;dbname=nutriplanner", "root", "");
 
 class nutrition
 {

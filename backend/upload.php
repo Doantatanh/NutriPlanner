@@ -1,7 +1,11 @@
 <?php
+require_once "configuration/Database.php";
     header('Content-Type: application/json');
     ini_set('display_errors', 1);
     error_reporting(E_ALL);
+    $db = new Database();
+    $connect = $db->getConnection();
+
     $targetDir = "uploads/";
     if (!is_dir($targetDir)) {
         mkdir($targetDir, 0777, true);
@@ -28,27 +32,33 @@
         
 
         // Xử lý ảnh
+        $targetDir = "../image/";
+
+        if (!is_dir($targetDir)) {
+            mkdir($targetDir, 0777, true);
+        }
         $targetFile = null;
         if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
-            $fileName = uniqid() . "-" . basename($_FILES["image"]["name"]);
+            $originalName = basename($_FILES["image"]["name"]);
+            $timestamp = date("Ymd_His");
+            $fileName = $timestamp . "-" . $originalName;
             $targetFile = $targetDir . $fileName;
 
             if (move_uploaded_file($_FILES["image"]["tmp_name"], $targetFile)) {
                 $response = [
                     "status" => "success",
-                    "path" => $targetFile // hoặc chỉ $fileName nếu chỉ cần tên ảnh
+                    "path" => "assets/images/" . $fileName // hoặc chỉ $fileName nếu chỉ cần tên ảnh
                 ];
             }
         }
         // tags, meal_types, 2 bảng riêng cần insert
         try {
-        $pdo = new PDO("mysql:host=localhost;dbname=nutriplanner", "root", "");
-        $stmt = $pdo->prepare("INSERT INTO meals 
+        $stmt = $connect->prepare("INSERT INTO meals 
             (name, prep_time,  description, instructions, status, image_url, ingredients, Calories, tags, type) 
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
         $stmt->execute([
-            $name, $prep_time, $description, $instructions, $status, $targetFile,$ingredients,$calories, $tags, $meal_types 
+            $name, $prep_time, $description, $instructions, $status, "assets/images/" . $fileName,$ingredients,$calories, $tags, $meal_types 
         ]);
 
             echo json_encode([
