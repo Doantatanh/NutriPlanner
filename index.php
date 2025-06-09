@@ -1,3 +1,18 @@
+<?php
+// session_start();
+
+// Kiểm tra xem người dùng đã đăng nhập chưa
+// if (!isset($_SESSION['username'])) {
+//     header("Location: login.php");
+//     exit();
+// }
+
+// Lấy tên tài khoản từ session
+// $username = $_SESSION['username'];
+?>
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -42,7 +57,7 @@
                                         data-bs-toggle="dropdown" type="button">
                                         <img src="../../assets/images/ad.jpg" alt="admin" class="rounded-circle"
                                             width="30" height="30" style="object-fit: fit;">
-                                        <span class="text-login">Admin</span>
+                                        <span class="text-login"><?php echo htmlspecialchars($username); ?></span>
                                     </button>
                                     <ul class="dropdown-menu">
                                         <li><a class="dropdown-item" href="profile.html">Hồ sơ</a></li>
@@ -56,8 +71,6 @@
             </div>
         </nav>
     </header>
-
-
 
     <section class="feature-section" id="feature">
         <div class="feature-container col-xl-10 col-11 mx-auto ">
@@ -179,10 +192,12 @@
                     </div>
                 </div>
             </div>
-
-            <div class="meals-grid" id="meals-grid">
-                <!-- Meal cards will be inserted here by JavaScript -->
+            <div class="overflow-auto" style="height: 700px;">
+                <div class="meals-grid "   id="meals-grid">
+                    
             </div>
+            </div>
+            
         </div>
     </section>
 
@@ -353,31 +368,34 @@
     <section class="section contact" id="contact">
         <div class="container">
             <div class="section-header">
-                <h2>Contact Us</h2>
-                <p>Have questions or need assistance? The NutriPlanner team is always ready to help you.</p>
+                <h2>Liên hệ với chúng tôi</h2>
+                <p>Bạn có câu hỏi hoặc cần hỗ trợ? Đội ngũ NutriPlanner luôn sẵn sàng giúp đỡ bạn.</p>
             </div>
+            
             <div class="contact-container">
-                <div class="contact-info">
-                    <h3>Contact Information</h3>
+                <div class="contact-info1">
+                    <h3>Thông tin liên hệ</h3>
                     <div class="contact-details">
                         <div>
                             <div class="contact-icon">
                                 <i class="fas fa-map-marker-alt"></i>
                             </div>
                             <div class="contact-text" style="display: inline-block;">
-                                <h4>Address</h4>
-                                <p>285 Đội Cấn Street, Ba Đình District, Hanoi City</p>
+                                <h4>Địa chỉ</h4>
+                                <p>285 Đội Cấn, quận Ba Đình, thành phố Hà Nội</p>
                             </div>
                         </div>
+                        
                         <div>
                             <div class="contact-icon">
                                 <i class="fas fa-phone-alt"></i>
                             </div>
                             <div class="contact-text" style="display: inline-block;">
-                                <h4>Phone</h4>
+                                <h4>Điện thoại</h4>
                                 <p>+84 28 1234 5678</p>
                             </div>
                         </div>
+                        
                         <div>
                             <div class="contact-icon">
                                 <i class="fas fa-envelope"></i>
@@ -387,17 +405,19 @@
                                 <p>support@nutriplanner.com</p>
                             </div>
                         </div>
+                        
                         <div>
                             <div class="contact-icon">
                                 <i class="fas fa-clock"></i>
                             </div>
                             <div class="contact-text" style="display: inline-block;">
-                                <h4>Working Hours</h4>
-                                <p>Monday - Friday: 8:00 AM - 6:00 PM<br>Saturday: 9:00 AM - 12:00 PM</p>
+                                <h4>Giờ làm việc</h4>
+                                <p>Thứ 2 - Thứ 6: 8:00 - 18:00<br>Thứ 7: 9:00 - 12:00</p>
                             </div>
                         </div>
                     </div>
                 </div>
+                
                 <div class="map-container">
                     <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3723.9231239864!2d105.81641017601285!3d21.035761787536657!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135ab0d127a01e7%3A0xab069cd4eaa76ff2!2zMjg1IFAuIMSQ4buZaSBD4bqlbiwgTGnhu4V1IEdpYWksIEJhIMSQw6xuaCwgSMOgIE7hu5lpIDEwMDAwMCwgVmlldG5hbQ!5e0!3m2!1sen!2s!4v1747836344495!5m2!1sen!2s" width="400" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                 </div>
@@ -474,15 +494,15 @@
                             <div class="widget-content">
                                 <div class="contact-infoo ">
                                     <i class="fas fa-map-marker-alt"></i>
-                                    <p>123 Nguyen Hue Street, District 1, Ho Chi Minh City</p>
+                                    <p class="mb-0 ms-2 my-2">123 Nguyen Hue Street, District 1, Ho Chi Minh City</p>
                                 </div>
                                 <div class="contact-infoo ">
                                     <i class="fas fa-phone-alt"></i>
-                                    <p>+84 28 1234 5678</p>
+                                    <p class=" ms-2 my-2">+84 28 1234 5678</p>
                                 </div>
                                 <div class="contact-infoo ">
                                     <i class="fas fa-envelope"></i>
-                                    <p>support@nutriplanner.com</p>
+                                    <p class="ms-2 my-2">support@nutriplanner.com</p>
                                 </div>
                             </div>
                         </div>

@@ -48,7 +48,7 @@ async function init() {
     // render(meals, "mealplan--menu");
     if (meal_favourite > 0) {
       render(meal_favourite, "mealfavourite--menu");
-    }
+    }else{return;}
   } catch (error) {
     console.error("Lỗi khi đọc JSON:", error);
   }
@@ -120,11 +120,11 @@ function render(meals, id) {
 
     let favorite_btn = card.querySelector(`#fav-${meal.id}`);
 
-    favorite_btn.addEventListener("click", async function (e) {
-      e.stopPropagation();
-      e.preventDefault();
-      let isLiked = favorite_btn.classList.contains("active");
-      const action = isLiked ? "remove" : "add";
+      favorite_btn.addEventListener("click", async function (e) {
+        e.stopPropagation();
+        let isLiked = favorite_btn.classList.contains("active");
+        favorite_btn.classList.toggle("active"); // Toggle màu trái tim
+        const action = isLiked ? "remove" : "add";
       try {
         const res = await fetch("backend/favourite.php", {
           method: "POST",
@@ -141,7 +141,6 @@ function render(meals, id) {
         const result = await res.json();
 
         if (result.success) {
-          favorite_btn.classList.toggle("active"); // Toggle màu trái tim
           if (action === "add") {
             meal_favourite.push(meal);
           } else {
@@ -418,12 +417,6 @@ async function searchFood() {
   let meal_type = document.getElementById("input_type").value;
   let meal_diet = document.getElementById("meal_diet").value;
   let meal_calo = document.getElementById("meal_calo").value;
-
-  console.log(meal_name);
-  console.log(meal_type);
-  console.log(meal_diet);
-  console.log(meal_calo);
-
 
   try {
     const res = await fetch("backend/search.php", {

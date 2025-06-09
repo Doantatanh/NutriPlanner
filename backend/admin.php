@@ -1,19 +1,19 @@
 <?php
-    $host="localhost";
-    $dbname="quyen";
-    $port="3306";
-    $user= "root";
-    $pass= "";
+$host = "localhost";
+$dbname = "quyen";
+$port = "3306";
+$user = "root";
+$pass = "";
 
-    try {
-        $conn= new PDO("mysql:host=$host;dbname=$dbname;port=$port",$user,$pass);
-        $conn-> setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
+try {
+    $conn = new PDO("mysql:host=$host;dbname=$dbname;port=$port", $user, $pass);
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-        $sqlTotalDish = "SELECT COUNT(*) AS total FROM meals";
-        $stmt = $conn->prepare($sqlTotalDish);
-        $stmt->execute();
-        $result = $stmt->fetch(PDO::FETCH_ASSOC);
-        $totalDish = $result['total'];
+    $sqlTotalDish = "SELECT COUNT(*) AS total FROM meals";
+    $stmt = $conn->prepare($sqlTotalDish);
+    $stmt->execute();
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    $totalDish = $result['total'];
 
         $sqlTotalUsers = "SELECT COUNT(*) AS total FROM users";
         $stmt = $conn->prepare($sqlTotalUsers);
@@ -21,13 +21,13 @@
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
         $totalUsers = $result['total'];
 
-        $sqlTotalFeedback = "SELECT COUNT(*) AS total FROM feedbacks";
+        $sqlTotalFeedback = "SELECT COUNT(*) AS total FROM feedbacks    ";
         $stmt = $conn->prepare($sqlTotalFeedback);
         $stmt->execute();
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
         $totalFeedback = $result['total'];
 
-        $sqlRecentMeals = "SELECT * FROM meals ORDER BY created_at DESC LIMIT 5";
+        $sqlRecentMeals = "SELECT * FROM meals ORDER BY created_at DESC LIMIT 12";
         $stmt = $conn->prepare($sqlRecentMeals);
         $stmt->execute();
         $recentMeals = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -231,11 +231,11 @@
                                     <th>Calo</th>
                                     <th>Loại Chế Độ Ăn</th>
                                     <th>Ngày Tạo</th>
-                                    
+
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php foreach($recentMeals as $meal): ?>
+                                <?php foreach ($recentMeals as $meal): ?>
                                     <tr>
                                         <td><?php echo htmlspecialchars($meal['id']); ?></td>
                                         <td><?php echo htmlspecialchars($meal['name']); ?></td>
