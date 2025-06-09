@@ -1,7 +1,7 @@
 <?php
 header("Content-Type: application/json");
 $data = json_decode(file_get_contents("php://input"), true);
-$connect = new PDO("mysql:host=localhost;dbname=nutriplanner", "root", "");
+$connect = new PDO("mysql:host=localhost;dbname=quyen", "root", "");
 
 class nutrition
 {
