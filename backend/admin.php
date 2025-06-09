@@ -20,20 +20,6 @@ try {
     $stmt->execute();
     $result = $stmt->fetch(PDO::FETCH_ASSOC);
     $totalUsers = $result['total'];
-
-    $sqlTotalFeedback = "SELECT COUNT(*) AS total FROM feedbacks    ";
-    $stmt = $conn->prepare($sqlTotalFeedback);
-    $stmt->execute();
-    $result = $stmt->fetch(PDO::FETCH_ASSOC);
-    $totalFeedback = $result['total'];
-
-    $sqlRecentMeals = "SELECT * FROM meals ORDER BY created_at DESC LIMIT 12";
-    $stmt = $conn->prepare($sqlRecentMeals);
-    $stmt->execute();
-    $recentMeals = $stmt->fetchAll(PDO::FETCH_ASSOC);
-} catch (PDOException $e) {
-    echo "Fail connection" . $e->getMessage();
-}
 ?>
 
 <!DOCTYPE html>
