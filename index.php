@@ -1,14 +1,14 @@
 <?php
-// session_start();
+session_start();
 
-// Kiểm tra xem người dùng đã đăng nhập chưa
-// if (!isset($_SESSION['username'])) {
-//     header("Location: login.php");
-//     exit();
-// }
 
-// Lấy tên tài khoản từ session
-// $username = $_SESSION['username'];
+if (!isset($_SESSION['username'])) {
+    header("Location: login.php");
+    exit();
+}
+
+
+$username = $_SESSION['username'];
 ?>
 
 
@@ -34,7 +34,7 @@
     <header class="main-header py-2">
         <nav class="navbar navbar-expand-lg navbar-light">
             <div class="container">
-                <a href="#" class="logo">
+                <a href="#banner" class="logo">
                     <i class="fas fa-seedling"></i>
                     NutriPlanner
                 </a>
@@ -72,6 +72,41 @@
         </nav>
     </header>
 
+    <section class="banner-section" id="banner">
+        <div class="container banner-container">
+            <div class="banner-content">
+                <h1>Thực đơn <span>thông minh</span> cho sức khỏe tối ưu</h1>
+                <p>NutriPlanner giúp bạn xây dựng kế hoạch dinh dưỡng cá nhân hóa, theo dõi chế độ ăn uống và đạt được mục tiêu sức khỏe một cách khoa học và đơn giản.</p>
+                <div class="banner-component">
+                    <div class="component">
+                        <i class="fas fa-utensils"></i>
+                        <div class="component-container">
+                            <div class="component-number">500+</div>
+                            <div class="component-text">Công thức</div>
+                        </div>
+                    </div>   
+                    <div class="component">
+                        <i class="fas fa-users"></i>
+                        <div class="component-container">
+                            <div class="component-number">10,000+</div>
+                            <div class="component-text">Người dùng</div>
+                        </div>
+                    </div>
+                    <div class="component">
+                        <i class="fas fa-award"></i>
+                        <div class="component-container">
+                            <div class="component-number">99%</div>
+                            <div class="component-text">Hài lòng</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="banner-image">
+                <img src="https://img.freepik.com/free-photo/top-view-food-frame-with-copy-space_23-2148821147.jpg">
+            </div>
+        </div>
+    </section>
+
     <section class="feature-section" id="feature">
         <div class="feature-container col-xl-10 col-11 mx-auto ">
             <div class="feature-header">
@@ -80,58 +115,70 @@
             </div>
             <div class="feature-main">
                 <div class="feature-box rounded-top ">
-                    <div class="d-flex align-items-center">
-                        <div class="feature-icon">
-                            <i class="fas fa-list-check"></i>
+                    <a href="#meals-grid">
+                        <div class="d-flex align-items-center">
+                            <div class="feature-icon">
+                                <i class="fas fa-list-check"></i>
+                            </div>
+                            <h4 class="mx-2">Personalized Meal Plans</h4>
                         </div>
-                        <h4 class="mx-2">Personalized Meal Plans</h4>
-                    </div>
-                    <p>Create meal plans tailored to your goals, whether it's weight loss, or managing specific health conditions.</p>
+                        <p>Create meal plans tailored to your goals, whether it's weight loss, or managing specific health conditions.</p>
+                    </a>
                 </div>
                 <div class="feature-box rounded-top">
-                    <div class="d-flex align-items-center">
-                        <div class="feature-icon">
-                            <i class="fas fa-filter"></i>
+                    <a href="#meals">
+                        <div class="d-flex align-items-center">
+                            <div class="feature-icon">
+                                <i class="fas fa-filter"></i>
+                            </div>
+                            <h4 class="mx-2">Smart Filters</h4>
                         </div>
-                        <h4 class="mx-2">Smart Filters</h4>
-                    </div>
-                    <p>Easily search and filter meals by ingredients, calories, special diets, or food allergies.</p>
+                        <p>Easily search and filter meals by ingredients, calories, special diets, or food allergies.</p>
+                    </a>
                 </div>
                 <div class="feature-box rounded-top">
-                    <div class="d-flex align-items-center">
-                        <div class="feature-icon">
-                            <i class="fas fa-chart-pie"></i>
+                    <a href="#meals-grid">
+                        <div class="d-flex align-items-center">
+                            <div class="feature-icon">
+                                <i class="fas fa-chart-pie"></i>
+                            </div>
+                            <h4 class="mx-2">Nutrition Analysis</h4>
                         </div>
-                        <h4 class="mx-2">Nutrition Analysis</h4>
-                    </div>
-                    <p>View detailed nutritional breakdowns such as calories, protein, carbs, fats, and micronutrients for each dish.</p>
+                        <p>View detailed nutritional breakdowns such as calories, protein, carbs, fats, and micronutrients for each dish.</p>
+                    </a>
                 </div>
                 <div class="feature-box rounded-top">
-                    <div class="d-flex align-items-center">
-                        <div class="feature-icon">
-                            <i class="fas fa-heart"></i>
+                    <a href="#favourite">
+                        <div class="d-flex align-items-center">
+                            <div class="feature-icon">
+                                <i class="fas fa-heart"></i>
+                            </div>
+                            <h4 class="mx-2">Favorite Dishes</h4>
                         </div>
-                        <h4 class="mx-2">Favorite Dishes</h4>
-                    </div>
-                    <p>Bookmark and quickly access your favorite meals to simplify your future meal planning.</p>
+                        <p>Bookmark and quickly access your favorite meals to simplify your future meal planning.</p>
+                    </a>
                 </div>
                 <div class="feature-box rounded-top">
-                    <div class="d-flex align-items-center">
-                        <div class="feature-icon">
-                            <i class="fas fa-calculator"></i>
+                    <a href="#calculator">
+                        <div class="d-flex align-items-center">
+                            <div class="feature-icon">
+                                <i class="fas fa-calculator"></i>
+                            </div>
+                            <h4 class="mx-2">Nutrition Calculator</h4>
                         </div>
-                        <h4 class="mx-2">Nutrition Calculator</h4>
-                    </div>
-                    <p>Input ingredients and portion sizes to instantly calculate the total nutritional value of your meal.</p>
+                        <p>Input ingredients and portion sizes to instantly calculate the total nutritional value of your meal.</p>
+                    </a>
                 </div>
                 <div class="feature-box rounded-top">
-                    <div class="d-flex align-items-center">
-                        <div class="feature-icon">
-                            <i class="fas fa-comment-dots"></i>
+                    <a href="#feedback-comment">
+                        <div class="d-flex align-items-center">
+                            <div class="feature-icon">
+                                <i class="fas fa-comment-dots"></i>
+                            </div>
+                            <h4 class="mx-2">Comments & Sharing</h4>
                         </div>
-                        <h4 class="mx-2">Comments & Sharing</h4>
-                    </div>
-                    <p>Comment, share your experiences, and review meals with the NutriPlanner community.</p>
+                        <p>Comment, share your experiences, and review meals with the NutriPlanner community.</p>
+                    </a>
                 </div>
             </div>
         </div>
@@ -283,7 +330,7 @@
     </section>
 
     <div>
-        <section class="testimonials-section">
+        <section class="testimonials-section" id="feedback-comment">
             <h2>What Our Users Say</h2>
             <p class="testimonials-subtext">
                 Discover real experiences from the NutriPlanner community about improving eating habits<br>
