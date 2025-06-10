@@ -1,4 +1,5 @@
 const meals = [];
+const hashtags = []; // Mảng để lưu trữ các hashtagX
 let meal_favourite = [];
 document.querySelectorAll(".nav-link").forEach((link) => {
   link.addEventListener("click", function () {
@@ -55,10 +56,7 @@ async function init() {
 }
 
 init();
-// window.addEventListener("load", function() {
-//   init();
-//     console.log("Page is fully loaded, including images and styles!");
-// });
+
 
 function render(meals, id) {
   let element = document.getElementById(id);
@@ -71,9 +69,23 @@ function render(meals, id) {
                     </div>`;
     return;
   }
+  
 
   element.innerHTML = "";
   meals.forEach((meal) => {
+    let tagsHTML = '';
+    meal.tags.forEach(tag => {
+    let tagClass = '';
+    let cleanTag = tag.trim().toLowerCase(); // Xử lý khoảng trắng + viết thường
+
+    if (cleanTag === 'vegan' || cleanTag === 'vegetarian') tagClass = 'tag-vegan';
+    else if (cleanTag === 'keto' || cleanTag === 'lowcarb') tagClass = 'tag-keto';
+    else if (cleanTag === 'paleo') tagClass = 'tag-paleo';
+    else tagClass = 'tag-lowcarb'; // default
+
+    tagsHTML += `<span class="tag ${tagClass}">${tag.trim()}</span>`; // In ra nội dung gọn gàng
+});
+
     let card = document.createElement("div");
     meal.isfavourite = meal_favourite.some((fav) => fav.id === meal.id);
     card.className = "meal-card";
@@ -88,6 +100,9 @@ function render(meals, id) {
                     </div>
                     <div class="meal-content">
                         <h3>${meal.name}</h3>
+                        <div class="meal-tags">
+                            ${tagsHTML}
+                        </div>
                         <div class="meal-stats">
                             <div class="meal-stat">
                                 <i class="fas fa-fire"></i>
@@ -164,10 +179,19 @@ function opencard(meal) {
 
   element.classList.remove("d-none");
 
-  let tagsHTML = "";
-  meal.tags.forEach((tag) => {
-    tagsHTML += `<lable class="rounded-5 bg-blue px-2 m-2 text-success" style="line-height:40px" >${tag}</lable>`;
+  let tagsHTML = '';
+    meal.tags.forEach(tag => {
+      let tagClass = '';
+      let cleanTag = tag.trim().toLowerCase(); // Xử lý khoảng trắng + viết thường
+
+      if (cleanTag === 'vegan' || cleanTag === 'vegetarian') tagClass = 'tag-vegan';
+      else if (cleanTag === 'keto' || cleanTag === 'lowcarb') tagClass = 'tag-keto';
+      else if (cleanTag === 'paleo') tagClass = 'tag-paleo';
+      else tagClass = 'tag-lowcarb'; // default
+
+      tagsHTML += `<span class="tag ${tagClass}">${tag.trim()}</span>`; // In ra nội dung gọn gàng
   });
+
 
   element.innerHTML = `
         <div class="pop-up__detail mt-5 col-xl-6 col-sm-10 col-10 mx-auto bg-white rounded-4 overflow-auto p-3" style="height: 600px;" >
@@ -179,57 +203,54 @@ function opencard(meal) {
                     </picture>
                     ${tagsHTML}
                     <p class="my-2" >${meal.description}</p>
-                    <div class="nutrition-facts">
-                    <h3>Thông tin dinh dưỡng</h3>
-                    <div class="nutrition-table d-grid gap-4 grid-col-2 bg-light rounded-4 p-3">
-                        <div class="nutrition-item">
-                            <span class="nutrition-name">Calories</span>
-                            <span>${meal.calories} kcal</span>
-                        </div>
-                        <div class="nutrition-item">
-                            <span class="nutrition-name">Protein</span>
-                            <span>${meal.nutrition.protein}g</span>
-                        </div>
-                        <div class="nutrition-item">
-                            <span class="nutrition-name">Carbs</span>
-                            <span>${meal.nutrition.carbs}g</span>
-                        </div>
-                        <div class="nutrition-item">
-                            <span class="nutrition-name">Chất béo</span>
-                            <span>${meal.nutrition.fat}g</span>
-                        </div>
-                        <div class="nutrition-item">
-                            <span class="nutrition-name">Chất xơ</span>
-                            <span>${meal.nutrition.fiber}g</span>
-                        </div>
-                        <div class="nutrition-item">
-                            <span class="nutrition-name">Đường</span>
-                            <span>${meal.nutrition.sugar}g</span>
-                        </div>
-                        <div class="nutrition-item">
-                            <span class="nutrition-name">Natri</span>
-                            <span>${meal.nutrition.sodium}mg</span>
-                        </div>
-                        <div class="nutrition-item">
-                            <span class="nutrition-name">Thời gian</span>
-                            <span>${meal.prep_time} phút</span>
-                        </div>
-                    </div>
-                </div>
+                    
                 </div>
                 <div class=" mx-3">
                     <h3>Ingredients</h3>
-                    <ul>
                         ${meal.ingredients}
-                    </ul>
                     <h3>Instruction</h3>
-                    <ul>
                         ${meal.instruction}
-                    </ul>
                 </div>
-                
-
             </div>
+            <div class="nutrition-facts">
+                    <h3>Thông tin dinh dưỡng</h3>
+                    <div class="nutrition-grid">
+                        <div class="nutrition-item">
+                            <span class="nutrition-name">Calories</span>
+                            <span>${meal.calories?? 0} kcal</span>
+                        </div>
+                        <div class="nutrition-item">
+                            <span class="nutrition-name">Protein</span>
+                            <span>${meal.nutrition.protein ?? 0}g</span>
+                        </div>
+                        <div class="nutrition-item">
+
+                            <span class="nutrition-name">Carbs</span>
+                            <span>${meal.nutrition.carbs ?? 0}g</span>
+                        </div>
+                        <div class="nutrition-item">
+                            <span class="nutrition-name">Chất béo</span>
+                            <span>${meal.nutrition.fat ?? 0}g</span>
+                        </div>
+                        <div class="nutrition-item">
+                            <span class="nutrition-name">Chất xơ</span>
+                            <span>${meal.nutrition.fiber ?? 0}g</span>
+                        </div>
+                        <div class="nutrition-item">
+                            <span class="nutrition-name">Đường</span>
+                            <span>${meal.nutrition.sugar ?? 0}g</span>
+                        </div>
+                        <div class="nutrition-item">
+                            <span class="nutrition-name">Natri</span>
+                            <span>${meal.nutrition.sodium ?? 0}mg</span>
+                        </div>
+                        <div class="nutrition-item">
+                            <span class="nutrition-name">Thời gian</span>
+                            <span>${meal.prepTime?? 0} phút</span>
+                        </div>
+                    </div>
+                </div>
+
         </div>
     `;
 
@@ -404,18 +425,16 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
-document
-  .getElementById("search-form")
-  .addEventListener("click", async function () {
+
+document.getElementById("search-form").addEventListener("click",  function () {
     searchFood();
   });
-
 // search food
 async function searchFood() {
   let meal_search = [];
   let meal_name = document.getElementById("input_search").value;
   let meal_type = document.getElementById("input_type").value;
-  let meal_diet = document.getElementById("meal_diet").value;
+  let meal_diet = Array.isArray(hashtags) ? hashtags.join(", ") : "";
   let meal_calo = document.getElementById("meal_calo").value;
 
   try {
@@ -435,6 +454,7 @@ async function searchFood() {
     const data = await res.json();
 
     meal_search = data.data;
+    console.log(meal_search);
   } catch (error) {
     console.error("Lỗi khi gọi API:", error);
   }

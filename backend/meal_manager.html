@@ -131,7 +131,7 @@
         background-color: #bdbdbd; /* Nền xám khi hover */
         color: #212121; /* Icon đen hơn khi hover */
       }
-      /* --- Hết phần chỉnh sửa cho Chip Vuetify --- */
+
 
       .instruction {
         font-size: 0.8em; /* Kích thước nhỏ hơn */
@@ -985,7 +985,6 @@
           document.getElementById("ingredients").value = quill2.root.innerHTML;
           document.getElementById("instruction").value = quill3.root.innerHTML;
           const formData = new FormData(this);
-          alert(hashtags);
           formData.append('hashtags',hashtags.join(","));
 
           fetch(" upload.php", {
