@@ -73,7 +73,7 @@
     </header>
 
     <section class="feature-section" id="feature">
-        <div class="feature-container col-xl-10 col-xxl-8 col-11 mx-auto ">
+        <div class="feature-container col-xl-10 col-xxl-9 col-11 mx-auto ">
             <div class="feature-header">
                 <h2>Key Features</h2>
                 <p>Explore powerful tools that help you plan meals, track nutrition, and achieve your health goals with ease.</p>
@@ -81,7 +81,7 @@
             <div class="feature-main">
                 <div class="feature-box rounded-top ">
                     <div class="d-flex align-items-center">
-                        <div class="feature-icon">
+                        <div class="feature-icon" style="padding: 20px;">
                             <i class="fas fa-list-check"></i>
                         </div>
                         <h4 class="mx-2">Personalized Meal Plans</h4>
@@ -564,6 +564,7 @@
           if (cleanedTag && !hashtags.includes(cleanedTag)) {
             // Chỉ thêm nếu không rỗng và chưa tồn tại
             hashtags.push(cleanedTag);
+            console.log(hashtags);
             renderHashtags();
           }
         };

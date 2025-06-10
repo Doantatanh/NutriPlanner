@@ -27,9 +27,8 @@ class nutrition
 
     $params = [];
 
-    $sql = "SELECT m.id , m.name, m.description, m.ingredients, m.calories, m.prep_time ,m.instructions ,m.image_url, m.tags, m.type from meals m 
-
-        WHERE 1 = 1
+    $sql = "SELECT * FROM meals m WHERE 1 = 1
+            AND m.status = 'visible'
         ";
     $meal_type = isset($data['type']) ? $data['type'] : "";
     $meal_diet = isset($data["diet"]) ? $data["diet"] : "";
@@ -78,13 +77,14 @@ $nutrition_sql = "SELECT amount
     WHERE meal_nutrition.meal_id = ?";
 
 $stmt = $connect->prepare($sql);
-    $arr = $stmt->execute($params);
+$stmt->execute($params);
 $result = [];
 
 while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 
     $nutri = $connect->prepare($nutrition_sql);
     $nutri->execute([$row['id']]);
+    
     $result_nutrition = $nutri->fetchAll(PDO::FETCH_COLUMN);
     $nutritions = new nutrition(
         $result_nutrition[0] ?? 0,
