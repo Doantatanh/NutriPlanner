@@ -412,10 +412,15 @@ body {
   margin-bottom: 15px;
 }
 
+select {
+  appearance: none;         /* Chuẩn */
+  -webkit-appearance: none; /* Safari/Chrome */
+  -moz-appearance: none;    /* Firefox */
+  background: none;         /* Ẩn hình nền nếu có */
+}
 .filter-group {
   display: flex;
   flex-direction: column;
-  flex: 1;
   min-width: 180px;
 }
 
@@ -518,6 +523,41 @@ body {
   border: none;
   box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
 }
+
+.meal-tags {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+  flex-wrap: wrap;
+}
+
+.tag {
+  padding: 4px 10px;
+  border-radius: 50px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.tag-vegan {
+  background: rgba(46, 204, 113, 0.1);
+  color: var(--primary);
+}
+
+.tag-keto {
+  background: rgba(52, 152, 219, 0.1);
+  color: var(--secondary);
+}
+
+.tag-paleo {
+  background: rgba(230, 126, 34, 0.1);
+  color: #e67e22;
+}
+
+.tag-lowcarb {
+  background: rgba(155, 89, 182, 0.1);
+  color: #9b59b6;
+}
+
 
 .favorite-btn i {
   color: #ccc;
@@ -691,6 +731,139 @@ h4 {
   padding: 20px;
   background-color: #2c3e50;
   color: #ecf0f1;
+}
+
+.nutrition-facts {
+  margin-top: 30px;
+  background: #f8f9fa;
+  border-radius: var(--radius);
+  padding: 20px;
+  border: 1px solid #eee;
+}
+
+.nutrition-facts h3 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  font-size: 1.3rem;
+}
+
+.nutrition-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+}
+
+.hashtag-container {
+  background-color: #ffffff;
+  border-radius: 8px; /* Bo tròn góc vừa phải hơn */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Bóng nhẹ, giống elevation 2 */
+  padding: 30px;
+  width: 100%;
+  text-align: center;
+}
+
+h2 {
+  color: #333;
+  margin-bottom: 25px;
+  font-size: 1.8em;
+  font-weight: 500; /* Độ đậm vừa phải */
+}
+
+.hashtag-input-wrapper {
+  border: 1px solid #e0e0e0; /* Viền nhẹ */
+  border-radius: 6px; /* Bo tròn góc */
+  padding: 10px 15px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  min-height: 55px; /* Chiều cao tối thiểu */
+  gap: 8px; /* Khoảng cách giữa các chip */
+  background-color: #ffffff;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hashtag-input-wrapper:focus-within {
+  border-color: #1976d2; /* Màu xanh dương chủ đạo của Vuetify */
+  box-shadow: 0 0 0 2px rgba(25, 118, 210, 0.2); /* Shadow xanh dương khi focus */
+}
+
+#hashtagInput {
+  flex-grow: 1;
+  border: none;
+  outline: none;
+  font-size: 1em;
+  min-width: 100px;
+  color: #424242;
+}
+
+#hashtagInput::placeholder {
+  color: #9e9e9e; /* Màu placeholder nhẹ nhàng */
+}
+
+.hashtag-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px; /* Khoảng cách giữa các chip */
+  align-items: center;
+}
+
+/* --- Phần chỉnh sửa để giống Vuetify Chip --- */
+.hashtag-item {
+  background-color: #e0e0e0; /* Màu xám nhạt, giống default chip */
+  color: #424242; /* Màu chữ đậm */
+  border-radius: 16px; /* Bo tròn góc nhiều hơn một chút (để giống 16px của Vuetify) */
+  padding: 4px 12px; /* Padding nhỏ gọn */
+  display: flex;
+  align-items: center;
+  gap: 4px; /* Khoảng cách giữa chữ và nút 'x' */
+  font-size: 0.875em; /* Kích thước font điển hình của Vuetify chip */
+  font-weight: 500; /* Độ đậm vừa phải */
+  white-space: nowrap;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15); /* Bóng đổ nhẹ, giống elevation 1 */
+  transition: background-color 0.2s ease, box-shadow 0.2s ease,
+    color 0.2s ease;
+}
+
+.hashtag-item:hover {
+  background-color: #d6d6d6; /* Hơi đậm hơn khi hover */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Bóng rõ hơn khi hover, giống elevation 2 */
+  cursor: default; /* Không phải pointer vì nút 'x' đã là riêng */
+}
+
+.hashtag-item .remove-tag {
+  /* Các thuộc tính để nút 'x' giống icon close của Vuetify */
+  background: none; /* Không có nền */
+  border: none; /* Không viền */
+  color: #616161; /* Màu icon xám */
+  cursor: pointer;
+  font-size: 1.1em; /* Kích thước icon */
+  width: 20px; /* Đảm bảo kích thước cố định */
+  height: 20px;
+  border-radius: 50%; /* Hình tròn */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 4px; /* Khoảng cách với chữ */
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.hashtag-item .remove-tag:hover {
+  background-color: #bdbdbd; /* Nền xám khi hover */
+  color: #212121; /* Icon đen hơn khi hover */
+}
+
+.nutrition-item {
+  border-bottom: 1px solid #eee;
+  padding-bottom: 8px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.nutrition-name {
+  font-weight: 500;
 }
 
 .nav_menu {

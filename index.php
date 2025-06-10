@@ -108,7 +108,7 @@ $username = $_SESSION['username'];
     </section>
 
     <section class="feature-section" id="feature">
-        <div class="feature-container col-xl-10 col-11 mx-auto ">
+        <div class="feature-container col-xl-10 col-xxl-8 col-11 mx-auto ">
             <div class="feature-header">
                 <h2>Key Features</h2>
                 <p>Explore powerful tools that help you plan meals, track nutrition, and achieve your health goals with ease.</p>
@@ -203,9 +203,20 @@ $username = $_SESSION['username'];
                         </button>
                     </div>
                     <div class="filters">
-                        <div class="filter-group">
+
+                        <div class="filter-group flex-fill">
+                            <label class="filter-title">Diet</label>
+                            <div class="hashtag-input-wrapper">
+                                <input type="text" id="hashtagInput" placeholder="Enter hashtag và press Enter or (,)" data-has-listeners="true">
+                                <div class="">
+                                <ul id="hashtagList" class="hashtag-list"></ul>
+                            </div>
+
+                      </div>
+                        </div>
+                        <div class="filter-group col-2">
                             <label class="filter-title">Loại món</label>
-                            <select class="filter-select" name="meal_type" id="input_type">
+                            <select class="hashtag-input-wrapper" name="meal_type" id="input_type">
                                 <option value="">All</option>
                                 <option value="Breakfast">Breakfast</option>
                                 <option value="Lunch">Lunch</option>
@@ -214,21 +225,9 @@ $username = $_SESSION['username'];
                                 <option value="Smoothies">Smoothies</option>
                             </select>
                         </div>
-                        <div class="filter-group">
-                            <label class="filter-title">Chế độ ăn</label>
-                            <select class="filter-select" name="diet_type" id="meal_diet">
-                                <option value="">All</option>
-                                <option value="vegan">Vegan</option>
-                                <option value="Vegetarian">Vegetarian</option>
-                                <option value="Keto">Keto</option>
-                                <option value="Paleo">Paleo</option>
-                                <option value="Low Carb">Low Carb</option>
-                                <option value="High Protein">High Protein</option>
-                            </select>
-                        </div>
-                        <div class="filter-group">
+                        <div class="filter-group col-2">
                             <label class="filter-title">Calories</label>
-                            <select class="filter-select" name="calories" id="meal_calo">
+                            <select class="hashtag-input-wrapper" name="calories" id="meal_calo">
                                 <option value="">All</option>
                                 <option value="under300">Under 300 kcal</option>
                                 <option value="300-500">300 - 500 kcal</option>
@@ -270,7 +269,7 @@ $username = $_SESSION['username'];
     </div>
     </div>
 
-    <section style="margin-top: 50px; margin-bottom: 50px;" id="calculator">
+    <section style="margin-top: 50px; margin-bottom: 50px;" class="bg-white py-3" id="calculator">
         <div class="container">
             <div class="header-calculator">
                 <h2>Nutrition Calculator</h2>
@@ -413,7 +412,7 @@ $username = $_SESSION['username'];
 
 
     <section class="section contact" id="contact">
-        <div class="container">
+        <div class="container shadow rounded-5 bg-white p-3">
             <div class="section-header">
                 <h2>Liên hệ với chúng tôi</h2>
                 <p>Bạn có câu hỏi hoặc cần hỗ trợ? Đội ngũ NutriPlanner luôn sẵn sàng giúp đỡ bạn.</p>
@@ -578,6 +577,86 @@ $username = $_SESSION['username'];
                 });
             });
         });
+    </script>
+     <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const hashtagInput = document.getElementById("hashtagInput");
+        const hashtagList = document.getElementById("hashtagList");
+        
+        const renderHashtags = () => {
+          hashtagList.innerHTML = "";
+          hashtags.forEach((tag, index) => {
+            const li = document.createElement("li");
+            li.className = "hashtag-item";
+
+            const span = document.createElement("span");
+            span.className = "value__tag"; // 👈 Thêm class vào đây
+            span.textContent = tag; // An toàn
+
+            const button = document.createElement("button");
+            button.type = "button";
+            button.className = "remove-tag";
+            button.dataset.index = index;
+            button.textContent = "x";
+
+            li.appendChild(span);
+            li.appendChild(button);
+            hashtagList.appendChild(li);
+          });
+        };
+
+        // Hàm để thêm một hashtag
+        const addHashtag = (tag) => {
+          const cleanedTag = tag.trim().toLowerCase(); // Xóa khoảng trắng và chuyển về chữ thường
+          if (cleanedTag && !hashtags.includes(cleanedTag)) {
+            // Chỉ thêm nếu không rỗng và chưa tồn tại
+            hashtags.push(cleanedTag);
+            renderHashtags();
+          }
+        };
+
+        // Hàm để xóa một hashtag
+        const removeHashtag = (index) => {
+          hashtags.splice(index, 1); // Xóa phần tử tại vị trí index
+          renderHashtags();
+        };
+
+        // Lắng nghe sự kiện bàn phím trên trường input
+        hashtagInput.addEventListener("keydown", (e) => {
+          if (e.key === "Enter" || e.key === ",") {
+            // Thêm hashtag khi nhấn Enter hoặc dấu phẩy
+            e.preventDefault(); // Ngăn chặn hành vi mặc định (ví dụ: tạo dòng mới)
+            const inputValue = hashtagInput.value;
+            if (inputValue) {
+              addHashtag(inputValue);
+              hashtagInput.value = ""; // Xóa nội dung trong input sau khi thêm
+            }
+          }
+        });
+
+        // Lắng nghe sự kiện click trên các nút 'x' (xóa hashtag)
+        hashtagList.addEventListener("click", (e) => {
+          if (e.target.classList.contains("remove-tag")) {
+            const index = parseInt(e.target.dataset.index); // Lấy index từ data-index
+            removeHashtag(index);
+          }
+        });
+
+        // (Tùy chọn) Xử lý dán văn bản có nhiều hashtag
+        hashtagInput.addEventListener("paste", (e) => {
+          e.preventDefault();
+          const pasteData = e.clipboardData.getData("text");
+          const tags = pasteData
+            .split(/[\s,]+/)
+            .filter((tag) => tag.trim() !== ""); // Tách theo khoảng trắng hoặc dấu phẩy
+          tags.forEach((tag) => addHashtag(tag));
+          hashtagInput.value = "";
+        });
+
+        // (Tùy chọn) Khởi tạo với một vài hashtag demo
+      });
+
+
     </script>
 </body>
 

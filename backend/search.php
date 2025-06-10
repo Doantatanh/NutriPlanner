@@ -29,7 +29,8 @@ class nutrition
 
     $sql = "SELECT m.id , m.name, m.description, m.ingredients, m.calories, m.prep_time ,m.instructions ,m.image_url, m.tags, m.type from meals m 
 
-        WHERE 1 = 1";
+        WHERE 1 = 1
+        ";
     $meal_type = isset($data['type']) ? $data['type'] : "";
     $meal_diet = isset($data["diet"]) ? $data["diet"] : "";
     $meal_calo = isset($data["calo"]) ? $data["calo"] : "";
@@ -71,7 +72,7 @@ class nutrition
         }
     }
 
-$nutrition_sql = "SELECT nutrition.name, amount 
+$nutrition_sql = "SELECT amount 
     FROM meal_nutrition 
     JOIN nutrition ON meal_nutrition.nutrition_id = nutrition.id 
     WHERE meal_nutrition.meal_id = ?";
@@ -84,20 +85,15 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 
     $nutri = $connect->prepare($nutrition_sql);
     $nutri->execute([$row['id']]);
-    $result_nutrition = $nutri->fetchAll(PDO::FETCH_ASSOC);
-    if (count($result_nutrition) >= 2) {
-        $nutritions = new nutrition(
-            $result_nutrition[0]["amount"],
-            $result_nutrition[1]["amount"],
-            $result_nutrition[2]["amount"],
-            $result_nutrition[3]["amount"],
-            $result_nutrition[4]["amount"],
-            $result_nutrition[5]["amount"]
-        );
-    } else {
-        // Gán giá trị mặc định hoặc xử lý khi không đủ dữ liệu
-        $nutritions = new nutrition(0, 0, 0, 0, 0, 0); // hoặc null tùy cách bạn xử lý
-    }
+    $result_nutrition = $nutri->fetchAll(PDO::FETCH_COLUMN);
+    $nutritions = new nutrition(
+        $result_nutrition[0] ?? 0,
+        $result_nutrition[1] ?? 0,
+        $result_nutrition[2] ?? 0,
+        $result_nutrition[3] ?? 0,
+        $result_nutrition[4] ?? 0,
+        $result_nutrition[5] ?? 0
+    );
     $row['nutrition'] = $nutritions;
     $row['instruction'] = explode("\n", $row['instructions']);
 
