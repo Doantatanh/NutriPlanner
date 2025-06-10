@@ -106,11 +106,11 @@ function render(meals, id) {
                         <div class="meal-stats">
                             <div class="meal-stat">
                                 <i class="fas fa-fire"></i>
-                                ${meal.calories} kcal
+                                ${meal.Calories} kcal
                             </div>
                             <div class="meal-stat">
                                 <i class="fas fa-stopwatch"></i>
-                                ${meal.prep_time} phút
+                                ${meal.prep_time} minutes
                             </div>
                         </div>
                     </div>`;
@@ -201,7 +201,9 @@ function opencard(meal) {
                     <picture>
                         <img src="${meal.image_url}" class="rounded w-100" style="aspect-ratio: 4/3; object-fit: cover;"  alt="">
                     </picture>
-                    ${tagsHTML}
+                    <div class="meal-tags my-2">
+                            ${tagsHTML}
+                    </div>
                     <p class="my-2" >${meal.description}</p>
                     
                 </div>
@@ -217,7 +219,7 @@ function opencard(meal) {
                     <div class="nutrition-grid">
                         <div class="nutrition-item">
                             <span class="nutrition-name">Calories</span>
-                            <span>${meal.calories?? 0} kcal</span>
+                            <span>${meal.Calories ?? 0} kcal</span>
                         </div>
                         <div class="nutrition-item">
                             <span class="nutrition-name">Protein</span>
@@ -428,6 +430,7 @@ async function searchFood() {
   let meal_name = document.getElementById("input_search").value;
   let meal_type = document.getElementById("input_type").value;
   let meal_diet = Array.isArray(hashtags) ? hashtags.join(", ") : "";
+  console.log(meal_diet);
   let meal_calo = document.getElementById("meal_calo").value;
 
   try {

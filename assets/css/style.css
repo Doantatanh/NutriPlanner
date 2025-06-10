@@ -101,7 +101,7 @@ body {
 /* banner */
 
 .banner-section{
-  padding: 180px 0 100px;
+  padding: 80px 0 60px;
   background:  rgb(227, 247, 239)
 }
 
@@ -134,7 +134,7 @@ body {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   gap: 10px;
-  margin-top: 50px;
+  padding: 20px;
 }
 
 .component{
@@ -186,21 +186,24 @@ body {
   }
 }
 
-@media (max-width: 320px) {
+@media (max-width: 576px) {
   .banner-content h1{
-    font-size: 2rem;
+    font-size: 3rem;
+    text-align: center;
   }
-  .banner-image img{
-    width: 300px;
-    border-radius: 10px;
-  }
-  .banner-content {
+
+  .banner-image image{
     width: 300px;
   }
   .banner-component{
     grid-template-columns: 1fr;
+    gap:20px;
+  }
+  .left-32px{
+    margin-left: 32px;
   }
 }
+
 
 
 /* feature */
