@@ -213,7 +213,7 @@
                   type="button"
                 >
                   <img
-                    src="../assets/images/admin.jpg"
+                    src="../assets/images/ad.jpg"
                     alt="admin"
                     class="rounded-circle"
                     width="30"
@@ -242,35 +242,37 @@
                         type="text"
                         class="form-control"
                         name="search_name"
+                        id="meal_name"
                         placeholder="Nhập tên món ăn..."
                       />
                     </div>
                     <div class="col-md-3">
-                      <label class="form-label">Loại bữa ăn</label>
-                      <select class="form-select" name="search_type">
-                        <option value="">Tất cả</option>
-                        <option value="1">Bữa sáng</option>
-                        <option value="2">Bữa trưa</option>
-                        <option value="3">Bữa tối</option>
-                        <option value="4">Ăn vặt</option>
+                      <label class="form-label">Type</label>
+                      <select class="form-select" name="search_type" id="meal_type">
+                        <option value="">All</option>
+                        <option value="1">Breakfast</option>
+                        <option value="2">Lunch</option>
+                        <option value="3">Dinner</option>
+                        <option value="4">Snacks</option>
+                        <option value="4">Smoothies</option>
                       </select>
                     </div>
                     <div class="col-md-3">
                       <label class="form-label">Chế độ ăn</label>
                       <select class="form-select" name="search_tag">
-                        <option value="">Tất cả</option>
-                        <option value="1">Vegan</option>
-                        <option value="2">Vegetarian</option>
-                        <option value="3">Keto</option>
-                        <option value="4">Paleo</option>
-                        <option value="5">Low Carb</option>
-                        <option value="6">High Protein</option>
+                        <option value="">All</option>
+                        <option value="Vegan">Vegan</option>
+                        <option value="Vegetarian">Vegetarian</option>
+                        <option value="Keto">Keto</option>
+                        <option value="Paleo">Paleo</option>
+                        <option value="Low Carb">Low Carb</option>
+                        <option value="High Protein">High Protein</option>
                       </select>
                     </div>
                     <div class="col-md-3">
                       <label class="form-label">Trạng thái</label>
                       <select class="form-select" name="search_status">
-                        <option value="">Tất cả</option>
+                        <option value="">All</option>
                         <option value="visible">Hiển thị</option>
                         <option value="hidden">Ẩn</option>
                       </select>
@@ -724,7 +726,7 @@
                       >
                         Hủy
                       </button>
-                      <button type="submit" class="btn btn-primary px-4">
+                      <button type="reset" class="btn btn-primary px-4">
                         Lưu món ăn
                       </button>
                     </div>
@@ -848,8 +850,7 @@
 
           try {
             // Gọi API tìm kiếm
-            const response = await fetch(
-              `search.php?${searchParams.toString()}`
+            const response = await fetch(`search.php?${searchParams.toString()}`
             );
             const result = await response.json();
 
@@ -926,6 +927,37 @@
     </script>
     <script>
       let meals = [];
+      async function searchFood() {
+        let meal_search = [];
+        let meal_name = document.getElementById("input_search").value;
+        let meal_type = document.getElementById("input_type").value;
+        let meal_diet = Array.isArray(hashtags) ? hashtags.join(", ") : "";
+        
+        let meal_calo = document.getElementById("meal_calo").value;
+
+        try {
+          const res = await fetch("backend/search.php", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              name: meal_name,
+              type: meal_type,
+              diet: meal_diet,
+              calo: meal_calo,
+            }),
+          });
+
+          const data = await res.json();
+
+          meal_search = data.data;
+          console.log(meal_search);
+        } catch (error) {
+          console.error("Lỗi khi gọi API:", error);
+        }
+        render(meal_search, "meals-grid");
+      }
 
       async function listmeals() {
         let res = await fetch("../meals.json");
@@ -997,7 +1029,8 @@
               try {
                 const data = JSON.parse(text);
                 if (data.status === "success") {
-                  alert("Upload thành công! Đường dẫn: " + data.path);
+                  alert("Upload thành công!" );
+
                 } else {
                   alert("Upload thất bại!");
                 }
