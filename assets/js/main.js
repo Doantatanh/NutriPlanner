@@ -434,6 +434,7 @@ document.getElementById("search-form").addEventListener("click",  function () {
 // search food
 async function searchFood() {
   let meal_search = [];
+  let meal_sql = 'visible';
   let meal_name = document.getElementById("input_search").value;
   let meal_type = document.getElementById("input_type").value;
   let meal_diet = Array.isArray(hashtags) ? hashtags.join(", ") : "";
@@ -447,6 +448,7 @@ async function searchFood() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
+        status: meal_sql,
         name: meal_name,
         type: meal_type,
         diet: meal_diet,
@@ -463,5 +465,7 @@ async function searchFood() {
   }
   render(meal_search, "meals-grid");
 }
+
+
 
 // admin-list meals
