@@ -32,7 +32,7 @@ class nutrition
 
     $sql = "SELECT * FROM meals m WHERE 1 = 1";
     if ($status) {
-    $sql .= " AND m.status = :status";
+        $sql .= " AND m.status = '$status'";
     }
     $meal_type = isset($data['type']) ? $data['type'] : "";
     $meal_diet = isset($data["diet"]) ? $data["diet"] : "";

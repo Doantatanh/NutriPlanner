@@ -606,6 +606,7 @@
         if (cleanedTag && !hashtags.includes(cleanedTag)) {
           // Chỉ thêm nếu không rỗng và chưa tồn tại
           hashtags.push(cleanedTag);
+          console.log(hash)
           renderHashtags();
         }
       };
@@ -670,7 +671,7 @@
       // Xử lý sự kiện submit form tìm kiếm
       searchForm.addEventListener("submit", async (e) => {
         e.preventDefault();
-
+        searchFood();
         
       searchForm.addEventListener("reset", () => {
         setTimeout(() => searchForm.dispatchEvent(new Event("submit")), 10);
@@ -707,7 +708,7 @@
       let meal_type = document.getElementById("meal-type").value;
       let meal_diet = Array.isArray(hashtags) ? hashtags.join(", ") : "";
       console.log(meal_diet);
-      let meal_calo = document.getElementById("meal-status").value;
+      let meal_status = document.getElementById("meal-status").value;
 
       try {
         const res = await fetch("../backend/search.php", {
@@ -719,14 +720,14 @@
             name: meal_name,
             type: meal_type,
             diet: meal_diet,
-            calo: meal_calo,
+            status: meal_status,
           }),
         });
 
         const data = await res.json();
 
         meal_search = data.data;
-        console.log(meal_search);
+        
       } catch (error) {
         console.error("Lỗi khi gọi API:", error);
       }
@@ -748,13 +749,11 @@
                                     <td>${meal.id}</td>
                                     <td>${meal.name}</td>
                                     <td>${meal.type}</td>
-                                    <td>${meal.calories}</td>
+                                    <td>${meal.Calories}</td>
                                     <td>${tagHtml}</td>
-                                    <td>${meal.create_at}</td>
-                                    <td><span class="badge bg-${meal.status === "visible"
-            ? "success"
-            : "secondary"
-          }">${meal.status}</span></td>
+                                    <td>${meal.created_at}</td>
+                                    <td><span class="badge bg-${meal.status === "visible" ? "success": "secondary"
+                                    }">${meal.status}</span></td>
                                     <td class="text-center">
                                         <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#mealModal" onclick="editMeal(${meal.id
           })">

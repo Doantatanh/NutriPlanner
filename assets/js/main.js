@@ -14,7 +14,7 @@ document.querySelectorAll(".nav-link").forEach((link) => {
 
 async function loadFavouriteMeals() {
   try {
-    const res = await fetch("backend/favourite.php");
+    const res = await fetch("../backend/favourite.php");
     if (!res.ok) throw new Error("HTTP lỗi: " + res.status);
 
     const text = await res.text();
@@ -26,10 +26,7 @@ async function loadFavouriteMeals() {
 
     const result = JSON.parse(text);
     if (result.success) {
-      meal_favourite = result.data.map((item) => ({
-        id: item.meal_id,
-        name: item.name,
-      }));
+      meal_favourite = result.data
     } else {
       console.error("Không lấy được dữ liệu yêu thích:", result.message);
     }
@@ -40,16 +37,13 @@ async function loadFavouriteMeals() {
 
 async function init() {
   try {
-    // const response = await fetch('meals.json');
-    // const data = await response.json();
-    // data.forEach(meal => meals.push(meal));
-    await searchFood();
     await loadFavouriteMeals();
-
-    // render(meals, "mealplan--menu");
-    if (meal_favourite > 0) {
+    console.log(meal_favourite);
+    await searchFood();
+    if (meal_favourite.length > 0) {
       render(meal_favourite, "mealfavourite--menu");
-    }else{return;}
+    }
+    else{return;}
   } catch (error) {
     console.error("Lỗi khi đọc JSON:", error);
   }
@@ -438,7 +432,6 @@ async function searchFood() {
   let meal_name = document.getElementById("input_search").value;
   let meal_type = document.getElementById("input_type").value;
   let meal_diet = Array.isArray(hashtags) ? hashtags.join(", ") : "";
-  console.log(meal_diet);
   let meal_calo = document.getElementById("meal_calo").value;
 
   try {
@@ -459,7 +452,15 @@ async function searchFood() {
     const data = await res.json();
 
     meal_search = data.data;
-    console.log(meal_search);
+
+    if (meal_favourite && Array.isArray(meal_favourite)) {
+      const favouriteMap = new Map(meal_favourite.map(item => [item.id, item]));
+
+      meal_search = meal_search.map(item =>
+        favouriteMap.has(item.id) ? favouriteMap.get(item.id) : item
+      );
+    }
+
   } catch (error) {
     console.error("Lỗi khi gọi API:", error);
   }
