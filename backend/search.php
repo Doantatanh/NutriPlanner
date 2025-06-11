@@ -27,9 +27,13 @@ class nutrition
 
     $params = [];
 
-    $sql = "SELECT * FROM meals m WHERE 1 = 1
-            AND m.status = 'visible'
-        ";
+    $sql = "SELECT * FROM meals m WHERE 1 = 1" ;
+    $status = $data["status"] ?? null;
+
+    $sql = "SELECT * FROM meals m WHERE 1 = 1";
+    if ($status) {
+        $sql .= " AND m.status = '$status'";
+    }
     $meal_type = isset($data['type']) ? $data['type'] : "";
     $meal_diet = isset($data["diet"]) ? $data["diet"] : "";
     $meal_calo = isset($data["calo"]) ? $data["calo"] : "";

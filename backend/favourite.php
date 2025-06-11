@@ -11,9 +11,14 @@ $pdo = $db->getConnection();
 
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-        $stmt = $pdo->query("SELECT * name FROM  favourites
-        JOIN nutrition ON meals.id = meal_id");
-        $favourites = $stmt->fetchAll();
+        $stmt = $pdo->query("SELECT * FROM  favourites
+        JOIN meals ON meals.id = favourites.meal_id");
+        $favourites =[];
+        while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+            $row['tags'] = explode(",", $row['tags']);
+            $row['type'] = explode(",", $row['type']);
+            $favourites[]=$row;
+        }
         echo json_encode(["success" => true, "data" => $favourites]);
         exit();
     
