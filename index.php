@@ -255,7 +255,7 @@
             <h2>Favorite meals</h2>
             <p>Bookmark and quickly access your favorite meals to simplify your future meal planning.</p>
         </div>
-        <div class=" col-xl-7 col-sm-11 mx-auto my-4">
+        <div class=" col-xl-9 col-sm-11 mx-auto my-4">
             <div class="" id="">
                 <div class="item">
                     <div class="d-grid grid-col-favourite my-1" id="mealfavourite--menu">
