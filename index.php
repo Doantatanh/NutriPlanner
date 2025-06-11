@@ -1,14 +1,14 @@
 <?php
-session_start();
+// session_start();
 
 
-if (!isset($_SESSION['username'])) {
-    header("Location: login.php");
-    exit();
-}
+// if (!isset($_SESSION['username'])) {
+//     header("Location: login.php");
+//     exit();
+// }
 
 
-$username = $_SESSION['username'];
+// $username = $_SESSION['username'];
 ?>
 
 
