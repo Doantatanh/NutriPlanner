@@ -1,23 +1,13 @@
 <?php
 session_start();
+require_once 'configuration/Database.php';
+$db = new Database();
+$conn = $db->getConnection();
 
-// Database connection
-$db_host = 'localhost';
-$db_user = 'root';
-$db_pass = '';
-$db_name = 'quyen';
 
 // Handle POST request (AJAX login)
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     header('Content-Type: application/json');
-
-    try {
-        $conn = new PDO("mysql:host=$db_host;dbname=$db_name", $db_user, $db_pass);
-        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    } catch (PDOException $e) {
-        echo json_encode(['success' => false, 'message' => 'Database connection failed']);
-        exit();
-    }
 
     // Get data from request
     $data = json_decode(file_get_contents('php://input'), true);
@@ -318,7 +308,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     setTimeout(() => {
                         // Redirect based on user role
                         if (data.user.role === 'admin') {
-                            window.location.href = '../admin.html';
+                            window.location.href = '../admin.php';
                         } else {
                             window.location.href = '../index.php';
                         }

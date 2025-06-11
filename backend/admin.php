@@ -1,6 +1,6 @@
 <?php
 $host = "localhost";
-$dbname = "quyen";
+$dbname = "nutriplanner";
 $port = "3306";
 $user = "root";
 $pass = "";
@@ -15,26 +15,25 @@ try {
     $result = $stmt->fetch(PDO::FETCH_ASSOC);
     $totalDish = $result['total'];
 
-        $sqlTotalUsers = "SELECT COUNT(*) AS total FROM users";
-        $stmt = $conn->prepare($sqlTotalUsers);
-        $stmt->execute();
-        $result = $stmt->fetch(PDO::FETCH_ASSOC);
-        $totalUsers = $result['total'];
+    $sqlTotalUsers = "SELECT COUNT(*) AS total FROM users";
+    $stmt = $conn->prepare($sqlTotalUsers);
+    $stmt->execute();
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    $totalUsers = $result['total'];
 
-        $sqlTotalFeedback = "SELECT COUNT(*) AS total FROM feedbacks    ";
-        $stmt = $conn->prepare($sqlTotalFeedback);
-        $stmt->execute();
-        $result = $stmt->fetch(PDO::FETCH_ASSOC);
-        $totalFeedback = $result['total'];
+    $sqlTotalFeedback = "SELECT COUNT(*) AS total FROM feedbacks    ";
+    $stmt = $conn->prepare($sqlTotalFeedback);
+    $stmt->execute();
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    $totalFeedback = $result['total'];
 
-        $sqlRecentMeals = "SELECT * FROM meals ORDER BY created_at DESC LIMIT 12";
-        $stmt = $conn->prepare($sqlRecentMeals);
-        $stmt->execute();
-        $recentMeals = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-    } catch (PDOException $e) {
-        echo "Fail connection" . $e->getMessage(); 
-    }
+    $sqlRecentMeals = "SELECT * FROM meals ORDER BY created_at DESC LIMIT 12";
+    $stmt = $conn->prepare($sqlRecentMeals);
+    $stmt->execute();
+    $recentMeals = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    echo "Fail connection" . $e->getMessage();
+}
 ?>
 
 <!DOCTYPE html>
@@ -102,7 +101,7 @@ try {
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="./user_manager.html" class="nav-link text-white tab-btn">
+                            <a href="./user_manager.php" class="nav-link text-white tab-btn">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                     style="margin-right: 5px; transform: translateY(-3px);" class="bi bi-people"
                                     viewBox="0 0 16 16">
@@ -169,7 +168,7 @@ try {
 
                     </div>
 
-                    
+
 
                     <div class="col-md-4 mb-4">
                         <div class="card text-white  bg-primary">
