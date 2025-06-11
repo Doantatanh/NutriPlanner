@@ -1,14 +1,14 @@
 <?php
-// session_start();
+session_start();
 
-// Kiểm tra xem người dùng đã đăng nhập chưa
-// if (!isset($_SESSION['username'])) {
-//     header("Location: login.php");
-//     exit();
-// }
 
-// Lấy tên tài khoản từ session
-// $username = $_SESSION['username'];
+if (!isset($_SESSION['username'])) {
+    header("Location: login.php");
+    exit();
+}
+
+
+$username = $_SESSION['username'];
 ?>
 
 
@@ -34,7 +34,7 @@
     <header class="main-header py-2">
         <nav class="navbar navbar-expand-lg navbar-light">
             <div class="container">
-                <a href="#" class="logo">
+                <a href="#banner" class="logo">
                     <i class="fas fa-seedling"></i>
                     NutriPlanner
                 </a>
@@ -72,6 +72,42 @@
         </nav>
     </header>
 
+    <section class="banner-section" id="banner">
+        <div class="container banner-container">
+            <div class="banner-content">
+                <h1>Smart <span>menu</span> for optimal health</h1>
+                <p>NutriPlanner helps you build personalized nutrition plans, track your diet, and achieve your health goals in a scientific and simple way.</p>
+                <div class="banner-component">
+                    <div class="component">
+                        <i class="fas fa-utensils"></i>
+                        <div class="component-container">
+                            <div class="component-number">500+</div>
+                            <div class="component-text">Recipes</div>
+                        </div>
+                    </div>   
+                    <div class="component">
+                        <i class="fas fa-users"></i>
+                        <div class="component-container">
+                            <div class="component-number">10,000+</div>
+                            <div class="component-text">Users</div>
+                        </div>
+                    </div>
+                    <div class="component left-32px">
+                        <i class="fas fa-award"></i>
+                        <div class="component-container">
+                            <div class="component-number">99%</div>
+                            <div class="component-text">Satisfaction</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="banner-image">
+                <img src="https://img.freepik.com/free-photo/top-view-food-frame-with-copy-space_23-2148821147.jpg">
+            </div>
+        </div>
+    </section>
+
+
     <section class="feature-section" id="feature">
         <div class="feature-container col-xl-10 col-xxl-9 col-11 mx-auto ">
             <div class="feature-header">
@@ -81,7 +117,7 @@
             <div class="feature-main">
                 <div class="feature-box rounded-top ">
                     <div class="d-flex align-items-center">
-                        <div class="feature-icon" style="padding: 20px;">
+                        <div class="feature-icon">
                             <i class="fas fa-list-check"></i>
                         </div>
                         <h4 class="mx-2">Personalized Meal Plans</h4>
@@ -89,49 +125,59 @@
                     <p>Create meal plans tailored to your goals, whether it's weight loss, or managing specific health conditions.</p>
                 </div>
                 <div class="feature-box rounded-top">
-                    <div class="d-flex align-items-center">
-                        <div class="feature-icon">
-                            <i class="fas fa-filter"></i>
+                    <a href="#meals">
+                        <div class="d-flex align-items-center">
+                            <div class="feature-icon">
+                                <i class="fas fa-filter"></i>
+                            </div>
+                            <h4 class="mx-2">Smart Filters</h4>
                         </div>
-                        <h4 class="mx-2">Smart Filters</h4>
-                    </div>
-                    <p>Easily search and filter meals by ingredients, calories, special diets, or food allergies.</p>
+                        <p>Easily search and filter meals by ingredients, calories, special diets, or food allergies.</p>
+                    </a>
                 </div>
                 <div class="feature-box rounded-top">
-                    <div class="d-flex align-items-center">
-                        <div class="feature-icon">
-                            <i class="fas fa-chart-pie"></i>
+                    <a href="#meals-grid">
+                        <div class="d-flex align-items-center">
+                            <div class="feature-icon">
+                                <i class="fas fa-chart-pie"></i>
+                            </div>
+                            <h4 class="mx-2">Nutrition Analysis</h4>
                         </div>
-                        <h4 class="mx-2">Nutrition Analysis</h4>
-                    </div>
-                    <p>View detailed nutritional breakdowns such as calories, protein, carbs, fats, and micronutrients for each dish.</p>
+                        <p>View detailed nutritional breakdowns such as calories, protein, carbs, fats, and micronutrients for each dish.</p>
+                    </a>
                 </div>
                 <div class="feature-box rounded-top">
-                    <div class="d-flex align-items-center">
-                        <div class="feature-icon">
-                            <i class="fas fa-heart"></i>
+                    <a href="#favourite">
+                        <div class="d-flex align-items-center">
+                            <div class="feature-icon">
+                                <i class="fas fa-heart"></i>
+                            </div>
+                            <h4 class="mx-2">Favorite Dishes</h4>
                         </div>
-                        <h4 class="mx-2"><a href="#favorite">Favorite Dishes</a></h4>
-                    </div>
-                    <p> <a href="#favorite">Bookmark and quickly access your favorite meals to simplify your future meal planning.</a></p>
+                        <p>Bookmark and quickly access your favorite meals to simplify your future meal planning.</p>
+                    </a>
                 </div>
                 <div class="feature-box rounded-top">
-                    <div class="d-flex align-items-center">
-                        <div class="feature-icon">
-                            <i class="fas fa-calculator"></i>
+                    <a href="#calculator">
+                        <div class="d-flex align-items-center">
+                            <div class="feature-icon">
+                                <i class="fas fa-calculator"></i>
+                            </div>
+                            <h4 class="mx-2">Nutrition Calculator</h4>
                         </div>
-                        <h4 class="mx-2"><a href="#calculator">Nutrition Calculator</a></h4>
-                    </div>
-                    <p><a href="#calculator">Input ingredients and portion sizes to instantly calculate the total nutritional value of your meal.</a></p>
+                        <p>Input ingredients and portion sizes to instantly calculate the total nutritional value of your meal.</p>
+                    </a>
                 </div>
                 <div class="feature-box rounded-top">
-                    <div class="d-flex align-items-center">
-                        <div class="feature-icon">
-                            <i class="fas fa-comment-dots"></i>
+                    <a href="#feedback-comment">
+                        <div class="d-flex align-items-center">
+                            <div class="feature-icon">
+                                <i class="fas fa-comment-dots"></i>
+                            </div>
+                            <h4 class="mx-2">Comments & Sharing</h4>
                         </div>
-                        <h4 class="mx-2">Comments & Sharing</h4>
-                    </div>
-                    <p>Comment, share your experiences, and review meals with the NutriPlanner community.</p>
+                        <p>Comment, share your experiences, and review meals with the NutriPlanner community.</p>
+                    </a>
                 </div>
             </div>
         </div>
@@ -142,8 +188,8 @@
     <section class="section meals" id="meals">
         <div class="container">
             <div class="section-header">
-                <h2>Khám phá thực đơn</h2>
-                <p>Tìm kiếm và lọc hàng trăm công thức phù hợp với mục tiêu dinh dưỡng và khẩu vị của bạn.</p>
+                <h2>Explore the menu</h2>
+                <p>Search and filter hundreds of recipes tailored to your nutritional goals and taste.</p>
             </div>
 
             <div class="meal-filter">
@@ -168,7 +214,7 @@
                       </div>
                         </div>
                         <div class="filter-group col-2">
-                            <label class="filter-title">Loại món</label>
+                            <label class="filter-title">Category of dishes</label>
                             <select class="hashtag-input-wrapper" name="meal_type" id="input_type">
                                 <option value="">All</option>
                                 <option value="Breakfast">Breakfast</option>
@@ -268,7 +314,7 @@
                             <div class="nutrition-result-value" id="sugar-result">0.00g</div>
                         </div>
                         <div class="nutrition-result-item">
-                            <div class="nutrition-result-name">Chất xơ</div>
+                            <div class="nutrition-result-name">Fiber</div>
                             <div class="nutrition-result-value" id="fiber-result">0.00g</div>
                         </div>
                         <div class="nutrition-result-item">
@@ -282,7 +328,7 @@
     </section>
 
     <div>
-        <section class="testimonials-section">
+        <section class="testimonials-section" id="feedback-comment">
             <h2>What Our Users Say</h2>
             <p class="testimonials-subtext">
                 Discover real experiences from the NutriPlanner community about improving eating habits<br>
@@ -367,21 +413,21 @@
     <section class="section contact" id="contact">
         <div class="container shadow rounded-5 bg-white p-3">
             <div class="section-header">
-                <h2>Liên hệ với chúng tôi</h2>
-                <p>Bạn có câu hỏi hoặc cần hỗ trợ? Đội ngũ NutriPlanner luôn sẵn sàng giúp đỡ bạn.</p>
+                <h2>Contact Us</h2>
+                <p>Do you have questions or need support? The NutriPlanner team is always ready to assist you.</p>
             </div>
             
             <div class="contact-container">
                 <div class="contact-info1">
-                    <h3>Thông tin liên hệ</h3>
+                    <h3>Contact Information</h3>
                     <div class="contact-details">
                         <div>
                             <div class="contact-icon">
                                 <i class="fas fa-map-marker-alt"></i>
                             </div>
                             <div class="contact-text" style="display: inline-block;">
-                                <h4>Địa chỉ</h4>
-                                <p>285 Đội Cấn, quận Ba Đình, thành phố Hà Nội</p>
+                                <h4>Address</h4>
+                                <p>285 Doi Can Street, Ba Dinh District, Hanoi City</p>
                             </div>
                         </div>
                         
@@ -390,7 +436,7 @@
                                 <i class="fas fa-phone-alt"></i>
                             </div>
                             <div class="contact-text" style="display: inline-block;">
-                                <h4>Điện thoại</h4>
+                                <h4>Phone</h4>
                                 <p>+84 28 1234 5678</p>
                             </div>
                         </div>
@@ -410,8 +456,8 @@
                                 <i class="fas fa-clock"></i>
                             </div>
                             <div class="contact-text" style="display: inline-block;">
-                                <h4>Giờ làm việc</h4>
-                                <p>Thứ 2 - Thứ 6: 8:00 - 18:00<br>Thứ 7: 9:00 - 12:00</p>
+                                <h4>Business Hours</h4>
+                                <p>Monday - Friday: 8:00 - 18:00<br>Saturday: 9:00 - 12:00</p>
                             </div>
                         </div>
                     </div>
@@ -423,6 +469,7 @@
             </div>
         </div>
     </section>
+
 
     <footer class="main-footer">
         <div class="container">
