@@ -32,7 +32,7 @@ require_once "configuration/Database.php";
         $nutrition = [$protein, $fats,  $carbs, $fiber, $sugar, $sodium];
 
         // Xử lý ảnh
-        $targetDir = "../images/";
+        $targetDir = "../assets/images/";
 
         if (!is_dir($targetDir)) {
             mkdir($targetDir, 0777, true);
