@@ -17,7 +17,6 @@ html {
 
 body {
   font-family: Arial, Helvetica, sans-serif;
-  font-size: 16px;
 }
 
 
@@ -286,12 +285,12 @@ body {
 #feature,
 #calculator,
 #favourite,
-#meals-grid,
 #feedback,
 #filter,
 #meals,
-#feedback-comment {
-  scroll-margin-top: 100px;
+#feedback-comment,
+#contact {
+  scroll-margin-top: 80px;
 }
 
 /* header , footer */
@@ -370,6 +369,7 @@ body {
   }
   .search-input{
     margin-bottom: 15px;
+    width: 100%;
   }
 }
 
@@ -424,7 +424,18 @@ select {
 .filter-group {
   display: flex;
   flex-direction: column;
-  min-width: 180px;
+}
+
+
+@media (max-width: 480px) {
+  body{
+    font-size: 14px;
+  }
+  .filter-container{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+  }
 }
 
 .filter-label {
@@ -815,8 +826,8 @@ h2 {
 
 /* --- Phần chỉnh sửa để giống Vuetify Chip --- */
 .hashtag-item {
-  background-color: #e0e0e0; /* Màu xám nhạt, giống default chip */
-  color: #424242; /* Màu chữ đậm */
+  background-color: var(--primary); /* Màu xám nhạt, giống default chip */
+  color: white; /* Màu chữ đậm */
   border-radius: 16px; /* Bo tròn góc nhiều hơn một chút (để giống 16px của Vuetify) */
   padding: 4px 12px; /* Padding nhỏ gọn */
   display: flex;
@@ -828,10 +839,11 @@ h2 {
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15); /* Bóng đổ nhẹ, giống elevation 1 */
   transition: background-color 0.2s ease, box-shadow 0.2s ease,
     color 0.2s ease;
+  cursor: pointer;
 }
 
 .hashtag-item:hover {
-  background-color: #d6d6d6; /* Hơi đậm hơn khi hover */
+  background-color: var(--primary-dark); /* Hơi đậm hơn khi hover */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Bóng rõ hơn khi hover, giống elevation 2 */
   cursor: default; /* Không phải pointer vì nút 'x' đã là riêng */
 }
@@ -840,7 +852,7 @@ h2 {
   /* Các thuộc tính để nút 'x' giống icon close của Vuetify */
   background: none; /* Không có nền */
   border: none; /* Không viền */
-  color: #616161; /* Màu icon xám */
+  color: var(--bg-white); /* Màu icon xám */
   cursor: pointer;
   font-size: 1.1em; /* Kích thước icon */
   width: 20px; /* Đảm bảo kích thước cố định */
@@ -854,7 +866,7 @@ h2 {
 }
 
 .hashtag-item .remove-tag:hover {
-  background-color: #bdbdbd; /* Nền xám khi hover */
+  background-color: #ffffff; /* Nền xám khi hover */
   color: #212121; /* Icon đen hơn khi hover */
 }
 

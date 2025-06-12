@@ -60,8 +60,8 @@
                                         <span class="text-login"><?php echo htmlspecialchars($username); ?></span>
                                     </button>
                                     <ul class="dropdown-menu">
-                                        <li><a class="dropdown-item" href="profile.html">Hồ sơ</a></li>
-                                        <li><a class="dropdown-item" href="login.html">Đăng xuất</a></li>
+                                        <li><a class="dropdown-item" href="profile.html">Profile</a></li>
+                                        <li><a class="dropdown-item" href="backend/login.php">Log out</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -102,7 +102,7 @@
                 </div>
             </div>
             <div class="banner-image">
-                <img src="https://img.freepik.com/free-photo/top-view-food-frame-with-copy-space_23-2148821147.jpg">
+                <img src="assets/images/top-view-food-frame-with-copy-space_23-2148821147 (1).jpg">
             </div>
         </div>
     </section>
@@ -116,13 +116,15 @@
             </div>
             <div class="feature-main">
                 <div class="feature-box rounded-top ">
-                    <div class="d-flex align-items-center">
-                        <div class="feature-icon">
-                            <i class="fas fa-list-check"></i>
+                    <a href="#meals">
+                        <div class="d-flex align-items-center">
+                            <div class="feature-icon">
+                                <i class="fas fa-list-check"></i>
+                            </div>
+                            <h4 class="mx-2">Personalized Meal Plans</h4>
                         </div>
-                        <h4 class="mx-2">Personalized Meal Plans</h4>
-                    </div>
-                    <p>Create meal plans tailored to your goals, whether it's weight loss, or managing specific health conditions.</p>
+                        <p>Create meal plans tailored to your goals, whether it's weight loss, or managing specific health conditions.</p>
+                    </a>
                 </div>
                 <div class="feature-box rounded-top">
                     <a href="#meals">
@@ -194,13 +196,7 @@
 
             <div class="meal-filter">
                 <div id="searchForm">
-                    <div class="search-container">
-                        <input type="text" class="search-input" name="search_query" id="input_search" placeholder="Enter meal name...">
-                        <button class="search-btn text-dark" id="search-form">
-                            <i class="fas fa-search"></i>
-                            Search
-                        </button>
-                    </div>
+                    
                     <div class="filters">
 
                         <div class="filter-group flex-fill">
@@ -213,27 +209,37 @@
 
                       </div>
                         </div>
-                        <div class="filter-group col-2">
-                            <label class="filter-title">Category of dishes</label>
-                            <select class="hashtag-input-wrapper" name="meal_type" id="input_type">
-                                <option value="">All</option>
-                                <option value="Breakfast">Breakfast</option>
-                                <option value="Lunch">Lunch</option>
-                                <option value="Dinner">Dinner</option>
-                                <option value="Snacks">Snacks</option>
-                                <option value="Smoothies">Smoothies</option>
-                            </select>
+                        <div class="filter-container  d-flex">
+                            <div class="filter-group col-6  pe-2">
+                                <label class="filter-title">Dishes</label>
+                                <select class="hashtag-input-wrapper" name="meal_type" id="input_type">
+                                    <option value="">All</option>
+                                    <option value="Breakfast">Breakfast</option>
+                                    <option value="Lunch">Lunch</option>
+                                    <option value="Dinner">Dinner</option>
+                                    <option value="Snacks">Snacks</option>
+                                    <option value="Smoothies">Smoothies</option>
+                                </select>
+                            </div>
+                            <div class="filter-group col-6  ps-2">
+                                <label class="filter-title">Calories</label>
+                                <select class="hashtag-input-wrapper" name="calories" id="meal_calo">
+                                    <option value="">All</option>
+                                    <option value="under300">Under 300 kcal</option>
+                                    <option value="300-500">300 - 500 kcal</option>
+                                    <option value="500-800">500 - 800 kcal</option>
+                                    <option value="over800">Over 800 kcal</option>
+                                </select>
+                            </div>
                         </div>
-                        <div class="filter-group col-2">
-                            <label class="filter-title">Calories</label>
-                            <select class="hashtag-input-wrapper" name="calories" id="meal_calo">
-                                <option value="">All</option>
-                                <option value="under300">Under 300 kcal</option>
-                                <option value="300-500">300 - 500 kcal</option>
-                                <option value="500-800">500 - 800 kcal</option>
-                                <option value="over800">Over 800 kcal</option>
-                            </select>
-                        </div>
+                
+                    </div>
+                    <div class="search-container">
+                        <input type="text" class="search-input" name="search_query" id="input_search" placeholder="Enter meal name...">
+                        <button class="search-btn text-white" id="search-form">
+                            <i class="fas fa-search"></i>
+                            Search
+                        </button>
                     </div>
                 </div>
             </div>

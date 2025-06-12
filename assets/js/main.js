@@ -201,11 +201,11 @@ function opencard(meal) {
                     <p class="my-2" >${meal.description}</p>
                     
                 </div>
-                <div class=" mx-3">
+                <div class="">
                     <h3>Ingredients</h3>
                         ${meal.ingredients}
                     <h3>Instruction</h3>
-                        ${meal.instruction}
+                        <div>${meal.instruction}</div>
                 </div>
             </div>
             <div class="nutrition-facts">

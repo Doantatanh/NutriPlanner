@@ -5,7 +5,7 @@ session_start();
 $db_host = 'localhost';
 $db_user = 'root';
 $db_pass = '';
-$db_name = 'quyen';
+$db_name = 'nutriplanner';
 
 // Handle POST request (AJAX login)
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -317,8 +317,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     showSuccess('Login successful! Redirecting...');
                     setTimeout(() => {
                         // Redirect based on user role
-                        if (data.user.role === 'admin') {
-                            window.location.href = '../admin.html';
+                        if (data.user.role === 'Admin') {
+                            window.location.href = 'admin.php';
                         } else {
                             window.location.href = '../index.php';
                         }
