@@ -1,3 +1,61 @@
+<?php
+require_once '../backend/configuration/Database.php';
+$db = new Database();
+$conn = $db->getConnection();
+
+// Lấy danh sách user
+if (isset($_GET['action']) && $_GET['action'] === 'get_users') {
+    header('Content-Type: application/json');
+    $sql = "SELECT id, username, email, role, created_at FROM users ORDER BY created_at DESC";
+    $stmt = $conn->prepare($sql);
+    $stmt->execute();
+    $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    echo json_encode(['data' => $users]);
+    exit;
+}
+
+// Thêm user
+if (isset($_POST['action']) && $_POST['action'] === 'add_user') {
+    $username = $_POST['username'];
+    $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+    $email = $_POST['email'];
+    $role = $_POST['role'];
+    $stmt = $conn->prepare("INSERT INTO users (username, password, email, role) VALUES (?, ?, ?, ?)");
+    $stmt->execute([$username, $password, $email, $role]);
+    echo json_encode(['success' => true]);
+    exit;
+}
+
+// Xóa user
+if (isset($_POST['action']) && $_POST['action'] === 'delete_user') {
+    $id = $_POST['id'];
+    $stmt = $conn->prepare("DELETE FROM users WHERE id = ?");
+    $stmt->execute([$id]);
+    echo json_encode(['success' => true]);
+    exit;
+}
+
+// Sửa user
+if (isset($_POST['action']) && $_POST['action'] === 'edit_user') {
+    $id = $_POST['id'];
+    $username = $_POST['username'];
+    $email = $_POST['email'];
+    $role = $_POST['role'];
+    $sql = "UPDATE users SET username=?, email=?, role=?";
+    $params = [$username, $email, $role];
+    if (!empty($_POST['password'])) {
+        $sql .= ", password=?";
+        $params[] = password_hash($_POST['password'], PASSWORD_DEFAULT);
+    }
+    $sql .= " WHERE id=?";
+    $params[] = $id;
+    $stmt = $conn->prepare($sql);
+    $stmt->execute($params);
+    echo json_encode(['success' => true]);
+    exit;
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -48,7 +106,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="./user_manager.html" class="nav-link active text-white tab-btn">
+                            <a href="user_manager.php" class="nav-link active text-white tab-btn">
                                 <i class="fa fa-users me-2"></i> User management
                             </a>
                         </li>
@@ -61,8 +119,6 @@
                 </div>
             </nav>
             <!-- main content -->
-            <!-- main content -->
-            <!-- main contenhfashfsjhhst -->
             <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
                 <div
                     class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-4 pb-3 mb-4 border-bottom">
@@ -102,37 +158,7 @@
                                         <th class="text-center">Thao Tác</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>admin</td>
-                                        <td>••••••••</td>
-                                        <td>admin@email.com</td>
-                                        <td><span class="badge bg-primary">Admin</span></td>
-                                        <td>01/06/2024</td>
-                                        <td class="text-center">
-                                            <button class="btn btn-sm btn-primary"><i
-                                                    class="fa-solid fa-pencil"></i></button>
-                                            <button class="btn btn-sm btn-danger"><i
-                                                    class="fa-solid fa-trash"></i></button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>2</td>
-                                        <td>user1</td>
-                                        <td>••••••••</td>
-                                        <td>user1@email.com</td>
-                                        <td><span class="badge bg-secondary">User</span></td>
-                                        <td>02/06/2024</td>
-                                        <td class="text-center">
-                                            <button class="btn btn-sm btn-primary"><i
-                                                    class="fa-solid fa-pencil"></i></button>
-                                            <button class="btn btn-sm btn-danger"><i
-                                                    class="fa-solid fa-trash"></i></button>
-                                        </td>
-                                    </tr>
-                                    <!-- Thêm dòng mẫu khác nếu muốn -->
-                                </tbody>
+                                <tbody id="user-table-body"></tbody>
                             </table>
                         </div>
                     </div>
@@ -187,6 +213,131 @@
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function loadUsers() {
+            fetch('user_manager.php?action=get_users')
+                .then(res => res.json())
+                .then(data => {
+                    const tbody = document.getElementById('user-table-body');
+                    tbody.innerHTML = '';
+                    data.data.forEach(user => {
+                        tbody.innerHTML += `
+                    <tr>
+                        <td>${user.id}</td>
+                        <td>${user.username}</td>
+                        <td>••••••••</td>
+                        <td>${user.email}</td>
+                        <td>
+                            <span class="badge bg-${user.role.toLowerCase() === 'admin' ? 'primary' : 'secondary'}">
+                                ${user.role.charAt(0).toUpperCase() + user.role.slice(1)}
+                            </span>
+                        </td>
+                        <td>${new Date(user.created_at).toLocaleDateString('vi-VN')}</td>
+                        <td class="text-center">
+                            <button class="btn btn-sm btn-primary" onclick="showEditUser(${user.id},'${user.username}','${user.email}','${user.role}')"><i class="fa-solid fa-pencil"></i></button>
+                            <button class="btn btn-sm btn-danger" onclick="deleteUser(${user.id})"><i class="fa-solid fa-trash"></i></button>
+                        </td>
+                    </tr>
+                `;
+                    });
+                });
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            loadUsers();
+
+            // Thêm user
+            document.getElementById('userForm').onsubmit = function(e) {
+                e.preventDefault();
+                const form = e.target;
+                const formData = new FormData(form);
+                formData.append('action', 'add_user');
+                fetch('user_manager.php', {
+                    method: 'POST',
+                    body: formData
+                }).then(res => res.json()).then(data => {
+                    if (data.success) {
+                        form.reset();
+                        var modal = bootstrap.Modal.getInstance(document.getElementById('userModal'));
+                        modal.hide();
+                        loadUsers();
+                    }
+                });
+            };
+        });
+
+        // Xóa user
+        function deleteUser(id) {
+            if (confirm('Bạn có chắc muốn xóa user này?')) {
+                const formData = new FormData();
+                formData.append('action', 'delete_user');
+                formData.append('id', id);
+                fetch('user_manager.php', {
+                    method: 'POST',
+                    body: formData
+                }).then(res => res.json()).then(data => {
+                    if (data.success) loadUsers();
+                });
+            }
+        }
+
+        // Sửa user (hiển thị modal và cập nhật)
+        function showEditUser(id, username, email, role) {
+            const modal = new bootstrap.Modal(document.getElementById('userModal'));
+            document.querySelector('#userModalLabel').innerText = 'Sửa Người Dùng';
+            const form = document.getElementById('userForm');
+            form.username.value = username;
+            form.email.value = email;
+            form.role.value = role.charAt(0).toUpperCase() + role.slice(1).toLowerCase();
+            form.password.value = '';
+            form.onsubmit = function(e) {
+                e.preventDefault();
+                const formData = new FormData(form);
+                formData.append('action', 'edit_user');
+                formData.append('id', id);
+                fetch('user_manager.php', {
+                    method: 'POST',
+                    body: formData
+                }).then(res => res.json()).then(data => {
+                    if (data.success) {
+                        modal.hide();
+                        loadUsers();
+                        // Reset lại form về trạng thái thêm mới
+                        form.onsubmit = defaultAddUser;
+                        document.querySelector('#userModalLabel').innerText = 'Thêm Người Dùng';
+                        form.reset();
+                    }
+                });
+            };
+            modal.show();
+        }
+
+        // Đặt lại sự kiện mặc định cho form thêm user
+        function defaultAddUser(e) {
+            e.preventDefault();
+            const form = e.target;
+            const formData = new FormData(form);
+            formData.append('action', 'add_user');
+            fetch('user_manager.php', {
+                method: 'POST',
+                body: formData
+            }).then(res => res.json()).then(data => {
+                if (data.success) {
+                    form.reset();
+                    var modal = bootstrap.Modal.getInstance(document.getElementById('userModal'));
+                    modal.hide();
+                    loadUsers();
+                }
+            });
+        }
+        document.getElementById('userModal').addEventListener('hidden.bs.modal', function() {
+            const form = document.getElementById('userForm');
+            form.onsubmit = defaultAddUser;
+            document.querySelector('#userModalLabel').innerText = 'Thêm Người Dùng';
+            form.reset();
+        });
+    </script>
+
 </body>
 
 </html>

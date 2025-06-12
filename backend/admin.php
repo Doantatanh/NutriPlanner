@@ -1,4 +1,7 @@
 <?php
+session_start();
+$username = $_SESSION['username'];
+
 $host = "localhost";
 $dbname = "quyen";
 $port = "3306";
@@ -102,7 +105,7 @@ try {
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="./user_manager.html" class="nav-link text-white tab-btn">
+                            <a href="../frontend/user_manager.php" class="nav-link text-white tab-btn">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                     style="margin-right: 5px; transform: translateY(-3px);" class="bi bi-people"
                                     viewBox="0 0 16 16">
@@ -137,12 +140,12 @@ try {
                         <div class="dropdown">
                             <button class="btn btn-sm btn-outline-none dropdown-toggle dropdown-toggle"
                                 data-bs-toggle="dropdown" type="button">
-                                <img src="../assets/images/admin.jpg" alt="admin" class="rounded-circle" width="30">
-                                <span class="text-login">Admin</span>
+                                <img src="../assets/images/admin.png" alt="admin" class="rounded-circle" width="30">
+                                <span class="text-login"><?php echo htmlspecialchars($username); ?></span>
                             </button>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="profile.html">Hồ sơ</a></li>
-                                <li><a class="dropdown-item" href="login.html">Đăng xuất</a></li>
+                                <li><a class="dropdown-item" href="profile.html">Profile</a></li>
+                                <li><a class="dropdown-item" href="login.php">Log out</a></li>
                             </ul>
                         </div>
                     </div>
