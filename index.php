@@ -388,7 +388,7 @@
         <!-- Feedback section -->
         <section class="feedback-section" id="feedback">
             <div class="logo">
-                <img src="assets/images/Leonardo_Phoenix_10_A_topdown_view_of_a_food_table_divided_in_3.jpg" alt="NutriPlanner Logo" />
+                <img loading="lazy" src="assets/images/Leonardo_Phoenix_10_A_topdown_view_of_a_food_table_divided_in_3.jpg" alt="NutriPlanner Logo" />
             </div>
             <div class="feedback-card">
                 <h3>Submit Your Feedback</h3>
