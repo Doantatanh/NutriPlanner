@@ -55,9 +55,9 @@ $username = $_SESSION['username'];
                                 <div class="dropdown">
                                     <button class="btn btn-sm btn-outline-none dropdown-toggle d-flex justify-content-center align-items-center"
                                         data-bs-toggle="dropdown" type="button">
-                                        <img src="../../assets/images/ad.jpg" alt="admin" class="rounded-circle"
+                                        <img src="../../assets/images/admin.png" alt="admin" class="rounded-circle"
                                             width="30" height="30" style="object-fit: fit;">
-                                        <span class="text-login"><?php echo htmlspecialchars($username); ?></span>
+                                        <span class="text-login"><?php  echo $username ?></span>
                                     </button>
                                     <ul class="dropdown-menu">
                                         <li><a class="dropdown-item" href="profile.html">Profile</a></li>

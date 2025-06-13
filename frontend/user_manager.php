@@ -91,7 +91,7 @@ if (isset($_POST['action']) && $_POST['action'] === 'edit_user') {
                     </div>
                     <ul class="nav flex-column">
                         <li class="nav-item">
-                            <a href="./admin.php" class="nav-link text-white tab-btn">
+                            <a href="../backend/admin.php" class="nav-link text-white tab-btn">
                                 <i class="fa fa-tachometer-alt me-2"></i> Dashboard
                             </a>
                         </li>
@@ -127,7 +127,7 @@ if (isset($_POST['action']) && $_POST['action'] === 'edit_user') {
                         <div class="dropdown">
                             <button class="btn btn-sm btn-outline-none dropdown-toggle" data-bs-toggle="dropdown"
                                 type="button">
-                                <img src="../assets/images/admin.jpg" alt="admin" class="rounded-circle border"
+                                <img src="../assets/images/admin.png" alt="admin" class="rounded-circle border"
                                     width="36">
                                 <span class="text-login fw-semibold ms-2">Admin</span>
                             </button>

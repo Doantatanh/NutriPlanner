@@ -117,7 +117,7 @@
     color: var(--accent);
     border-radius: 8px;
     cursor: pointer;
-    padding: auto;
+
     padding-left: 10px;
     padding-right: 10px;
 }
@@ -208,7 +208,7 @@
 
 @media (max-width: 576px) {
     .ingredient-item {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr 75px auto;
         gap: 8px;
     }
 
