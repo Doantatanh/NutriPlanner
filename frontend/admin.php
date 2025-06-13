@@ -67,7 +67,7 @@ try {
                     </div>
                     <ul class="nav flex-column">
                         <li class="nav-item">
-                            <a href="./admin1.html" class="nav-link active text-white tab-btn">
+                            <a href="./admin.php" class="nav-link active text-white tab-btn">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                     style="margin-right: 5px; transform: translateY(-3px);" class="bi bi-speedometer2"
                                     viewBox="0 0 16 16">
@@ -105,7 +105,7 @@ try {
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="../frontend/user_manager.php" class="nav-link text-white tab-btn">
+                            <a href="./user_manager.php" class="nav-link text-white tab-btn">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                     style="margin-right: 5px; transform: translateY(-3px);" class="bi bi-people"
                                     viewBox="0 0 16 16">
@@ -138,10 +138,10 @@ try {
                     <h1 class="h2 fw-bold">Dashboard</h1>
                     <div class="btn-toolbar mb-2 mb-md-0">
                         <div class="dropdown">
-                            <button class="btn btn-sm btn-outline-none dropdown-toggle dropdown-toggle"
+                            <button class="btn btn-sm btn-outline-none dropdown-toggle dropdown-toggle d-flex justify-content-center align-items-center"
                                 data-bs-toggle="dropdown" type="button">
                                 <img src="../assets/images/admin.png" alt="admin" class="rounded-circle" width="30">
-                                <span class="text-login"><?php echo htmlspecialchars($username); ?></span>
+                                <span class="text-login">Admin</span>
                             </button>
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="profile.html">Profile</a></li>

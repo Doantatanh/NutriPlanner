@@ -53,11 +53,11 @@ init();
 
 
 function render(meals, id) {
+  let indexhiddenbtn = false;
   let element = document.getElementById(id);
   if (meals.length === 0) {
     element.innerHTML = `
     <div style="grid-column: 1 / -1; text-align: center; padding: 50px 0;">
-                        <i class="fas fa-search" style="font-size: 3rem; color: #ddd; margin-bottom: 20px;"></i>
                         <h3>Không tìm thấy món ăn nào phù hợp</h3>
                         <p>Vui lòng thử lại với các bộ lọc khác</p>
                     </div>`;
@@ -79,13 +79,15 @@ function render(meals, id) {
 
     tagsHTML += `<span class="tag ${tagClass}">${tag.trim()}</span>`; // In ra nội dung gọn gàng
 });
-
+    if(id === "mealfavourite--menu"){
+      indexhiddenbtn = true;
+    }
     let card = document.createElement("div");
     meal.isfavourite = meal_favourite.some((fav) => fav.id === meal.id);
     card.className = "meal-card";
     card.innerHTML = `<div class="meal-image">
                         <img src="${meal.image_url}" alt="${meal.name}">
-                        <button class="favorite-btn ${
+                        <button class="${indexhiddenbtn ? "d-none" : ""} favorite-btn ${
                           meal.isfavourite ? "active" : ""
                         }" type="submit" id="fav-${meal.id}">
                             <input type="hidden" value="${meal.id}" />

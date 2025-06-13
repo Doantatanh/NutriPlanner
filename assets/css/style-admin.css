@@ -70,9 +70,7 @@
 }
 
 .text-login {
-    position: relative;
-    bottom: 10px;
-    left: 2px;
+
     font-size: 1rem;
     font-weight: 600;
 }
