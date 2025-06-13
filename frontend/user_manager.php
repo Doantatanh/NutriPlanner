@@ -47,7 +47,7 @@ if (isset($_POST['action']) && $_POST['action'] === 'edit_user') {
         $sql .= ", password=?";
         $params[] = password_hash($_POST['password'], PASSWORD_DEFAULT);
     }
-    $sql .= " WHERE id=?";
+    $sql .= " WHERE id = ?";
     $params[] = $id;
     $stmt = $conn->prepare($sql);
     $stmt->execute($params);

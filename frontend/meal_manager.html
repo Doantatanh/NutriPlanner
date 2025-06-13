@@ -1,812 +1,1137 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Meal Manager</title>
+    <link rel="icon" type="image/svg+xml" href="../assets/images/logo.svg" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="../assets/fontawesome-free-6.7.2-web/css/all.min.css"
+    />
+    <link rel="stylesheet" href="../assets/css/style-admin.css" />
+    <link href="../assets/css/reset.css" rel="stylesheet" />
+    <link rel="stylesheet" href="" />
+    <link
+      href="https://cdn.quilljs.com/1.3.6/quill.snow.css"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        background: #f8f9fa;
+      }
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Meal Manager</title>
-  <link rel="icon" type="image/svg+xml" href="../assets/images/logo.svg" />
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <link rel="stylesheet" href="../assets/fontawesome-free-6.7.2-web/css/all.min.css" />
-  <link rel="stylesheet" href="../assets/css/style-admin.css" />
-  <link href="../assets/css/reset.css" rel="stylesheet" />
-  <link rel="stylesheet" href="" />
-  <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet" />
-  <style>
-    body {
-      background: #f8f9fa;
-    }
+      .modal-lg {
+        max-width: 800px;
+      }
 
-    .modal-lg {
-      max-width: 800px;
-    }
+      .hashtag-container {
+        background-color: #ffffff;
+        border-radius: 8px;
+        /* Bo tròn góc vừa phải hơn */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        /* Bóng nhẹ, giống elevation 2 */
+        padding: 30px;
+        width: 100%;
+        text-align: center;
+      }
 
-    .hashtag-container {
-      background-color: #ffffff;
-      border-radius: 8px;
-      /* Bo tròn góc vừa phải hơn */
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      /* Bóng nhẹ, giống elevation 2 */
-      padding: 30px;
-      width: 100%;
-      text-align: center;
-    }
+      h2 {
+        color: #333;
+        margin-bottom: 25px;
+        font-size: 1.8em;
+        font-weight: 500;
+        /* Độ đậm vừa phải */
+      }
 
-    h2 {
-      color: #333;
-      margin-bottom: 25px;
-      font-size: 1.8em;
-      font-weight: 500;
-      /* Độ đậm vừa phải */
-    }
+      .hashtag-input-wrapper {
+        border: 1px solid #e0e0e0;
+        /* Viền nhẹ */
+        border-radius: 6px;
+        /* Bo tròn góc */
+        padding: 10px 15px;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        /* Chiều cao tối thiểu */
+        gap: 8px;
+        /* Khoảng cách giữa các chip */
+        background-color: #ffffff;
+        transition: border-color 0.3s ease, box-shadow 0.3s ease;
+      }
 
-    .hashtag-input-wrapper {
-      border: 1px solid #e0e0e0;
-      /* Viền nhẹ */
-      border-radius: 6px;
-      /* Bo tròn góc */
-      padding: 10px 15px;
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      /* Chiều cao tối thiểu */
-      gap: 8px;
-      /* Khoảng cách giữa các chip */
-      background-color: #ffffff;
-      transition: border-color 0.3s ease, box-shadow 0.3s ease;
-    }
+      .hashtag-input-wrapper:focus-within {
+        border-color: #1976d2;
+        /* Màu xanh dương chủ đạo của Vuetify */
+        box-shadow: 0 0 0 2px rgba(25, 118, 210, 0.2);
+        /* Shadow xanh dương khi focus */
+      }
 
-    .hashtag-input-wrapper:focus-within {
-      border-color: #1976d2;
-      /* Màu xanh dương chủ đạo của Vuetify */
-      box-shadow: 0 0 0 2px rgba(25, 118, 210, 0.2);
-      /* Shadow xanh dương khi focus */
-    }
+      #hashtagInput {
+        flex-grow: 1;
+        border: none;
+        outline: none;
+        padding: 6px 0;
+        font-size: 1em;
+        min-width: 100px;
+        color: #424242;
+      }
 
-    #hashtagInput {
-      flex-grow: 1;
-      border: none;
-      outline: none;
-      padding: 6px 0;
-      font-size: 1em;
-      min-width: 100px;
-      color: #424242;
-    }
+      #hashtagInput::placeholder {
+        color: #9e9e9e;
+        /* Màu placeholder nhẹ nhàng */
+      }
 
-    #hashtagInput::placeholder {
-      color: #9e9e9e;
-      /* Màu placeholder nhẹ nhàng */
-    }
+      .hashtag-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        /* Khoảng cách giữa các chip */
+        align-items: center;
+      }
 
-    .hashtag-list {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      /* Khoảng cách giữa các chip */
-      align-items: center;
-    }
+      /* --- Phần chỉnh sửa để giống Vuetify Chip --- */
+      .hashtag-item {
+        background-color: #e0e0e0;
+        /* Màu xám nhạt, giống default chip */
+        color: #424242;
+        /* Màu chữ đậm */
+        border-radius: 16px;
+        /* Bo tròn góc nhiều hơn một chút (để giống 16px của Vuetify) */
+        padding: 4px 12px;
+        /* Padding nhỏ gọn */
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        /* Khoảng cách giữa chữ và nút 'x' */
+        font-size: 0.875em;
+        /* Kích thước font điển hình của Vuetify chip */
+        font-weight: 500;
+        /* Độ đậm vừa phải */
+        white-space: nowrap;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+        /* Bóng đổ nhẹ, giống elevation 1 */
+        transition: background-color 0.2s ease, box-shadow 0.2s ease,
+          color 0.2s ease;
+      }
 
-    /* --- Phần chỉnh sửa để giống Vuetify Chip --- */
-    .hashtag-item {
-      background-color: #e0e0e0;
-      /* Màu xám nhạt, giống default chip */
-      color: #424242;
-      /* Màu chữ đậm */
-      border-radius: 16px;
-      /* Bo tròn góc nhiều hơn một chút (để giống 16px của Vuetify) */
-      padding: 4px 12px;
-      /* Padding nhỏ gọn */
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      /* Khoảng cách giữa chữ và nút 'x' */
-      font-size: 0.875em;
-      /* Kích thước font điển hình của Vuetify chip */
-      font-weight: 500;
-      /* Độ đậm vừa phải */
-      white-space: nowrap;
-      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
-      /* Bóng đổ nhẹ, giống elevation 1 */
-      transition: background-color 0.2s ease, box-shadow 0.2s ease,
-        color 0.2s ease;
-    }
+      .hashtag-item:hover {
+        background-color: #d6d6d6;
+        /* Hơi đậm hơn khi hover */
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        /* Bóng rõ hơn khi hover, giống elevation 2 */
+        cursor: default;
+        /* Không phải pointer vì nút 'x' đã là riêng */
+      }
 
-    .hashtag-item:hover {
-      background-color: #d6d6d6;
-      /* Hơi đậm hơn khi hover */
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-      /* Bóng rõ hơn khi hover, giống elevation 2 */
-      cursor: default;
-      /* Không phải pointer vì nút 'x' đã là riêng */
-    }
+      .hashtag-item .remove-tag {
+        /* Các thuộc tính để nút 'x' giống icon close của Vuetify */
+        background: none;
+        /* Không có nền */
+        border: none;
+        /* Không viền */
+        color: #616161;
+        /* Màu icon xám */
+        cursor: pointer;
+        font-size: 1.1em;
+        /* Kích thước icon */
+        width: 20px;
+        /* Đảm bảo kích thước cố định */
+        height: 20px;
+        border-radius: 50%;
+        /* Hình tròn */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-left: 4px;
+        /* Khoảng cách với chữ */
+        transition: background-color 0.2s ease, color 0.2s ease;
+      }
 
-    .hashtag-item .remove-tag {
-      /* Các thuộc tính để nút 'x' giống icon close của Vuetify */
-      background: none;
-      /* Không có nền */
-      border: none;
-      /* Không viền */
-      color: #616161;
-      /* Màu icon xám */
-      cursor: pointer;
-      font-size: 1.1em;
-      /* Kích thước icon */
-      width: 20px;
-      /* Đảm bảo kích thước cố định */
-      height: 20px;
-      border-radius: 50%;
-      /* Hình tròn */
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin-left: 4px;
-      /* Khoảng cách với chữ */
-      transition: background-color 0.2s ease, color 0.2s ease;
-    }
+      .hashtag-item .remove-tag:hover {
+        background-color: #bdbdbd;
+        /* Nền xám khi hover */
+        color: #212121;
+        /* Icon đen hơn khi hover */
+      }
 
-    .hashtag-item .remove-tag:hover {
-      background-color: #bdbdbd;
-      /* Nền xám khi hover */
-      color: #212121;
-      /* Icon đen hơn khi hover */
-    }
+      .instruction {
+        font-size: 0.8em;
+        /* Kích thước nhỏ hơn */
+        color: #757575;
+        /* Màu xám đậm hơn */
+        margin-top: 20px;
+      }
+    </style>
+  </head>
 
-
-    .instruction {
-      font-size: 0.8em;
-      /* Kích thước nhỏ hơn */
-      color: #757575;
-      /* Màu xám đậm hơn */
-      margin-top: 20px;
-    }
-  </style>
-</head>
-
-<body>
-  <div class="container-fluid">
-    <div class="row">
-      <!-- sidebar -->
-      <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block bg-dark sidebar collapse">
-        <div class="position-sticky pt-3">
-          <div class="logo-admin text-center pt-3 d-flex align-items-center justify-content-center">
-            <a href="#">
-              <i class="fas fa-seedling"></i>
-              <span>NutriPlanner</span>
-            </a>
-          </div>
-          <ul class="nav flex-column">
-            <li class="nav-item">
-              <a href="./admin.php" class="nav-link text-white tab-btn">
-                <i class="fa fa-tachometer-alt me-2"></i> Dashboard
+  <body>
+    <div class="container-fluid">
+      <div class="row">
+        <!-- sidebar -->
+        <nav
+          id="sidebar"
+          class="col-md-3 col-lg-2 d-md-block bg-dark sidebar collapse"
+        >
+          <div class="position-sticky pt-3">
+            <div
+              class="logo-admin text-center pt-3 d-flex align-items-center justify-content-center"
+            >
+              <a href="#">
+                <i class="fas fa-seedling"></i>
+                <span>NutriPlanner</span>
               </a>
-            </li>
-            <li class="nav-item">
-              <a href="./meal_manager.html" class="nav-link active text-white tab-btn">
-                <i class="fa fa-utensils me-2"></i> Meal manager
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="./material_manager.html" class="nav-link text-white tab-btn">
-                <i class="fa fa-tags me-2"></i> Material management
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="./user_manager.html" class="nav-link text-white tab-btn">
-                <i class="fa fa-users me-2"></i> User management
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="./feedback_manager.html" class="nav-link text-white tab-btn">
-                <i class="fa fa-comments me-2"></i> Feedback
-              </a>
-            </li>
-          </ul>
-        </div>
-      </nav>
-      <!-- main content -->
-      <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-        <div
-          class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-          <h1 class="h2 fw-bold">Meal Manager</h1>
-          <div class="btn-toolbar mb-2 mb-md-0">
-            <div class="dropdown">
-              <button class="btn btn-sm btn-outline-none dropdown-toggle" data-bs-toggle="dropdown" type="button">
-                <img src="../assets/images/ad.jpg" alt="admin" class="rounded-circle" width="30" />
-                <span class="text-login">Admin</span>
-              </button>
-              <ul class="dropdown-menu">
-                <li>
-                  <a class="dropdown-item" href="profile.html">Hồ sơ</a>
-                </li>
-                <li>
-                  <a class="dropdown-item" href="login.html">Log out</a>
-                </li>
-              </ul>
             </div>
+            <ul class="nav flex-column">
+              <li class="nav-item">
+                <a href="./admin.php" class="nav-link text-white tab-btn">
+                  <i class="fa fa-tachometer-alt me-2"></i> Dashboard
+                </a>
+              </li>
+              <li class="nav-item">
+                <a
+                  href="./meal_manager.html"
+                  class="nav-link active text-white tab-btn"
+                >
+                  <i class="fa fa-utensils me-2"></i> Meal manager
+                </a>
+              </li>
+              <li class="nav-item">
+                <a
+                  href="./material_manager.html"
+                  class="nav-link text-white tab-btn"
+                >
+                  <i class="fa fa-tags me-2"></i> Material management
+                </a>
+              </li>
+              <li class="nav-item">
+                <a
+                  href="./user_manager.html"
+                  class="nav-link text-white tab-btn"
+                >
+                  <i class="fa fa-users me-2"></i> User management
+                </a>
+              </li>
+              <li class="nav-item">
+                <a
+                  href="./feedback_manager.html"
+                  class="nav-link text-white tab-btn"
+                >
+                  <i class="fa fa-comments me-2"></i> Feedback
+                </a>
+              </li>
+            </ul>
           </div>
-        </div>
-        <div class="container-fluid py-4">
-          <div class="card mb-4">
-            <div class="card-body">
-              <form id="searchForm">
-                <div class="row g-3">
-                  <div class="col-md-8">
-                    <label class="form-label">Meal Diet</label>
-                    <div class="hashtag-input-wrapper ">
-                      <input type="text" id="hashtagInput" class="p-0" placeholder="Enter hashtag và press Enter or (,)" data-has-listeners="true">
-                      <ul id="hashtagList" class="hashtag-list"></ul>
-                    </div>
-                  </div>
-                  <div class="col-md-3">
-                    <label class="form-label">Status</label>
-                    <select class="form-select" name="search_status" id="meal-status">
-                      <option value="">All</option>
-                      <option value="visible">Visible</option>
-                      <option value="hidden">Hidden</option>
-                    </select>
-                  </div>
-                  <div class="col-md-3">
-                    <label class="form-label">Meal Name</label>
-                    <input type="text" class="form-control" name="search_name" id="meal-name"  placeholder="Enter name meal..." />
-                  </div>
-                  <div class="col-md-3">
-                    <label class="form-label">Meal Type</label>
-                    <select class="form-select" name="search_type" id="meal-type">
-                      <option value="">All</option>
-                      <option value="Breakfast">Breakfast</option>
-                      <option value="Lunch">Lunch</option>
-                      <option value="Dinner">Dinner</option>
-                      <option value="Snacks">Snacks</option>
-                      <option value="Smoothies">Smoothies</option>
-
-                    </select>
-                  </div>
- 
-                  <div class="col-3 d-flex align-items-end">
-                    <div class="d-flex gap-2">
-                      <button type="submit" class="btn btn-primary">
-                        <i class="fas fa-search me-2"></i>Search
-                      </button>
-                      <button type="reset" class="btn btn-light border">
-                        <i class="fas fa-redo me-2"></i>Reset
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </form>
-            </div>
-          </div>
-
-          <div class="d-flex justify-content-between align-items-center mb-4">
-            <button class="btn btn-success add-meal-btn" data-bs-toggle="modal" data-bs-target="#mealModal">
-              <i class="fa fa-plus"></i> Add Meal
-            </button>
-          </div>
-          <div class="card">
-            <div class="card-body">
-              <div class="table-responsive">
-                <table class="table table-striped align-middle">
-                  <thead class="table-light">
-                    <tr>
-                      <th>ID</th>
-                      <th>Name</th>
-                      <th>Type</th>
-                      <th>Calories</th>
-                      <th>Tags</th>
-                      <th>Create at</th>
-                      <th>Status</th>
-                      <th class="text-center">Action</th>
-                    </tr>
-                  </thead>
-                  <tbody id="body_listmeals">
-                    <tr>
-                      <td>1</td>
-                      <td>Salad Cá Hồi</td>
-                      <td>Bữa Trưa</td>
-                      <td>450</td>
-                      <td>Keto, High Protein</td>
-                      <td>01/06/2024</td>
-                      <td><span class="badge bg-success">Hiển thị</span></td>
-                      <td class="text-center">
-                        <button class="btn btn-sm btn-primary">
-                          <i class="fa-solid fa-pencil"></i>
-                        </button>
-                        <button class="btn btn-sm btn-danger">
-                          <i class="fa-solid fa-trash"></i>
-                        </button>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>2</td>
-                      <td>Cháo Yến Mạch</td>
-                      <td>Bữa Sáng</td>
-                      <td>320</td>
-                      <td>Vegan</td>
-                      <td>02/06/2024</td>
-                      <td><span class="badge bg-secondary">Ẩn</span></td>
-                      <td class="text-center">
-                        <button class="btn btn-sm btn-primary">
-                          <i class="fa-solid fa-pencil"></i>
-                        </button>
-                        <button class="btn btn-sm btn-danger">
-                          <i class="fa-solid fa-trash"></i>
-                        </button>
-                      </td>
-                    </tr>
-                    <!-- Thêm dòng mẫu khác nếu muốn -->
-                  </tbody>
-                </table>
+        </nav>
+        <!-- main content -->
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+          <div
+            class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
+          >
+            <h1 class="h2 fw-bold">Meal Manager</h1>
+            <div class="btn-toolbar mb-2 mb-md-0">
+              <div class="dropdown">
+                <button
+                  class="btn btn-sm btn-outline-none dropdown-toggle"
+                  data-bs-toggle="dropdown"
+                  type="button"
+                >
+                  <img
+                    src="../assets/images/ad.jpg"
+                    alt="admin"
+                    class="rounded-circle"
+                    width="30"
+                  />
+                  <span class="text-login">Admin</span>
+                </button>
+                <ul class="dropdown-menu">
+                  <li>
+                    <a class="dropdown-item" href="profile.html">Hồ sơ</a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="login.html">Log out</a>
+                  </li>
+                </ul>
               </div>
             </div>
           </div>
-        </div>
-        <!-- Modal Thêm/Sửa Bữa Ăn -->
-        <div class="modal fade" id="mealModal" tabindex="-1" aria-labelledby="mealModalLabel" aria-hidden="true">
-          <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title fw-bold" id="mealModalLabel">
-                  Thêm Bữa Ăn Mới
-                </h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-              </div>
-              <div class="modal-body">
-                <form id="mealForm">
-                  <!-- Thông tin cơ bản -->
-                  <div class="card mb-3">
-                    <div class="card-header bg-light">
-                      <h6 class="mb-0">Thông tin cơ bản</h6>
-                    </div>
-                    <div class="card-body">
-                      <div class="row g-2">
-                        <div class="col-md-6">
-                          <label class="form-label">Tên món ăn</label>
-                          <input required name="name" class="form-control" />
-                        </div>
-                        <div class="col-md-3">
-                          <label class="form-label">Thời gian nấu (phút)</label>
-                          <input name="prep_time" type="number" class="form-control" />
-                        </div>
-                        <div class="col-md-3">
-                          <label class="form-label">Calories</label>
-                          <input name="calories" type="number" class="form-control" required />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <!-- Phân loại món ăn -->
-                  <div class="card mb-3">
-                    <div class="card-header bg-light">
-                      <h6 class="mb-0">Phân loại</h6>
-                    </div>
-                    <div class="card-body">
-                      <div class="row g-2">
-                        <div class="col-md-12">
-                          <label class="form-label">Loại bữa ăn</label>
-                          <div class="d-flex gap-3">
-                            <div class="form-check">
-                              <input class="form-check-input" type="checkbox" name="meal_types" value="Breakfast"
-                                id="type_breakfast" />
-                              <label class="form-check-label" for="type_breakfast">Breakfast</label>
-                            </div>
-                            <div class="form-check">
-                              <input class="form-check-input" type="checkbox" name="meal_types" value="Lunch"
-                                id="type_lunch" />
-                              <label class="form-check-label" for="type_lunch">Lunch</label>
-                            </div>
-                            <div class="form-check">
-                              <input class="form-check-input" type="checkbox" name="meal_types" value="Dinner"
-                                id="type_dinner" />
-                              <label class="form-check-label" for="type_dinner">Dinner</label>
-                            </div>
-                            <div class="form-check">
-                              <input class="form-check-input" type="checkbox" name="meal_types" value="Snacks"
-                                id="type_snack" />
-                              <label class="form-check-label" for="type_snack">Snacks</label>
-                            </div>
-                            <div class="form-check">
-                              <input class="form-check-input" type="checkbox" name="meal_types" value="Smoothíe"
-                                id="type_snack" />
-                              <label class="form-check-label" for="type_snack">Smoothies</label>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <!-- Thông tin dinh dưỡng -->
-                  <div class="card mb-3">
-                    <div class="card-header bg-light">
-                      <h6 class="mb-0">Thông tin dinh dưỡng</h6>
-                    </div>
-                    <div class="card-body">
-                      <div class="row g-3">
-                        <div class="col-md-4">
-                          <label class="form-label">Protein</label>
-                          <div class="input-group">
-                            <input name="protein" type="number" class="form-control" />
-                            <span class="input-group-text">g</span>
-                          </div>
-                        </div>
-                        <div class="col-md-4">
-                          <label class="form-label">Carbs</label>
-                          <div class="input-group">
-                            <input name="carbs" type="number" class="form-control" />
-                            <span class="input-group-text">g</span>
-                          </div>
-                        </div>
-                        <div class="col-md-4">
-                          <label class="form-label">Chất béo</label>
-                          <div class="input-group">
-                            <input name="fats" type="number" class="form-control" />
-                            <span class="input-group-text">g</span>
-                          </div>
-                        </div>
-                        <div class="col-md-4">
-                          <label class="form-label">Chất xơ</label>
-                          <div class="input-group">
-                            <input name="fiber" type="number" class="form-control" />
-                            <span class="input-group-text">g</span>
-                          </div>
-                        </div>
-                        <div class="col-md-4">
-                          <label class="form-label">Đường</label>
-                          <div class="input-group">
-                            <input name="sugar" type="number" class="form-control" />
-                            <span class="input-group-text">g</span>
-                          </div>
-                        </div>
-                        <div class="col-md-4">
-                          <label class="form-label">Natri</label>
-                          <div class="input-group">
-                            <input name="sodium" type="number" class="form-control" />
-                            <span class="input-group-text">mg</span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <!-- Tags và chế độ ăn -->
-                  <div class="card mb-3">
-                    <nav class="card-header bg-light">
-                      <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                        <button class="nav-link active" id="nav-description-tab" data-bs-toggle="tab"
-                          data-bs-target="#nav-description" type="button" role="tab" aria-controls="nav-description"
-                          aria-selected="true">
-                          Description
-                        </button>
-                        <button class="nav-link" id="nav-ingredients-tab" data-bs-toggle="tab"
-                          data-bs-target="#nav-ingredients" type="button" role="tab" aria-controls="nav-ingredients"
-                          aria-selected="false">
-                          Ingredients
-                        </button>
-                        <button class="nav-link" id="nav-instruction-tab" data-bs-toggle="tab"
-                          data-bs-target="#nav-instruction" type="button" role="tab" aria-controls="nav-instruction"
-                          aria-selected="false">
-                          Instruction
-                        </button>
-                      </div>
-                    </nav>
-                    <div class="tab-content card-body" id="nav-tabContent">
-                      <div class="tab-pane fade show active" id="nav-description" role="tabpanel"
-                        aria-labelledby="nav-description-tab">
-                        <div id="editor__description" style="height: 200px"></div>
-                        <input type="hidden" name="description" id="description" />
-                      </div>
-
-                      <div class="tab-pane fade" id="nav-ingredients" role="tabpanel" aria-labelledby="nav-profile-tab">
-                        <div id="editor__ingredients" style="height: 200px"></div>
-                        <input type="hidden" name="ingredients" id="ingredients" />
-                      </div>
-                      <div class="tab-pane fade" id="nav-instruction" role="tabpanel"
-                        aria-labelledby="nav-instruction-tab">
-                        <div id="editor__instruction" style="height: 200px"></div>
-                        <input type="hidden" name="instruction" id="instruction" />
-                      </div>
-                    </div>
-                  </div>
-                  <div class="card mb-3">
-                    <div class="card-header bg-light">
-                      <h6>Thêm Hashtag cho Món Ăn</h6>
-                    </div>
-
-                    <div class="hashtag-container card-body py-0 my-3">
-                      <p class="instruction m-0 py-3">
-                        Mẹo: Gõ hashtag, nhấn Enter hoặc dấu phẩy để thêm.
-                        Nhấn 'x' để xóa.
-                      </p>
+          <div class="container-fluid py-4">
+            <div class="card mb-4">
+              <div class="card-body">
+                <form id="searchForm">
+                  <div class="row g-3">
+                    <div class="col-md-8">
+                      <label class="form-label">Meal Diet</label>
                       <div class="hashtag-input-wrapper">
-                        <input type="text" id="hashtagInput"
-                          placeholder="Nhập hashtag và nhấn Enter hoặc dấu phẩy (,)" />
-
-                      </div>
-                      <div class="py-3">
+                        <input
+                          type="text"
+                          id="hashtagInput"
+                          class="p-0"
+                          placeholder="Enter hashtag và press Enter or (,)"
+                          data-has-listeners="true"
+                        />
                         <ul id="hashtagList" class="hashtag-list"></ul>
                       </div>
                     </div>
-                  </div>
-
-                  <!-- Hình ảnh và trạng thái -->
-                  <div class="card mb-3">
-                    <div class="card-header bg-light">
-                      <h6 class="mb-0">Hình ảnh và trạng thái</h6>
+                    <div class="col-md-3">
+                      <label class="form-label">Status</label>
+                      <select
+                        class="form-select"
+                        name="search_status"
+                        id="meal-status"
+                      >
+                        <option value="">All</option>
+                        <option value="visible">Visible</option>
+                        <option value="hidden">Hidden</option>
+                      </select>
                     </div>
-                    <div class="card-body">
-                      <div class="row g-3">
-                        <div class="col-md-6">
-                          <label class="form-label">Hình ảnh món ăn</label>
-                          <input name="image" type="file" class="form-control" accept="image/*" />
-                        </div>
-                        <div class="col-md-6">
-                          <label class="form-label">Trạng thái</label>
-                          <select name="status" class="form-select">
-                            <option value="visible">Hiển thị</option>
-                            <option value="hidden">Ẩn</option>
-                          </select>
-                        </div>
+                    <div class="col-md-3">
+                      <label class="form-label">Meal Name</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        name="search_name"
+                        id="meal-name"
+                        placeholder="Enter name meal..."
+                      />
+                    </div>
+                    <div class="col-md-3">
+                      <label class="form-label">Meal Type</label>
+                      <select
+                        class="form-select"
+                        name="search_type"
+                        id="meal-type"
+                      >
+                        <option value="">All</option>
+                        <option value="Breakfast">Breakfast</option>
+                        <option value="Lunch">Lunch</option>
+                        <option value="Dinner">Dinner</option>
+                        <option value="Snacks">Snacks</option>
+                        <option value="Smoothies">Smoothies</option>
+                      </select>
+                    </div>
+
+                    <div class="col-3 d-flex align-items-end">
+                      <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-primary">
+                          <i class="fas fa-search me-2"></i>Search
+                        </button>
+                        <button type="reset" class="btn btn-light border">
+                          <i class="fas fa-redo me-2"></i>Reset
+                        </button>
                       </div>
                     </div>
-                  </div>
-
-                  <div class="d-flex justify-content-end gap-2 mt-3">
-                    <button type="button" class="btn btn-light border" data-bs-dismiss="modal">
-                      Hủy
-                    </button>
-                    <button type="submit" class="btn btn-primary px-4">
-                      Lưu món ăn
-                    </button>
                   </div>
                 </form>
               </div>
             </div>
+
+            <div class="d-flex justify-content-between align-items-center mb-4">
+              <button
+                class="btn btn-success add-meal-btn"
+                data-bs-toggle="modal"
+                data-bs-target="#mealModal"
+                
+              >
+                <i class="fa fa-plus"></i> Add Meal
+              </button>
+            </div>
+            <div class="card">
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table class="table table-striped align-middle">
+                    <thead class="table-light">
+                      <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Type</th>
+                        <th>Calories</th>
+                        <th>Tags</th>
+                        <th>Create at</th>
+                        <th>Status</th>
+                        <th class="text-center">Action</th>
+                      </tr>
+                    </thead>
+                    <tbody id="body_listmeals"></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
-      </main>
+          <!-- Modal Thêm/Sửa Bữa Ăn -->
+          <div
+            class="modal fade"
+            id="mealModal"
+            tabindex="-1"
+            aria-labelledby="mealModalLabel"
+          >
+            <div class="modal-dialog modal-lg">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title fw-bold" id="mealModalLabel">
+                    Thêm Bữa Ăn Mới
+                  </h5>
+                  <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                  ></button>
+                </div>
+                <div class="modal-body">
+                  <form id="mealForm">
+                    <!-- Thông tin cơ bản -->
+                    <div class="card mb-3">
+                      <div class="card-header bg-light">
+                        <h6 class="mb-0">Thông tin cơ bản</h6>
+                      </div>
+                      <div class="card-body">
+                        <div class="row g-2">
+                          <div class="col-md-6">
+                            <label class="form-label">Tên món ăn</label>
+                            <input required name="name" class="form-control" />
+                          </div>
+                          <div class="col-md-3">
+                            <label class="form-label"
+                              >Thời gian nấu (phút)</label
+                            >
+                            <input
+                              name="prep_time"
+                              type="number"
+                              class="form-control"
+                            />
+                          </div>
+                          <div class="col-md-3">
+                            <label class="form-label">Calories</label>
+                            <input
+                              name="calories"
+                              type="number"
+                              class="form-control"
+                              required
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Phân loại món ăn -->
+                    <div class="card mb-3">
+                      <div class="card-header bg-light">
+                        <h6 class="mb-0">Phân loại</h6>
+                      </div>
+                      <div class="card-body">
+                        <div class="row g-2">
+                          <div class="col-md-12">
+                            <label class="form-label">Loại bữa ăn</label>
+                            <div class="d-flex gap-3">
+                              <div class="form-check">
+                                <input
+                                  class="form-check-input"
+                                  type="checkbox"
+                                  name="meal_types"
+                                  value="Breakfast"
+                                  id="type_breakfast"
+                                />
+                                <label
+                                  class="form-check-label"
+                                  for="type_breakfast"
+                                  >Breakfast</label
+                                >
+                              </div>
+                              <div class="form-check">
+                                <input
+                                  class="form-check-input"
+                                  type="checkbox"
+                                  name="meal_types"
+                                  value="Lunch"
+                                  id="type_lunch"
+                                />
+                                <label class="form-check-label" for="type_lunch"
+                                  >Lunch</label
+                                >
+                              </div>
+                              <div class="form-check">
+                                <input
+                                  class="form-check-input"
+                                  type="checkbox"
+                                  name="meal_types"
+                                  value="Dinner"
+                                  id="type_dinner"
+                                />
+                                <label
+                                  class="form-check-label"
+                                  for="type_dinner"
+                                  >Dinner</label
+                                >
+                              </div>
+                              <div class="form-check">
+                                <input
+                                  class="form-check-input"
+                                  type="checkbox"
+                                  name="meal_types"
+                                  value="Snacks"
+                                  id="type_snack"
+                                />
+                                <label class="form-check-label" for="type_snack"
+                                  >Snacks</label
+                                >
+                              </div>
+                              <div class="form-check">
+                                <input
+                                  class="form-check-input"
+                                  type="checkbox"
+                                  name="meal_types"
+                                  value="Smoothíe"
+                                  id="type_snack"
+                                />
+                                <label class="form-check-label" for="type_snack"
+                                  >Smoothies</label
+                                >
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Thông tin dinh dưỡng -->
+                    <div class="card mb-3">
+                      <div class="card-header bg-light">
+                        <h6 class="mb-0">Thông tin dinh dưỡng</h6>
+                      </div>
+                      <div class="card-body">
+                        <div class="row g-3">
+                          <div class="col-md-4">
+                            <label class="form-label">Protein</label>
+                            <div class="input-group">
+                              <input
+                                name="protein"
+                                type="number"
+                                class="form-control"
+                              />
+                              <span class="input-group-text">g</span>
+                            </div>
+                          </div>
+                          <div class="col-md-4">
+                            <label class="form-label">Carbs</label>
+                            <div class="input-group">
+                              <input
+                                name="carbs"
+                                type="number"
+                                class="form-control"
+                              />
+                              <span class="input-group-text">g</span>
+                            </div>
+                          </div>
+                          <div class="col-md-4">
+                            <label class="form-label">Chất béo</label>
+                            <div class="input-group">
+                              <input
+                                name="fats"
+                                type="number"
+                                class="form-control"
+                              />
+                              <span class="input-group-text">g</span>
+                            </div>
+                          </div>
+                          <div class="col-md-4">
+                            <label class="form-label">Chất xơ</label>
+                            <div class="input-group">
+                              <input
+                                name="fiber"
+                                type="number"
+                                class="form-control"
+                              />
+                              <span class="input-group-text">g</span>
+                            </div>
+                          </div>
+                          <div class="col-md-4">
+                            <label class="form-label">Đường</label>
+                            <div class="input-group">
+                              <input
+                                name="sugar"
+                                type="number"
+                                class="form-control"
+                              />
+                              <span class="input-group-text">g</span>
+                            </div>
+                          </div>
+                          <div class="col-md-4">
+                            <label class="form-label">Natri</label>
+                            <div class="input-group">
+                              <input
+                                name="sodium"
+                                type="number"
+                                class="form-control"
+                              />
+                              <span class="input-group-text">mg</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Tags và chế độ ăn -->
+                    <div class="card mb-3">
+                      <nav class="card-header bg-light">
+                        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                          <button
+                            class="nav-link active"
+                            id="nav-description-tab"
+                            data-bs-toggle="tab"
+                            data-bs-target="#nav-description"
+                            type="button"
+                            role="tab"
+                            aria-controls="nav-description"
+                            aria-selected="true"
+                          >
+                            Description
+                          </button>
+                          <button
+                            class="nav-link"
+                            id="nav-ingredients-tab"
+                            data-bs-toggle="tab"
+                            data-bs-target="#nav-ingredients"
+                            type="button"
+                            role="tab"
+                            aria-controls="nav-ingredients"
+                            aria-selected="false"
+                          >
+                            Ingredients
+                          </button>
+                          <button
+                            class="nav-link"
+                            id="nav-instruction-tab"
+                            data-bs-toggle="tab"
+                            data-bs-target="#nav-instruction"
+                            type="button"
+                            role="tab"
+                            aria-controls="nav-instruction"
+                            aria-selected="false"
+                          >
+                            Instruction
+                          </button>
+                        </div>
+                      </nav>
+                      <div class="tab-content card-body" id="nav-tabContent">
+                        <div
+                          class="tab-pane fade show active"
+                          id="nav-description"
+                          role="tabpanel"
+                          aria-labelledby="nav-description-tab"
+                        >
+                          <div
+                            id="editor__description"
+                            style="height: 200px"
+                          ></div>
+                          <input
+                            type="hidden"
+                            name="description"
+                            id="description"
+                          />
+                        </div>
+
+                        <div
+                          class="tab-pane fade"
+                          id="nav-ingredients"
+                          role="tabpanel"
+                          aria-labelledby="nav-profile-tab"
+                        >
+                          <div
+                            id="editor__ingredients"
+                            style="height: 200px"
+                          ></div>
+                          <input
+                            type="hidden"
+                            name="ingredients"
+                            id="ingredients"
+                          />
+                        </div>
+                        <div
+                          class="tab-pane fade"
+                          id="nav-instruction"
+                          role="tabpanel"
+                          aria-labelledby="nav-instruction-tab"
+                        >
+                          <div
+                            id="editor__instruction"
+                            style="height: 200px"
+                          ></div>
+                          <input
+                            type="hidden"
+                            name="instruction"
+                            id="instruction"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <div class="card mb-3">
+                      <div class="card-header bg-light">
+                        <h6>Thêm Hashtag cho Món Ăn</h6>
+                      </div>
+
+                      <div class="hashtag-container card-body py-0 my-3">
+                        <p class="instruction m-0 py-3">
+                          Mẹo: Gõ hashtag, nhấn Enter hoặc dấu phẩy để thêm.
+                          Nhấn 'x' để xóa.
+                        </p>
+                        <div class="hashtag-input-wrapper">
+                          <input
+                            type="text"
+                            id="hashtagInput-edit"
+                            placeholder="Nhập hashtag và nhấn Enter hoặc dấu phẩy (,)"
+                            style="width: 100%; border: 0"
+                          />
+                        </div>
+                        <div class="py-3">
+                          <ul id="hashtagList-edit" class="hashtag-list"></ul>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Hình ảnh và trạng thái -->
+                    <div class="card mb-3">
+                      <div class="card-header bg-light">
+                        <h6 class="mb-0">Hình ảnh và trạng thái</h6>
+                      </div>
+                      <div class="card-body">
+                        <div class="row g-3">
+                          <div class="col-md-6">
+                            <label class="form-label">Hình ảnh món ăn</label>
+                            <input
+                              name="image"
+                              type="file"
+                              class="form-control"
+                              accept="image/*"
+                            />
+                          </div>
+                          <div class="col-md-6">
+                            <label class="form-label">Trạng thái</label>
+                            <select name="status" class="form-select">
+                              <option value="visible">Visible</option>
+                              <option value="hidden">Hidden</option>
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="d-flex justify-content-end gap-2 mt-3">
+                      <button
+                        type="button"
+                        class="btn btn-light border"
+                        data-bs-dismiss="modal"
+                      >
+                        Cancel
+                      </button>
+                      <button
+                        type="submit"
+                        id="submitaddmeal"
+                        class="btn btn-primary px-4"
+                      >
+                        Add Meal
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </main>
+      </div>
     </div>
-  </div>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
-  <script>
-    let hashtags = []; // Mảng để lưu trữ các hashtagX
-    document.addEventListener("DOMContentLoaded", () => {
-      const hashtagInput = document.getElementById("hashtagInput");
-      const hashtagList = document.getElementById("hashtagList");
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
+    <script>
+      function createHashtagManager({ inputElement, listElement }) {
+        const hashtagArray = [];
 
-      const renderHashtags = () => {
-        hashtagList.innerHTML = "";
-        hashtags.forEach((tag, index) => {
-          const li = document.createElement("li");
-          li.className = "hashtag-item";
+        function renderHashtags() {
+          listElement.innerHTML = "";
+          hashtagArray.forEach((tag, index) => {
+            const li = document.createElement("li");
+            li.className = "hashtag-item";
 
-          const span = document.createElement("span");
-          span.className = "value__tag"; // 👈 Thêm class vào đây
-          span.textContent = tag; // An toàn
+            const span = document.createElement("span");
+            span.className = "value__tag";
+            span.textContent = tag;
 
-          const button = document.createElement("button");
-          button.type = "button";
-          button.className = "remove-tag";
-          button.dataset.index = index;
-          button.textContent = "x";
+            const button = document.createElement("button");
+            button.type = "button";
+            button.className = "remove-tag";
+            button.dataset.index = index;
+            button.textContent = "x";
 
-          li.appendChild(span);
-          li.appendChild(button);
-          hashtagList.appendChild(li);
-        });
-      };
-
-      // Hàm để thêm một hashtag
-      const addHashtag = (tag) => {
-        const cleanedTag = tag.trim().toLowerCase(); // Xóa khoảng trắng và chuyển về chữ thường
-        if (cleanedTag && !hashtags.includes(cleanedTag)) {
-          // Chỉ thêm nếu không rỗng và chưa tồn tại
-          hashtags.push(cleanedTag);
-          console.log(hash)
-          renderHashtags();
+            li.appendChild(span);
+            li.appendChild(button);
+            listElement.appendChild(li);
+          });
         }
-      };
 
-      // Hàm để xóa một hashtag
-      const removeHashtag = (index) => {
-        hashtags.splice(index, 1); // Xóa phần tử tại vị trí index
-        renderHashtags();
-      };
-
-      // Lắng nghe sự kiện bàn phím trên trường input
-      hashtagInput.addEventListener("keydown", (e) => {
-        if (e.key === "Enter" || e.key === ",") {
-          // Thêm hashtag khi nhấn Enter hoặc dấu phẩy
-          e.preventDefault(); // Ngăn chặn hành vi mặc định (ví dụ: tạo dòng mới)
-          const inputValue = hashtagInput.value;
-          if (inputValue) {
-            addHashtag(inputValue);
-            hashtagInput.value = ""; // Xóa nội dung trong input sau khi thêm
+        function addHashtag(tag) {
+          const cleanedTag = tag.trim().toLowerCase();
+          if (cleanedTag && !hashtagArray.includes(cleanedTag)) {
+            hashtagArray.push(cleanedTag);
+            renderHashtags();
           }
         }
-      });
 
-      // Lắng nghe sự kiện click trên các nút 'x' (xóa hashtag)
-      hashtagList.addEventListener("click", (e) => {
-        if (e.target.classList.contains("remove-tag")) {
-          const index = parseInt(e.target.dataset.index); // Lấy index từ data-index
-          removeHashtag(index);
+        function removeHashtag(index) {
+          hashtagArray.splice(index, 1);
+          renderHashtags();
         }
-      });
 
-      // (Tùy chọn) Xử lý dán văn bản có nhiều hashtag
-      hashtagInput.addEventListener("paste", (e) => {
-        e.preventDefault();
-        const pasteData = e.clipboardData.getData("text");
-        const tags = pasteData
-          .split(/[\s,]+/)
-          .filter((tag) => tag.trim() !== ""); // Tách theo khoảng trắng hoặc dấu phẩy
-        tags.forEach((tag) => addHashtag(tag));
-        hashtagInput.value = "";
-      });
-
-      // (Tùy chọn) Khởi tạo với một vài hashtag demo
-    });
-
-
-  </script>
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      const tabbutton = document.querySelectorAll(".tab-btn");
-
-      tabbutton.forEach((button) => {
-        button.addEventListener("click", () => {
-          tabbutton.forEach((btn) => btn.classList.remove("active"));
-          button.classList.add("active");
+        // Gắn sự kiện cho input
+        inputElement.addEventListener("keydown", (e) => {
+          if (e.key === "Enter" || e.key === ",") {
+            e.preventDefault();
+            const inputValue = inputElement.value.trim();
+            if (inputValue) {
+              addHashtag(inputValue);
+              inputElement.value = "";
+            }
+          }
         });
+
+        // Gắn sự kiện click xoá
+        listElement.addEventListener("click", (e) => {
+          if (e.target.classList.contains("remove-tag")) {
+            const index = parseInt(e.target.dataset.index);
+            removeHashtag(index);
+          }
+        });
+
+        // Gắn sự kiện paste nhiều hashtag
+        inputElement.addEventListener("paste", (e) => {
+          e.preventDefault();
+          const pasteData = e.clipboardData.getData("text");
+          const tags = pasteData
+            .split(/[\s,]+/)
+            .filter((tag) => tag.trim() !== "");
+          tags.forEach(addHashtag);
+          inputElement.value = "";
+        });
+
+        return {
+          addHashtag,
+          removeHashtag,
+          getHashtags: () => [...hashtagArray],
+          clearHashtags: () => {
+            hashtagArray.length = 0;
+            renderHashtags();
+          },
+          renderHashtags,
+        };
+      }
+
+      const hashtagManagerSearch = createHashtagManager({
+        inputElement: document.getElementById("hashtagInput"),
+        listElement: document.getElementById("hashtagList"),
       });
 
-      const searchForm = document.getElementById("searchForm");
-      const tableBody = document.querySelector("table tbody");
-
-      // Xử lý sự kiện submit form tìm kiếm
-      searchForm.addEventListener("submit", async (e) => {
-        e.preventDefault();
-        searchFood();
-        
-      searchForm.addEventListener("reset", () => {
-        setTimeout(() => searchForm.dispatchEvent(new Event("submit")), 10);
+      const hashtagManagerEdit = createHashtagManager({
+        inputElement: document.getElementById("hashtagInput-edit"),
+        listElement: document.getElementById("hashtagList-edit"),
       });
-    });
 
-    // Các hàm xử lý khác
-    function editMeal(id) {
-      // TODO: Implement edit functionality
-      console.log("Edit meal:", id);
-    }
-
-    function deleteMeal(id) {
-      console.log("Delete meal:", id);
-      meals = meals.filter((meal) => meal.id !== id);
-      console.log(meals);
-      render(meals);
-      fetch("admin.php", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          id: id,
-        }),
-      });
-    }})
-  </script>
-  <script>
-    let meals = [];
-    async function searchFood() {
-      let meal_search = [];
-      let meal_name = document.getElementById("meal-name").value;
-      let meal_type = document.getElementById("meal-type").value;
-      let meal_diet = Array.isArray(hashtags) ? hashtags.join(", ") : "";
-      console.log(meal_diet);
-      let meal_status = document.getElementById("meal-status").value;
-
-      try {
-        const res = await fetch("../backend/search.php", {
+      function deleteMeal(id) {
+        console.log("Delete meal:", id);
+        meals = meals.filter((meal) => meal.id !== id);
+        console.log(meals);
+        render(meals);
+        fetch("../backend/upload.php", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            name: meal_name,
-            type: meal_type,
-            diet: meal_diet,
-            status: meal_status,
+            id: id,
+            action: "delete",
           }),
         });
-
-        const data = await res.json();
-
-        meal_search = data.data;
-        
-      } catch (error) {
-        console.error("Lỗi khi gọi API:", error);
       }
-      render(meal_search);
-    }
+    </script>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const tabbutton = document.querySelectorAll(".tab-btn");
 
-    searchFood();
-    
-    const render = (meals) => {
-      document.getElementById("body_listmeals").innerHTML = "";
-      meals.forEach((meal) => {
-        let tagHtml = "";
-        meal.tags.forEach((tag) => {
-          tagHtml += `<button class="btn btn-success mx-1 p-1">${tag}</button>`;
+        tabbutton.forEach((button) => {
+          button.addEventListener("click", () => {
+            tabbutton.forEach((btn) => btn.classList.remove("active"));
+            button.classList.add("active");
+          });
         });
 
-        let element = document.createElement("tr");
-        element.innerHTML = `
-                                    <td>${meal.id}</td>
-                                    <td>${meal.name}</td>
-                                    <td>${meal.type}</td>
-                                    <td>${meal.Calories}</td>
-                                    <td>${tagHtml}</td>
-                                    <td>${meal.created_at}</td>
-                                    <td><span class="badge bg-${meal.status === "visible" ? "success": "secondary"
-                                    }">${meal.status}</span></td>
-                                    <td class="text-center">
-                                        <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#mealModal" onclick="editMeal(${meal.id
-          })">
-                                            <i class="fa-solid fa-pencil"></i>
-                                        </button>
-                                        <button class="btn btn-sm btn-danger" onclick="deleteMeal(${meal.id
-          })">
-                                            <i class="fa-solid fa-trash"></i>
-                                        </button>
-                                    </td>
-                                `;
-        document.getElementById("body_listmeals").appendChild(element);
-      });
-    };
+        const searchForm = document.getElementById("searchForm");
+        const tableBody = document.querySelector("table tbody");
 
-    const quill = new Quill("#editor__description", { theme: "snow" });
-    const quill2 = new Quill("#editor__ingredients", { theme: "snow" });
-    const quill3 = new Quill("#editor__instruction", { theme: "snow" });
-    //xử lý form
-    document.getElementById("mealForm").addEventListener("submit", function (e) {
-        e.preventDefault(); // Ngăn form reload trang
+        // Xử lý sự kiện submit form tìm kiếm
+        searchForm.addEventListener("submit", async (e) => {
+          e.preventDefault();
+          searchFood();
 
-        document.getElementById("description").value = quill.root.innerHTML;
-        document.getElementById("ingredients").value = quill2.root.innerHTML;
-        document.getElementById("instruction").value = quill3.root.innerHTML;
-        const formData = new FormData(this);
-        formData.append('hashtags', hashtags.join(","));
-
-        fetch(" ../backend/upload.php", {
-          method: "POST",
-          body: formData,
-        })
-          .then(async (res) => {
-            const text = await res.text(); // lấy nguyên nội dung trả về
-            console.log("Raw response:", text);
-            try {
-              const data = JSON.parse(text);
-              if (data.status === "success") {
-                alert("Upload thành công! Đường dẫn: " + data.path);
-              } else {
-                alert("Upload thất bại!");
-              }
-            } catch (e) {
-              console.error("Không thể parse JSON:", e);
-            }
-          })
-          .catch((err) => {
-            console.error("Lỗi fetch:", err);
+          searchForm.addEventListener("reset", () => {
+            setTimeout(() => searchForm.dispatchEvent(new Event("submit")), 10);
           });
+        });
+
+        // Các hàm xử lý khác
+      });
+    </script>
+    <script>
+      let meals = [];
+
+      // Khởi tạo Quill editors và gán vào window để dùng toàn cục
+      window.editorDescription = new Quill("#editor__description", {
+        theme: "snow",
+      });
+      window.editorIngredients = new Quill("#editor__ingredients", {
+        theme: "snow",
+      });
+      window.editorInstruction = new Quill("#editor__instruction", {
+        theme: "snow",
       });
 
-      
-  </script>
-</body>
+      async function searchFood() {
+        let meal_search = [];
+        const hashtags = hashtagManagerSearch.getHashtags(); // 🟢 Lấy mảng hashtag
+        let meal_name = document.getElementById("meal-name").value;
+        let meal_type = document.getElementById("meal-type").value;
+        let meal_diet = Array.isArray(hashtags) ? hashtags.join(", ") : "";
+        let meal_status = document.getElementById("meal-status").value;
 
+        try {
+          const res = await fetch("../backend/search.php", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              name: meal_name,
+              type: meal_type,
+              diet: meal_diet,
+              status: meal_status,
+            }),
+          });
+
+          const data = await res.json();
+          meals = data.data;
+          meal_search = data.data;
+        } catch (error) {
+          console.error("Lỗi khi gọi API:", error);
+        }
+        render(meal_search);
+      }
+
+      searchFood();
+
+      const render = (meals) => {
+        const tbody = document.getElementById("body_listmeals");
+        tbody.innerHTML = "";
+
+        meals.forEach((meal) => {
+          let tagHtml = "";
+          meal.tags.forEach((tag) => {
+            tagHtml += `<button class="btn btn-success mx-1 p-1">${tag}</button>`;
+          });
+
+          let element = document.createElement("tr");
+          element.innerHTML = `
+        <td>${meal.id}</td>
+        <td>${meal.name}</td>
+        <td>${meal.type}</td>
+        <td>${meal.Calories}</td>
+        <td>${tagHtml}</td>
+        <td>${meal.created_at}</td>
+        <td>
+          <span class="badge bg-${
+            meal.status === "visible" ? "success" : "secondary"
+          }">
+            ${meal.status}
+          </span>
+        </td>
+        <td class="text-center">
+          <button class="btn btn-sm btn-primary btn-edit" data-id="${meal.id}">
+            <i class="fa-solid fa-pencil"></i>
+          </button>
+          <button class="btn btn-sm btn-danger" onclick="deleteMeal(${
+            meal.id
+          })">
+            <i class="fa-solid fa-trash"></i>
+          </button>
+        </td>
+      `;
+
+          element.querySelector(".btn-edit").addEventListener("click", () => {
+            editMeal(meal);
+
+          });
+
+          tbody.appendChild(element);
+        });
+      };
+
+      // Xử lý submit form
+      document
+        .getElementById("mealForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+
+          // Đồng bộ nội dung từ Quill vào các input hidden
+          document.getElementById("description").value =
+            editorDescription.root.innerHTML;
+          document.getElementById("ingredients").value =
+            editorIngredients.root.innerHTML;
+          document.getElementById("instruction").value =
+            editorInstruction.root.innerHTML;
+          const hashtags = hashtagManagerEdit.getHashtags();
+          const formData = new FormData(this);
+
+          formData.append("hashtags", hashtags.join(","));
+          formData.append("action", "add_meal");
+
+          fetch("../backend/upload.php", {
+            method: "POST",
+            body: formData,
+          })
+            .then(async (res) => {
+              const text = await res.text();
+              console.log("Raw response:", text);
+              try {
+                const data = JSON.parse(text);
+                if (data.status === "success") {
+                  alert("Upload success!");
+                  formData.reset();
+                } else {
+                  alert("Upload fail!");
+                }
+              } catch (e) {
+                console.error("Không thể parse JSON:", e);
+              }
+            })
+            .catch((err) => {
+              console.error("Lỗi fetch:", err);
+            });
+        });
+
+      // Hàm chỉnh sửa meal
+      function editMeal(meal) { 
+        const modal = new bootstrap.Modal(document.getElementById("mealModal"));
+        modal.show();
+        const form = document.getElementById("mealForm");
+        document.getElementById("submitaddmeal").innerHTML = "Edit Meal";
+        // Thông tin cơ bản
+        form.name.value = meal.name || "";
+        form.prep_time.value = meal.prep_time || "";
+        form.calories.value = meal.Calories || "";
+
+        // Checkbox loại bữa ăn
+        form
+          .querySelectorAll('input[name="meal_types"]')
+          .forEach((checkbox) => {
+            checkbox.checked = (meal.type || []).includes(checkbox.value);
+          });
+
+        // Dinh dưỡng
+        form.protein.value = meal.nutrition?.protein || "";
+        form.carbs.value = meal.nutrition?.carb || "";
+        form.fats.value = meal.nutrition?.fat || "";
+        form.fiber.value = meal.nutrition?.fiber || "";
+        form.sugar.value = meal.nutrition?.sugar || "";
+        form.sodium.value = meal.nutrition?.sodium || "";
+
+        // Chuẩn bị nội dung instruction
+        const instructionText = Array.isArray(meal.instruction)
+          ? meal.instruction.join("<br>")
+          : meal.instructions || "";
+
+        // Gán vào hidden inputs
+        form.description.value = meal.description || "";
+        form.ingredients.value = meal.ingredients || "";
+        form.instruction.value = instructionText;
+
+        // Render vào Quill editors
+        if (window.editorDescription) {
+          window.editorDescription.clipboard.dangerouslyPasteHTML(
+            meal.description || "<p></p>"
+          );
+        }
+
+        if (window.editorIngredients) {
+          window.editorIngredients.clipboard.dangerouslyPasteHTML(
+            meal.ingredients || "<p></p>"
+          );
+        }
+
+        if (window.editorInstruction) {
+          window.editorInstruction.clipboard.dangerouslyPasteHTML(
+            instructionText || "<p></p>"
+          );
+        }
+
+        // Trạng thái
+        form.status.value = meal.status || "visible";
+
+        // Hashtag
+        if (Array.isArray(meal.tags)) {
+          meal.tags.forEach((tag) => hashtagManagerEdit.addHashtag(tag));
+        }
+
+        form.onsubmit = function (e) {
+          e.preventDefault();
+          const formData = new FormData(form);
+          const hashtags = hashtagManagerEdit.getHashtags();
+          formData.append("hashtags", hashtags.join(","));
+
+          formData.append("action", "edit_meal");
+          formData.append("id", meal.id);
+          fetch("../backend/upload.php", {
+            method: "POST",
+            body: formData,
+          })
+            .then((res) => res.json())
+            .then((data) => {
+              if (data.success) {
+                if (window.editorDescription) {
+                  window.editorDescription.setContents([]); // reset
+                  window.editorDescription.clipboard.dangerouslyPasteHTML(
+                    meal.description || "<p></p>"
+                  );
+                }
+
+                if (window.editorIngredients) {
+                  window.editorIngredients.setContents([]);
+                  window.editorIngredients.clipboard.dangerouslyPasteHTML(
+                    meal.ingredients || "<p></p>"
+                  );
+                }
+
+                if (window.editorInstruction) {
+                  window.editorInstruction.setContents([]);
+                  window.editorInstruction.clipboard.dangerouslyPasteHTML(
+                    instructionText || "<p></p>"
+                  );
+                }
+                
+              }
+              
+            });
+            modal.hide();
+                form.reset();
+                document.querySelector("#submitaddmeal").innerText =
+                  "Add Meal";
+                  searchFood();
+        };
+        
+        
+      }
+    </script>
+  </body>
 </html>

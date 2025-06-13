@@ -27,10 +27,10 @@ class nutrition
 
     $params = [];
 
-    $sql = "SELECT * FROM meals m WHERE 1 = 1" ;
     $status = $data["status"] ?? null;
 
-    $sql = "SELECT * FROM meals m WHERE 1 = 1";
+    $sql = "SELECT * FROM meals m WHERE 1 = 1
+            AND Delete_index = 0";
     if ($status) {
         $sql .= " AND m.status = '$status'";
     }

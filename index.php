@@ -44,7 +44,7 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="nav-links ms-auto">
-                        <li class="nav-item"><a class="nav-link active" href="#feature">Feature</a></li>
+                        <li class="nav-item"><a class="nav-link " href="#feature">Feature</a></li>
                         <li class="nav-item"><a class="nav-link" href="#favourite">Favorite</a></li>
                         <li class="nav-item"><a class="nav-link" href="#meals">Meals</a></li>
                         <li class="nav-item"><a class="nav-link" href="#calculator">Calculator</a></li>
@@ -628,11 +628,12 @@
           renderHashtags();
         };
 
-        // Lắng nghe sự kiện bàn phím trên trường input
+        
         hashtagInput.addEventListener("keydown", (e) => {
+            console.log("danhan");
           if (e.key === "Enter" || e.key === ",") {
-            // Thêm hashtag khi nhấn Enter hoặc dấu phẩy
-            e.preventDefault(); // Ngăn chặn hành vi mặc định (ví dụ: tạo dòng mới)
+            
+            e.preventDefault(); 
             const inputValue = hashtagInput.value;
             if (inputValue) {
               addHashtag(inputValue);
