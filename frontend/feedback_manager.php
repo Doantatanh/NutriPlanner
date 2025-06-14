@@ -1,3 +1,20 @@
+<?php
+$host = "localhost";
+$user = "root";
+$pass = ""; // Mật khẩu MySQL của bạn
+$dbname = "nutriplanner";
+$conn = new mysqli($host, $user, $pass, $dbname);
+if ($conn->connect_error) {
+  die("Kết nối thất bại: " . $conn->connect_error);
+}
+
+// Lấy danh sách feedback mới nhất
+$sql = "SELECT id,rating,fullname, message,email, created_at FROM feedbacks WHERE status = 0 ORDER BY created_at DESC";
+$feedbacks = $conn->query($sql);
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -71,15 +88,15 @@
                     <h1 class="h2 fw-bold">Feedback Management</h1>
                     <div class="btn-toolbar mb-2 mb-md-0">
                         <div class="dropdown">
-                            <button class="btn btn-sm btn-outline-none dropdown-toggle" data-bs-toggle="dropdown"
+                            <button class="btn btn-sm btn-outline-none dropdown-toggle d-flex align-items-center justify-content-center" data-bs-toggle="dropdown"
                                 type="button">
-                                <img src="../assets/images/admin.jpg" alt="admin" class="rounded-circle border"
+                                <img src="../assets/images/admin.png" alt="admin" class="rounded-circle border"
                                     width="36">
                                 <span class="text-login fw-semibold ms-2">Admin</span>
                             </button>
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="profile.html">Hồ sơ</a></li>
-                                <li><a class="dropdown-item" href="login.html">Đăng xuất</a></li>
+                                <li><a class="dropdown-item" href="../backend/login.php">Đăng xuất</a></li>
                             </ul>
                         </div>
                     </div>
@@ -97,62 +114,29 @@
                                         <th>Nội dung</th>
                                         <th>Đánh giá</th>
                                         <th>Ngày gửi</th>
-                                        <th>Trạng thái</th>
                                         <th class="text-center">Thao Tác</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>Nguyễn Văn A</td>
-                                        <td>a@gmail.com</td>
-                                        <td>Ứng dụng rất tốt!</td>
-                                        <td>
-                                            <span class="star-rating">
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                            </span>
-                                        </td>
-                                        <td>01/06/2024</td>
-                                        <td><span class="badge bg-success">Đã đọc</span></td>
-                                        <td class="text-center">
-                                            <button class="btn btn-sm btn-info" data-bs-toggle="modal"
-                                                data-bs-target="#feedbackModal" title="Xem chi tiết">
-                                                <i class="fa fa-eye"></i>
-                                            </button>
-                                            <button class="btn btn-sm btn-danger"><i
-                                                    class="fa-solid fa-trash"></i></button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>2</td>
-                                        <td>user2</td>
-                                        <td>b@gmail.com</td>
-                                        <td>Giao diện đẹp</td>
-                                        <td>
-                                            <span class="star-rating">
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa-regular fa-star"></i>
-                                            </span>
-                                        </td>
-                                        <td>02/06/2024</td>
-                                        <td><span class="badge bg-secondary">Chưa đọc</span></td>
-                                        <td class="text-center">
-                                            <button class="btn btn-sm btn-info" data-bs-toggle="modal"
-                                                data-bs-target="#feedbackModal" title="Xem chi tiết">
-                                                <i class="fa fa-eye"></i>
-                                            </button>
-                                            <button class="btn btn-sm btn-danger"><i
-                                                    class="fa-solid fa-trash"></i></button>
-                                        </td>
-                                    </tr>
-                                    <!-- Thêm dòng mẫu khác nếu muốn -->
+                                        <?php foreach ($feedbacks as $feedback): ?>
+                                            <tr>
+                                                <td><?= $feedback['id'] ?></td>
+                                                <td><?= htmlspecialchars($feedback['fullname']) ?></td>
+                                                <td><?= htmlspecialchars($feedback['email']) ?></td>
+                                                <td><?= htmlspecialchars($feedback['message']) ?></td>
+                                                <td><?= $feedback['rating'] ?> ★</td>
+                                                <td><?= $feedback['created_at'] ?></td>
+                                                <td class="text-center">
+                                                    <button class="btn btn-sm btn-info" data-bs-toggle="modal"
+                                                        data-bs-target="#feedbackModal" title="Xem chi tiết">
+                                                        <i class="fa fa-eye"></i>
+                                                    </button>
+                                                    <button class="btn btn-sm btn-danger">
+                                                        <i class="fa-solid fa-trash"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        <?php endforeach; ?>
                                 </tbody>
                             </table>
                         </div>
