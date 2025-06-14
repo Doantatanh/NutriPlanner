@@ -3,7 +3,7 @@ session_start();
 $username = $_SESSION['username'];
 
 $host = "localhost";
-$dbname = "quyen";
+$dbname = "nutriplanner";
 $port = "3306";
 $user = "root";
 $pass = "";
@@ -116,7 +116,7 @@ try {
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="./feedback_manager.html" class="nav-link text-white tab-btn">
+                            <a href="./feedback_manager.php" class="nav-link text-white tab-btn">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                     style="margin-right: 5px; transform: translateY(-3px);" class="bi bi-chat-dots"
                                     viewBox="0 0 16 16">
@@ -145,7 +145,7 @@ try {
                             </button>
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="profile.html">Profile</a></li>
-                                <li><a class="dropdown-item" href="login.php">Log out</a></li>
+                                <li><a class="dropdown-item" href="../backend/login.php">Log out</a></li>
                             </ul>
                         </div>
                     </div>
@@ -242,9 +242,9 @@ try {
                                     <tr>
                                         <td><?php echo htmlspecialchars($meal['id']); ?></td>
                                         <td><?php echo htmlspecialchars($meal['name']); ?></td>
-                                        <td><?php echo htmlspecialchars($meal['tag_id']); ?></td>
+                                        <td><?php echo htmlspecialchars($meal['tags']); ?></td>
                                         <td><?php echo htmlspecialchars($meal['Calories']); ?></td>
-                                        <td><?php echo htmlspecialchars($meal['type_id']); ?></td>
+                                        <td><?php echo htmlspecialchars($meal['type']); ?></td>
                                         <td><?php echo date('d/m/Y', strtotime($meal['created_at'])); ?></td>
                                     </tr>
                                 <?php endforeach; ?>

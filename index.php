@@ -1,14 +1,15 @@
 <?php
-// session_start();
+session_start();
 
 
-// if (!isset($_SESSION['username'])) {
-//     header("Location: login.php");
-//     exit();
-// }
+if (!isset($_SESSION['username'])) {
+    header("Location: backend/login.php");
+    exit();
+}
 
 
-// $username = $_SESSION['username'];
+$username = $_SESSION['username'];
+
 ?>
 
 
@@ -92,7 +93,7 @@
                             <div class="component-text">Users</div>
                         </div>
                     </div>
-                    <div class="component left-32px">
+                    <div class="component">
                         <i class="fas fa-award"></i>
                         <div class="component-container">
                             <div class="component-number">99%</div>
@@ -406,9 +407,10 @@
                     <span data-value="5">☆</span>
                 </div>
                 <form id="feedbackForm">
-                    <input type="text" placeholder="Full Name" required />
-                    <input type="email" placeholder="Email" required />
-                    <textarea placeholder="Share your experience..." required rows="3"></textarea>
+                    <input type="text" placeholder="Full Name" name="fullname" required />
+                    <input type="hidden" name="rating" id="ratingInput">
+                    <input type="email" placeholder="Email" name="email" required />
+                    <textarea placeholder="Share your experience..." name="message" required rows="3"></textarea>
                     <button type="submit">Submit Feedback</button>
                 </form>
             </div>

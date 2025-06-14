@@ -1,5 +1,5 @@
 <?php
-$connect = new PDO("mysql:host=localhost;dbname=quyen", "root", "");
+$connect = new PDO("mysql:host=localhost;dbname=nutriplanner", "root", "");
 $sql = "SELECT * FROM Meals";
 $result = $connect->query($sql);
 $meals = [];

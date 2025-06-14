@@ -198,9 +198,6 @@ body {
     grid-template-columns: 1fr;
     gap:20px;
   }
-  .left-32px{
-    margin-left: 32px;
-  }
 }
 
 

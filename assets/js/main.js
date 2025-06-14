@@ -393,6 +393,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
       currentRating = rating;
       updateStars(currentRating);
+      document.getElementById("ratingInput").value = currentRating;
     });
   });
 
@@ -401,20 +402,36 @@ document.addEventListener("DOMContentLoaded", () => {
     console.error("Không tìm thấy feedbackForm!");
     return;
   }
-  form.addEventListener("submit", (e) => {
-    e.preventDefault();
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault(); // Ngăn form reload trang
 
-    const name = form.querySelector('input[type="text"]').value.trim();
-    const email = form.querySelector('input[type="email"]').value.trim();
-    const message = form.querySelector("textarea").value.trim();
+    document.getElementById("ratingInput").value = currentRating;
 
+    const formData = new FormData(form);
 
+    try {
+      const response = await fetch("backend/submitfeedback.php", {
+        method: "POST",
+        body: formData,
+      });
 
-    form.reset();
-    updateStars(0);
-    currentRating = 0;
+      if (response.ok) {
+        alert("Cảm ơn bạn đã gửi phản hồi!");
+        form.reset();
+        updateStars(0);
+        currentRating = 0;
+      } else {
+        alert("Có lỗi xảy ra. Vui lòng thử lại.");
+      }
+    } catch (error) {
+      console.error("Lỗi gửi phản hồi:", error);
+      alert("Không thể kết nối đến máy chủ.");
+    }
   });
+
 });
+
+
 
 
 document.getElementById("search-form").addEventListener("click",  function () {
