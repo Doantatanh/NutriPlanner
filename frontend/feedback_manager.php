@@ -207,7 +207,7 @@ try{
             deleteButtons.forEach(button => {
                 button.addEventListener("click", function () {
                     const feedbackId = this.getAttribute("data-id");
-                    if (confirm("Bạn có chắc muốn ẩn phản hồi này không?")) {
+                    if (confirm("Are you sure you want to hide this response?")) {
                         fetch("../backend/update_status.php", {
                             method: "POST",
                             headers: {
