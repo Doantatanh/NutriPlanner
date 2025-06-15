@@ -1,14 +1,14 @@
 <?php
-// session_start();
+session_start();
 
 
-// if (!isset($_SESSION['username'])) {
-//     header("Location: login.php");
-//     exit();
-// }
+if (!isset($_SESSION['username'])) {
+    header("Location: frontend/login.php");
+    exit();
+}
 
 
-// $username = $_SESSION['username'];
+$username = $_SESSION['username'];
 ?>
 
 
@@ -211,7 +211,7 @@
                         </div>
                         <div class="filter-container  d-flex">
                             <div class="filter-group col-6  pe-2">
-                                <label class="filter-title">Dishes</label>
+                                <label class="filter-title">Meal Type</label>
                                 <select class="hashtag-input-wrapper" name="meal_type" id="input_type">
                                     <option value="">All</option>
                                     <option value="Breakfast">Breakfast</option>

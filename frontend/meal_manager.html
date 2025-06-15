@@ -338,7 +338,6 @@
                 class="btn btn-success add-meal-btn"
                 data-bs-toggle="modal"
                 data-bs-target="#mealModal"
-                
               >
                 <i class="fa fa-plus"></i> Add Meal
               </button>
@@ -376,7 +375,7 @@
               <div class="modal-content">
                 <div class="modal-header">
                   <h5 class="modal-title fw-bold" id="mealModalLabel">
-                    Thêm Bữa Ăn Mới
+                    Add Meal
                   </h5>
                   <button
                     type="button"
@@ -390,29 +389,29 @@
                     <!-- Thông tin cơ bản -->
                     <div class="card mb-3">
                       <div class="card-header bg-light">
-                        <h6 class="mb-0">Thông tin cơ bản</h6>
+                        <h6 class="mb-0">Basic info</h6>
                       </div>
                       <div class="card-body">
                         <div class="row g-2">
                           <div class="col-md-6">
-                            <label class="form-label">Tên món ăn</label>
+                            <label class="form-label">Meal name*</label>
                             <input required name="name" class="form-control" />
                           </div>
                           <div class="col-md-3">
-                            <label class="form-label"
-                              >Thời gian nấu (phút)</label
-                            >
+                            <label class="form-label">Time(min)*</label>
                             <input
                               name="prep_time"
                               type="number"
+                              min="0"
                               class="form-control"
                             />
                           </div>
                           <div class="col-md-3">
-                            <label class="form-label">Calories</label>
+                            <label class="form-label">Calories*</label>
                             <input
                               name="calories"
                               type="number"
+                              min="0"
                               class="form-control"
                               required
                             />
@@ -424,12 +423,12 @@
                     <!-- Phân loại món ăn -->
                     <div class="card mb-3">
                       <div class="card-header bg-light">
-                        <h6 class="mb-0">Phân loại</h6>
+                        <h6 class="mb-0">Type</h6>
                       </div>
                       <div class="card-body">
                         <div class="row g-2">
                           <div class="col-md-12">
-                            <label class="form-label">Loại bữa ăn</label>
+                            <label class="form-label">Meal type</label>
                             <div class="d-flex gap-3">
                               <div class="form-check">
                                 <input
@@ -497,6 +496,13 @@
                               </div>
                             </div>
                           </div>
+                          <div
+                            id="mealTypeError"
+                            class="text-danger mt-1"
+                            style="display: none"
+                          >
+                            Please choose meal type.
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -504,7 +510,7 @@
                     <!-- Thông tin dinh dưỡng -->
                     <div class="card mb-3">
                       <div class="card-header bg-light">
-                        <h6 class="mb-0">Thông tin dinh dưỡng</h6>
+                        <h6 class="mb-0">Nutrition</h6>
                       </div>
                       <div class="card-body">
                         <div class="row g-3">
@@ -514,6 +520,7 @@
                               <input
                                 name="protein"
                                 type="number"
+                                min="0"
                                 class="form-control"
                               />
                               <span class="input-group-text">g</span>
@@ -525,50 +532,55 @@
                               <input
                                 name="carbs"
                                 type="number"
+                                min="0"
                                 class="form-control"
                               />
                               <span class="input-group-text">g</span>
                             </div>
                           </div>
                           <div class="col-md-4">
-                            <label class="form-label">Chất béo</label>
+                            <label class="form-label">Fat</label>
                             <div class="input-group">
                               <input
                                 name="fats"
                                 type="number"
+                                min="0"
                                 class="form-control"
                               />
                               <span class="input-group-text">g</span>
                             </div>
                           </div>
                           <div class="col-md-4">
-                            <label class="form-label">Chất xơ</label>
+                            <label class="form-label">fiber</label>
                             <div class="input-group">
                               <input
                                 name="fiber"
                                 type="number"
+                                min="0"
                                 class="form-control"
                               />
                               <span class="input-group-text">g</span>
                             </div>
                           </div>
                           <div class="col-md-4">
-                            <label class="form-label">Đường</label>
+                            <label class="form-label">Sugar</label>
                             <div class="input-group">
                               <input
                                 name="sugar"
                                 type="number"
+                                min="0"
                                 class="form-control"
                               />
                               <span class="input-group-text">g</span>
                             </div>
                           </div>
                           <div class="col-md-4">
-                            <label class="form-label">Natri</label>
+                            <label class="form-label">sodium</label>
                             <div class="input-group">
                               <input
                                 name="sodium"
                                 type="number"
+                                min="0"
                                 class="form-control"
                               />
                               <span class="input-group-text">mg</span>
@@ -674,19 +686,15 @@
                     </div>
                     <div class="card mb-3">
                       <div class="card-header bg-light">
-                        <h6>Thêm Hashtag cho Món Ăn</h6>
+                        <h6>Add tags meal</h6>
                       </div>
 
                       <div class="hashtag-container card-body py-0 my-3">
-                        <p class="instruction m-0 py-3">
-                          Mẹo: Gõ hashtag, nhấn Enter hoặc dấu phẩy để thêm.
-                          Nhấn 'x' để xóa.
-                        </p>
                         <div class="hashtag-input-wrapper">
                           <input
                             type="text"
                             id="hashtagInput-edit"
-                            placeholder="Nhập hashtag và nhấn Enter hoặc dấu phẩy (,)"
+                            placeholder=" Enter or (,) to add hashtag"
                             style="width: 100%; border: 0"
                           />
                         </div>
@@ -699,21 +707,25 @@
                     <!-- Hình ảnh và trạng thái -->
                     <div class="card mb-3">
                       <div class="card-header bg-light">
-                        <h6 class="mb-0">Hình ảnh và trạng thái</h6>
+                        <h6 class="mb-0">Image and status</h6>
                       </div>
                       <div class="card-body">
                         <div class="row g-3">
                           <div class="col-md-6">
-                            <label class="form-label">Hình ảnh món ăn</label>
+                            <label class="form-label">Image</label>
                             <input
                               name="image"
                               type="file"
                               class="form-control"
+                              value=""
                               accept="image/*"
                             />
+                            <div id="imageError" class="text-danger mt-1" style="display: none;">
+                              Vui lòng chọn ảnh hợp lệ (JPG, PNG, GIF, WEBP).
+                            </div>
                           </div>
                           <div class="col-md-6">
-                            <label class="form-label">Trạng thái</label>
+                            <label class="form-label">Status</label>
                             <select name="status" class="form-select">
                               <option value="visible">Visible</option>
                               <option value="hidden">Hidden</option>
@@ -971,7 +983,6 @@
 
           element.querySelector(".btn-edit").addEventListener("click", () => {
             editMeal(meal);
-
           });
 
           tbody.appendChild(element);
@@ -983,6 +994,62 @@
         .getElementById("mealForm")
         .addEventListener("submit", function (e) {
           e.preventDefault();
+          const formData = new FormData(this);
+
+          const checkboxes = document.querySelectorAll(
+            'input[name="meal_types"]'
+          );
+          const isChecked = Array.from(checkboxes).some((cb) => cb.checked);
+          const errorDiv = document.getElementById("mealTypeError");
+
+          if (!isChecked) {
+            errorDiv.style.display = "block";
+            // Scroll đến vùng lỗi nếu muốn:
+            errorDiv.scrollIntoView({ behavior: "smooth", block: "center" });
+            return;
+          } else {
+            errorDiv.style.display = "none";
+          }
+
+          const imageInput = this.elements["image"];
+          if (!imageInput.files || imageInput.files.length === 0) {
+            
+            imageError.textContent = "Please choose image.";
+            imageError.style.display = "block";
+            imageInput.focus();
+            return;
+          }else{
+            imageError.style.display = "none";
+          }
+
+          const file = imageInput.files[0];
+
+          // Kiểm tra định dạng MIME
+          const allowedTypes = [
+            "image/jpeg",
+            "image/png",
+            "image/gif",
+            "image/webp",
+          ];
+          if (!allowedTypes.includes(file.type)) {
+            imageError.textContent = "Image must be a JPG, PNG, GIF hoặc WEBP.";
+            imageError.style.display = "block";
+            imageInput.focus();
+            return;
+          }else{
+            imageError.style.display = "none";
+          }
+
+          // (Tuỳ chọn) Giới hạn dung lượng (ví dụ: ≤ 2MB)
+          const maxSize = 2 * 1024 * 1024; // 2MB
+          if (file.size > maxSize) {
+            imageError.textContent = "Size < 2MB";
+            imageError.style.display = "block";
+            imageInput.focus();
+            return;
+          }else{
+            imageError.style.display = "none";
+          }
 
           // Đồng bộ nội dung từ Quill vào các input hidden
           document.getElementById("description").value =
@@ -992,7 +1059,7 @@
           document.getElementById("instruction").value =
             editorInstruction.root.innerHTML;
           const hashtags = hashtagManagerEdit.getHashtags();
-          const formData = new FormData(this);
+          
 
           formData.append("hashtags", hashtags.join(","));
           formData.append("action", "add_meal");
@@ -1008,7 +1075,7 @@
                 const data = JSON.parse(text);
                 if (data.status === "success") {
                   alert("Upload success!");
-                  formData.reset();
+                  this.reset();
                 } else {
                   alert("Upload fail!");
                 }
@@ -1022,7 +1089,7 @@
         });
 
       // Hàm chỉnh sửa meal
-      function editMeal(meal) { 
+      function editMeal(meal) {
         const modal = new bootstrap.Modal(document.getElementById("mealModal"));
         modal.show();
         const form = document.getElementById("mealForm");
@@ -1119,18 +1186,13 @@
                     instructionText || "<p></p>"
                   );
                 }
-                
               }
-              
             });
-            modal.hide();
-                form.reset();
-                document.querySelector("#submitaddmeal").innerText =
-                  "Add Meal";
-                  searchFood();
+          modal.hide();
+          form.reset();
+          document.querySelector("#submitaddmeal").innerText = "Add Meal";
+          searchFood();
         };
-        
-        
       }
     </script>
   </body>

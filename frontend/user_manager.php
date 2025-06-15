@@ -3,6 +3,7 @@ require_once '../backend/configuration/Database.php';
 $db = new Database();
 $conn = $db->getConnection();
 
+
 // Lấy danh sách user
 if (isset($_GET['action']) && $_GET['action'] === 'get_users') {
     header('Content-Type: application/json');
@@ -20,10 +21,63 @@ if (isset($_POST['action']) && $_POST['action'] === 'add_user') {
     $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
     $email = $_POST['email'];
     $role = $_POST['role'];
-    $stmt = $conn->prepare("INSERT INTO users (username, password, email, role) VALUES (?, ?, ?, ?)");
-    $stmt->execute([$username, $password, $email, $role]);
-    echo json_encode(['success' => true]);
+    // Check username length
+    if (strlen($username) < 3 || strlen($username) > 50) {
+        echo json_encode(['success' => false, 'message' => 'Username must be between 3 and 50 characters']);
+        exit();
+    }
+
+    // Validate email format
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        echo json_encode(['success' => false, 'message' => 'Invalid email format']);
+        
+        exit();
+    }
+
+    // Check password length
+    if (strlen($password) < 6) {
+        echo json_encode(['success' => false, 'message' => 'Password must be at least 6 characters']);
+        exit();
+    }
+
+    
+         try {
+        // Check if username exists
+        $stmt = $conn->prepare("SELECT id FROM Users WHERE username = ?");
+        $stmt->execute([$username]);
+        if ($stmt->rowCount() > 0) {
+            echo json_encode(['success' => false, 'message' => 'Username already exists']);
+            exit();
+        }
+
+        // Check if email exists
+        $stmt = $conn->prepare("SELECT id FROM Users WHERE email = ?");
+        $stmt->execute([$email]);
+        if ($stmt->rowCount() > 0) {
+            echo json_encode(['success' => false, 'message' => 'Email already exists']);
+            exit();
+        }
+
+        // Hash password
+        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+
+        // Add new user to database
+            $stmt = $conn->prepare("INSERT INTO users (username, password, email, role) VALUES (?, ?, ?, ?)");
+            $stmt->execute([$username, $password, $email, $role]);
+
+        echo json_encode([
+            'success' => true,
+            'message' => 'Registration successful',
+            'user' => [
+                'username' => $username,
+                'email' => $email
+            ]
+        ]);
+    } catch (PDOException $e) {
+        echo json_encode(['success' => false, 'message' => 'Registration failed: ' . $e->getMessage()]);
+    }
     exit;
+
 }
 
 // Xóa user
@@ -261,6 +315,8 @@ if (isset($_POST['action']) && $_POST['action'] === 'edit_user') {
                         var modal = bootstrap.Modal.getInstance(document.getElementById('userModal'));
                         modal.hide();
                         loadUsers();
+                    }else{
+                        alert(data.message);
                     }
                 });
             };
