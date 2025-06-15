@@ -61,7 +61,7 @@ $username = $_SESSION['username'];
                                     </button>
                                     <ul class="dropdown-menu">
                                         <li><a class="dropdown-item" href="profile.html">Profile</a></li>
-                                        <li><a class="dropdown-item" href="backend/login.php">Log out</a></li>
+                                        <li><a class="dropdown-item" href="frontend/login.php">Log out</a></li>
                                     </ul>
                                 </div>
                             </div>
