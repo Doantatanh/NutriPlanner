@@ -1170,6 +1170,12 @@ h2 {
     gap: 50px;
 }
 
+@media (max-width: 480px) {
+  .contact-container{
+    grid-template-columns: 1fr;
+  }
+}
+
 .contact-info11 {
     background: white;
     padding: 40px;

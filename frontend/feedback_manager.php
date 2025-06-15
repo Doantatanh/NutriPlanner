@@ -1,18 +1,16 @@
 <?php
-$host = "localhost";
-$user = "root";
-$pass = "";
-$dbname = "nutriplanner";
-$conn = new mysqli($host, $user, $pass, $dbname);
-if ($conn->connect_error) {
-  die("Kết nối thất bại: " . $conn->connect_error);
+require_once '../backend/configuration/Database.php';
+$db = new Database();
+$conn = $db->getConnection();
+
+try{
+    $sql = "SELECT id,rating,fullname, message,email, created_at FROM feedbacks WHERE status = 0 ORDER BY created_at DESC";
+    $feedbacks = $conn->query($sql);
+}catch(PDOException $e){
+    echo "Fail connection" . $e->getMessage();
 }
 
-$sql = "SELECT id,rating,fullname, message,email, created_at FROM feedbacks WHERE status = 0 ORDER BY created_at DESC";
-$feedbacks = $conn->query($sql);
-
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -89,8 +87,8 @@ $feedbacks = $conn->query($sql);
                                 <span class="text-login fw-semibold ms-2">Admin</span>
                             </button>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="profile.html">Hồ sơ</a></li>
-                                <li><a class="dropdown-item" href="./login.php">Đăng xuất</a></li>
+                                <li><a class="dropdown-item" href="profile.html">Profile</a></li>
+                                <li><a class="dropdown-item" href="./login.php">Log out</a></li>
                             </ul>
                         </div>
                     </div>
@@ -103,12 +101,12 @@ $feedbacks = $conn->query($sql);
                                 <thead class="table-light">
                                     <tr>
                                         <th>ID</th>
-                                        <th>Tên người gửi</th>
+                                        <th>Sender's name</th>
                                         <th>Email</th>
-                                        <th>Nội dung</th>
-                                        <th>Đánh giá</th>
-                                        <th>Ngày gửi</th>
-                                        <th class="text-center">Thao Tác</th>
+                                        <th>Content</th>
+                                        <th>Review</th>
+                                        <th>Date sent</th>
+                                        <th class="text-center">Operations</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -142,7 +140,7 @@ $feedbacks = $conn->query($sql);
                     <div class="modal-dialog modal-lg">
                         <div class="modal-content rounded-4 shadow-lg">
                             <div class="modal-header">
-                                <h5 class="modal-title w-100 fw-bold" id="feedbackModalLabel">Chi Tiết Phản Hồi</h5>
+                                <h5 class="modal-title w-100 fw-bold" id="feedbackModalLabel">Feedback Details</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                                     aria-label="Close"></button>
                             </div>
@@ -150,7 +148,7 @@ $feedbacks = $conn->query($sql);
                                 <form id="feedbackReplyForm">
                                     <div class="row g-2 mb-2">
                                         <div class="col-md-6">
-                                            <label class="form-label">Tên người gửi</label>
+                                            <label class="form-label">Sender's name</label>
                                             <input name="name" class="form-control" value="" id="modalName" readonly>
                                         </div>
                                         <div class="col-md-6">
@@ -159,14 +157,14 @@ $feedbacks = $conn->query($sql);
                                         </div>
                                     </div>
                                     <div class="mb-2">
-                                        <label class="form-label">Nội dung phản hồi</label>
+                                        <label class="form-label">Content</label>
                                         <textarea name="content" class="form-control" rows="3" id="modalMessage"readonly>
                                             
                                         </textarea>
                                     </div>
                                     <div class="row g-2 mb-2">
                                         <div class="col-md-6">
-                                            <label class="form-label">Đánh giá</label>
+                                            <label class="form-label">Review</label>
                                             <div class="star-rating" id="modalRating">
                                                 <i class="fa fa-star"></i>
                                                 <i class="fa fa-star"></i>
@@ -176,23 +174,22 @@ $feedbacks = $conn->query($sql);
                                             </div>
                                         </div>
                                         <div class="col-md-6">
-                                            <label class="form-label">Trạng thái</label>
+                                            <label class="form-label">Status</label>
                                             <select name="status" class="form-select">
-                                                <option value="Đã đọc">Đã đọc</option>
-                                                <option value="Chưa đọc">Chưa đọc</option>
+                                                <option value="Đã đọc">Read</option>
+                                                <option value="Chưa đọc">Unread</option>
                                             </select>
                                         </div>
                                     </div>
                                     <div class="mb-2">
-                                        <label class="form-label">Trả lời người dùng</label>
+                                        <label class="form-label">Answer the user</label>
                                         <textarea class="form-control" name="reply_content" rows="3"
                                             placeholder="Nhập nội dung trả lời..."></textarea>
                                     </div>
                                     <div class="d-flex justify-content-end gap-2 mt-3">
                                         <button type="button" class="btn btn-light border"
-                                            data-bs-dismiss="modal">Đóng</button>
-                                        <button class="btn btn-primary px-4" type="submit">Gửi trả lời qua
-                                            email</button>
+                                            data-bs-dismiss="modal">Close</button>
+                                        <button class="btn btn-primary px-4" type="submit">Reply via email</button>
                                     </div>
                                 </form>
                             </div>

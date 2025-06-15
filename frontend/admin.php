@@ -2,15 +2,11 @@
 session_start();
 $username = $_SESSION['username'];
 
-$host = "localhost";
-$dbname = "nutriplanner";
-$port = "3306";
-$user = "root";
-$pass = "";
+require_once '../backend/configuration/Database.php';
+$db = new Database();
+$conn = $db->getConnection();
 
 try {
-    $conn = new PDO("mysql:host=$host;dbname=$dbname;port=$port", $user, $pass);
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     $sqlTotalDish = "SELECT COUNT(*) AS total FROM meals";
     $stmt = $conn->prepare($sqlTotalDish);
@@ -209,18 +205,18 @@ try {
                             <path
                                 d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm15 2h-4v3h4zm0 4h-4v3h4zm0 4h-4v3h3a1 1 0 0 0 1-1zm-5 3v-3H6v3zm-5 0v-3H1v2a1 1 0 0 0 1 1zm-4-4h4V8H1zm0-4h4V4H1zm5-3v3h4V4zm4 4H6v3h4z" />
                         </svg>
-                        <span class="card-title-header"> Bữa Ăn Mới Thêm Gần Đây</span>
+                        <span class="card-title-header"> Recently Added Meals</span>
                     </div>
                     <div class="card-body">
                         <table class="table table-striped">
                             <thead>
                                 <tr>
                                     <th>ID</th>
-                                    <th>Tên Bữa Ăn</th>
-                                    <th>Danh Mục</th>
+                                    <th>Meal Name</th>
+                                    <th>Category</th>
                                     <th>Calo</th>
-                                    <th>Loại Chế Độ Ăn</th>
-                                    <th>Ngày Tạo</th>
+                                    <th>Diet Type</th>
+                                    <th>Date Created</th>
 
                                 </tr>
                             </thead>
@@ -243,18 +239,6 @@ try {
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const tabbutton = document.querySelectorAll('.tab-btn');
-
-            tabbutton.forEach(button => {
-                button.addEventListener('click', () => {
-                    tabbutton.forEach(btn => btn.classList.remove('active'));
-                    button.classList.add('active');
-                });
-            });
-        });
-    </script>
 </body>
 
 </html>
