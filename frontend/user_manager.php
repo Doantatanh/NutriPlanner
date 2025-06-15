@@ -187,7 +187,7 @@ if (isset($_POST['action']) && $_POST['action'] === 'edit_user') {
                             </button>
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="profile.html">Hồ sơ</a></li>
-                                <li><a class="dropdown-item" href="login.html">Đăng xuất</a></li>
+                                <li><a class="dropdown-item" href="login.php">Đăng xuất</a></li>
                             </ul>
                         </div>
                     </div>
