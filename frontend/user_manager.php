@@ -145,7 +145,7 @@ if (isset($_POST['action']) && $_POST['action'] === 'edit_user') {
                     </div>
                     <ul class="nav flex-column">
                         <li class="nav-item">
-                            <a href="../backend/admin.php" class="nav-link text-white tab-btn">
+                            <a href="./admin.php" class="nav-link text-white tab-btn">
                                 <i class="fa fa-tachometer-alt me-2"></i> Dashboard
                             </a>
                         </li>
@@ -155,17 +155,12 @@ if (isset($_POST['action']) && $_POST['action'] === 'edit_user') {
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="./material_manager.html" class="nav-link text-white tab-btn">
-                                <i class="fa fa-tags me-2"></i> Material management
-                            </a>
-                        </li>
-                        <li class="nav-item">
                             <a href="user_manager.php" class="nav-link active text-white tab-btn">
                                 <i class="fa fa-users me-2"></i> User management
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="./feedback_manager.html" class="nav-link text-white tab-btn">
+                            <a href="./feedback_manager.php" class="nav-link text-white tab-btn">
                                 <i class="fa fa-comments me-2"></i> Feedback
                             </a>
                         </li>

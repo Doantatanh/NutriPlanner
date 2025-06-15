@@ -43,6 +43,7 @@
 .ingredient-item{
     display: grid;
     grid-template-columns: 2fr 1fr 40px;
+    align-items: center;
     gap: 10px;
     margin-bottom: 15px;
 }
