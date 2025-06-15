@@ -145,7 +145,7 @@ if (isset($_POST['action']) && $_POST['action'] === 'edit_user') {
                     </div>
                     <ul class="nav flex-column">
                         <li class="nav-item">
-                            <a href="../backend/admin.php" class="nav-link text-white tab-btn">
+                            <a href="./admin.php" class="nav-link text-white tab-btn">
                                 <i class="fa fa-tachometer-alt me-2"></i> Dashboard
                             </a>
                         </li>
@@ -155,17 +155,12 @@ if (isset($_POST['action']) && $_POST['action'] === 'edit_user') {
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="./material_manager.html" class="nav-link text-white tab-btn">
-                                <i class="fa fa-tags me-2"></i> Material management
-                            </a>
-                        </li>
-                        <li class="nav-item">
                             <a href="user_manager.php" class="nav-link active text-white tab-btn">
                                 <i class="fa fa-users me-2"></i> User management
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="./feedback_manager.html" class="nav-link text-white tab-btn">
+                            <a href="./feedback_manager.php" class="nav-link text-white tab-btn">
                                 <i class="fa fa-comments me-2"></i> Feedback
                             </a>
                         </li>
@@ -179,22 +174,22 @@ if (isset($_POST['action']) && $_POST['action'] === 'edit_user') {
                     <h1 class="h2 fw-bold">User Management</h1>
                     <div class="btn-toolbar mb-2 mb-md-0">
                         <div class="dropdown">
-                            <button class="btn btn-sm btn-outline-none dropdown-toggle" data-bs-toggle="dropdown"
+                            <button class="btn btn-sm btn-outline-none dropdown-toggle d-flex align-items-center justify-content-center" data-bs-toggle="dropdown"
                                 type="button">
                                 <img src="../assets/images/admin.png" alt="admin" class="rounded-circle border"
                                     width="36">
                                 <span class="text-login fw-semibold ms-2">Admin</span>
                             </button>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="profile.html">Hồ sơ</a></li>
-                                <li><a class="dropdown-item" href="login.php">Đăng xuất</a></li>
+                                <li><a class="dropdown-item" href="profile.html">Profile</a></li>
+                                <li><a class="dropdown-item" href="login.php">Log out</a></li>
                             </ul>
                         </div>
                     </div>
                 </div>
                 <div class="d-flex justify-content-between align-items-center mb-4">
                     <button class="btn btn-success add-user-btn" data-bs-toggle="modal" data-bs-target="#userModal">
-                        <i class="fa fa-plus"></i> Thêm người dùng
+                        <i class="fa fa-plus"></i> Add User
                     </button>
                 </div>
                 <div class="card shadow-sm rounded-4 border-0">
@@ -208,8 +203,8 @@ if (isset($_POST['action']) && $_POST['action'] === 'edit_user') {
                                         <th>Password</th>
                                         <th>Email</th>
                                         <th>Role</th>
-                                        <th>Ngày tạo</th>
-                                        <th class="text-center">Thao Tác</th>
+                                        <th>Date created</th>
+                                        <th class="text-center">Operations</th>
                                     </tr>
                                 </thead>
                                 <tbody id="user-table-body"></tbody>
@@ -223,7 +218,7 @@ if (isset($_POST['action']) && $_POST['action'] === 'edit_user') {
                     <div class="modal-dialog modal-lg">
                         <div class="modal-content rounded-4 shadow-lg">
                             <div class="modal-header">
-                                <h5 class="modal-title w-100 fw-bold" id="userModalLabel">Thêm Người Dùng
+                                <h5 class="modal-title w-100 fw-bold" id="userModalLabel">Add User
                                 </h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                                     aria-label="Close"></button>
@@ -255,8 +250,8 @@ if (isset($_POST['action']) && $_POST['action'] === 'edit_user') {
                                     </div>
                                     <div class="d-flex justify-content-end gap-2 mt-3">
                                         <button type="button" class="btn btn-light border"
-                                            data-bs-dismiss="modal">Hủy</button>
-                                        <button class="btn btn-primary px-4" type="submit">Lưu Người Dùng</button>
+                                            data-bs-dismiss="modal">Close</button>
+                                        <button class="btn btn-primary px-4" type="submit">Save User</button>
                                     </div>
                                 </form>
                             </div>

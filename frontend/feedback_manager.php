@@ -1,19 +1,16 @@
 <?php
-$host = "localhost";
-$user = "root";
-$pass = ""; // Mật khẩu MySQL của bạn
-$dbname = "nutriplanner";
-$conn = new mysqli($host, $user, $pass, $dbname);
-if ($conn->connect_error) {
-  die("Kết nối thất bại: " . $conn->connect_error);
+require_once '../backend/configuration/Database.php';
+$db = new Database();
+$conn = $db->getConnection();
+
+try{
+    $sql = "SELECT id,rating,fullname, message,email, created_at FROM feedbacks WHERE status = 0 ORDER BY created_at DESC";
+    $feedbacks = $conn->query($sql);
+}catch(PDOException $e){
+    echo "Fail connection" . $e->getMessage();
 }
 
-// Lấy danh sách feedback mới nhất
-$sql = "SELECT id,rating,fullname, message,email, created_at FROM feedbacks WHERE status = 0 ORDER BY created_at DESC";
-$feedbacks = $conn->query($sql);
-
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -64,17 +61,12 @@ $feedbacks = $conn->query($sql);
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="./material_manager.html" class="nav-link text-white tab-btn">
-                                <i class="fa fa-tags me-2"></i> Material management
-                            </a>
-                        </li>
-                        <li class="nav-item">
                             <a href="./user_manager.php" class="nav-link text-white tab-btn">
                                 <i class="fa fa-users me-2"></i> User management
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="./feedback_manager.html" class="nav-link active text-white tab-btn">
+                            <a href="./feedback_manager.php" class="nav-link active text-white tab-btn">
                                 <i class="fa fa-comments me-2"></i> Feedback
                             </a>
                         </li>
@@ -95,8 +87,8 @@ $feedbacks = $conn->query($sql);
                                 <span class="text-login fw-semibold ms-2">Admin</span>
                             </button>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="profile.html">Hồ sơ</a></li>
-                                <li><a class="dropdown-item" href="../backend/login.php">Đăng xuất</a></li>
+                                <li><a class="dropdown-item" href="profile.html">Profile</a></li>
+                                <li><a class="dropdown-item" href="./login.php">Log out</a></li>
                             </ul>
                         </div>
                     </div>
@@ -109,29 +101,29 @@ $feedbacks = $conn->query($sql);
                                 <thead class="table-light">
                                     <tr>
                                         <th>ID</th>
-                                        <th>Tên người gửi</th>
+                                        <th>Sender's name</th>
                                         <th>Email</th>
-                                        <th>Nội dung</th>
-                                        <th>Đánh giá</th>
-                                        <th>Ngày gửi</th>
-                                        <th class="text-center">Thao Tác</th>
+                                        <th>Content</th>
+                                        <th>Review</th>
+                                        <th>Date sent</th>
+                                        <th class="text-center">Operations</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                         <?php foreach ($feedbacks as $feedback): ?>
                                             <tr>
-                                                <td><?= $feedback['id'] ?></td>
-                                                <td><?= htmlspecialchars($feedback['fullname']) ?></td>
-                                                <td><?= htmlspecialchars($feedback['email']) ?></td>
-                                                <td><?= htmlspecialchars($feedback['message']) ?></td>
-                                                <td><?= $feedback['rating'] ?> ★</td>
-                                                <td><?= $feedback['created_at'] ?></td>
+                                                <td><?php echo $feedback['id'] ?></td>
+                                                <td><?php echo htmlspecialchars($feedback['fullname']) ?></td>
+                                                <td><?php echo htmlspecialchars($feedback['email']) ?></td>
+                                                <td><?php echo htmlspecialchars($feedback['message']) ?></td>
+                                                <td><?php echo $feedback['rating'] ?> ★</td>
+                                                <td><?php echo $feedback['created_at'] ?></td>
                                                 <td class="text-center">
-                                                    <button class="btn btn-sm btn-info" data-bs-toggle="modal"
-                                                        data-bs-target="#feedbackModal" title="Xem chi tiết">
+                                                    <button class="btn btn-sm btn-info btn-view" data-bs-toggle="modal"
+                                                        data-bs-target="#feedbackModal" data-name="<?php echo htmlspecialchars($feedback['fullname']) ?>"  data-email="<?php echo htmlspecialchars($feedback['email']) ?>" data-message="<?php echo htmlspecialchars($feedback['message']) ?>" data-rating="<?php echo $feedback['rating'] ?>"  data-created="<?php echo $feedback['created_at'] ?>"title="Xem chi tiết">
                                                         <i class="fa fa-eye"></i>
                                                     </button>
-                                                    <button class="btn btn-sm btn-danger">
+                                                    <button class="btn btn-sm btn-danger btn-delete "  data-id="<?php echo $feedback['id'] ?>">
                                                         <i class="fa-solid fa-trash"></i>
                                                     </button>
                                                 </td>
@@ -148,7 +140,7 @@ $feedbacks = $conn->query($sql);
                     <div class="modal-dialog modal-lg">
                         <div class="modal-content rounded-4 shadow-lg">
                             <div class="modal-header">
-                                <h5 class="modal-title w-100 fw-bold" id="feedbackModalLabel">Chi Tiết Phản Hồi</h5>
+                                <h5 class="modal-title w-100 fw-bold" id="feedbackModalLabel">Feedback Details</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                                     aria-label="Close"></button>
                             </div>
@@ -156,23 +148,24 @@ $feedbacks = $conn->query($sql);
                                 <form id="feedbackReplyForm">
                                     <div class="row g-2 mb-2">
                                         <div class="col-md-6">
-                                            <label class="form-label">Tên người gửi</label>
-                                            <input name="name" class="form-control" value="Nguyễn Văn A" readonly>
+                                            <label class="form-label">Sender's name</label>
+                                            <input name="name" class="form-control" value="" id="modalName" readonly>
                                         </div>
                                         <div class="col-md-6">
                                             <label class="form-label">Email</label>
-                                            <input name="email" class="form-control" value="a@gmail.com" readonly>
+                                            <input name="email" class="form-control" value="" id="modalEmail" readonly>
                                         </div>
                                     </div>
                                     <div class="mb-2">
-                                        <label class="form-label">Nội dung phản hồi</label>
-                                        <textarea name="content" class="form-control" rows="3"
-                                            readonly>Ứng dụng rất tốt!</textarea>
+                                        <label class="form-label">Content</label>
+                                        <textarea name="content" class="form-control" rows="3" id="modalMessage"readonly>
+                                            
+                                        </textarea>
                                     </div>
                                     <div class="row g-2 mb-2">
                                         <div class="col-md-6">
-                                            <label class="form-label">Đánh giá</label>
-                                            <div class="star-rating">
+                                            <label class="form-label">Review</label>
+                                            <div class="star-rating" id="modalRating">
                                                 <i class="fa fa-star"></i>
                                                 <i class="fa fa-star"></i>
                                                 <i class="fa fa-star"></i>
@@ -181,23 +174,22 @@ $feedbacks = $conn->query($sql);
                                             </div>
                                         </div>
                                         <div class="col-md-6">
-                                            <label class="form-label">Trạng thái</label>
+                                            <label class="form-label">Status</label>
                                             <select name="status" class="form-select">
-                                                <option value="Đã đọc">Đã đọc</option>
-                                                <option value="Chưa đọc">Chưa đọc</option>
+                                                <option value="Đã đọc">Read</option>
+                                                <option value="Chưa đọc">Unread</option>
                                             </select>
                                         </div>
                                     </div>
                                     <div class="mb-2">
-                                        <label class="form-label">Trả lời người dùng</label>
+                                        <label class="form-label">Answer the user</label>
                                         <textarea class="form-control" name="reply_content" rows="3"
                                             placeholder="Nhập nội dung trả lời..."></textarea>
                                     </div>
                                     <div class="d-flex justify-content-end gap-2 mt-3">
                                         <button type="button" class="btn btn-light border"
-                                            data-bs-dismiss="modal">Đóng</button>
-                                        <button class="btn btn-primary px-4" type="submit">Gửi trả lời qua
-                                            email</button>
+                                            data-bs-dismiss="modal">Close</button>
+                                        <button class="btn btn-primary px-4" type="submit">Reply via email</button>
                                     </div>
                                 </form>
                             </div>
@@ -208,6 +200,55 @@ $feedbacks = $conn->query($sql);
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const deleteButtons = document.querySelectorAll(".btn-delete");
+
+            deleteButtons.forEach(button => {
+                button.addEventListener("click", function () {
+                    const feedbackId = this.getAttribute("data-id");
+                    if (confirm("Are you sure you want to hide this response?")) {
+                        fetch("../backend/update_status.php", {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/x-www-form-urlencoded"
+                            },
+                            body: "id=" + feedbackId
+                        })
+                        .then(res => res.text())
+                        .then(response => {
+                            if (response.trim() === "success") {
+                                location.reload();
+                            } else {
+                                alert("Đã xảy ra lỗi!");
+                            }
+                        });
+                    }
+                });
+            });
+            const viewButtons = document.querySelectorAll(".btn-view");
+            viewButtons.forEach(button => {
+                button.addEventListener("click", function () {
+                    const name = this.getAttribute("data-name");
+                    const email = this.getAttribute("data-email");
+                    const message = this.getAttribute("data-message");
+                    const rating = parseInt(this.getAttribute("data-rating"));
+                    const createdAt = this.getAttribute("data-created");
+
+                    document.getElementById("modalName").value = name;
+                    document.getElementById("modalEmail").value = email;
+                    document.getElementById("modalMessage").value = message;
+
+                    const ratingDiv = document.getElementById("modalRating");
+                    ratingDiv.innerHTML = "";
+                    for (let i = 1; i <= 5; i++) {
+                        ratingDiv.innerHTML += `<i class="fa${i <= rating ? 's' : 'r'} fa-star"></i>`;
+                    }
+                });
+            });
+        });
+    </script>
+
 </body>
 
 </html>

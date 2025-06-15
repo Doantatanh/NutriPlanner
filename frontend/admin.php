@@ -2,15 +2,11 @@
 session_start();
 $username = $_SESSION['username'];
 
-$host = "localhost";
-$dbname = "nutriplanner";
-$port = "3306";
-$user = "root";
-$pass = "";
+require_once '../backend/configuration/Database.php';
+$db = new Database();
+$conn = $db->getConnection();
 
 try {
-    $conn = new PDO("mysql:host=$host;dbname=$dbname;port=$port", $user, $pass);
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     $sqlTotalDish = "SELECT COUNT(*) AS total FROM meals";
     $stmt = $conn->prepare($sqlTotalDish);
@@ -92,19 +88,6 @@ try {
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="./material_manager.html" class="nav-link text-white tab-btn">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                    style="margin-right: 5px; transform: translateY(-3px);" class="bi bi-tags-fill"
-                                    viewBox="0 0 16 16">
-                                    <path
-                                        d="M2 2a1 1 0 0 1 1-1h4.586a1 1 0 0 1 .707.293l7 7a1 1 0 0 1 0 1.414l-4.586 4.586a1 1 0 0 1-1.414 0l-7-7A1 1 0 0 1 2 6.586zm3.5 4a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3" />
-                                    <path
-                                        d="M1.293 7.793A1 1 0 0 1 1 7.086V2a1 1 0 0 0-1 1v4.586a1 1 0 0 0 .293.707l7 7a1 1 0 0 0 1.414 0l.043-.043z" />
-                                </svg>
-                                Material management
-                            </a>
-                        </li>
-                        <li class="nav-item">
                             <a href="./user_manager.php" class="nav-link text-white tab-btn">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                     style="margin-right: 5px; transform: translateY(-3px);" class="bi bi-people"
@@ -145,7 +128,7 @@ try {
                             </button>
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="profile.html">Profile</a></li>
-                                <li><a class="dropdown-item" href="../backend/login.php">Log out</a></li>
+                                <li><a class="dropdown-item" href="./login.php">Log out</a></li>
                             </ul>
                         </div>
                     </div>
@@ -181,7 +164,7 @@ try {
                                 <h2 class="display-4"><?php echo $totalUsers; ?></h2>
                             </div>
                             <div class="card-footer d-flex">
-                                <a href="./user_manager.html">View Details</a>
+                                <a href="./user_manager.php">View Details</a>
                                 <span class="ms-auto">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                         class="bi bi-chevron-right" viewBox="0 0 16 16">
@@ -201,7 +184,7 @@ try {
                                 <h2 class="display-4"><?php echo $totalFeedback; ?></h2>
                             </div>
                             <div class="card-footer d-flex">
-                                <a href="./feedback_manager.html">View Details</a>
+                                <a href="./feedback_manager.php">View Details</a>
                                 <span class="ms-auto">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                         class="bi bi-chevron-right" viewBox="0 0 16 16">
@@ -222,18 +205,18 @@ try {
                             <path
                                 d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm15 2h-4v3h4zm0 4h-4v3h4zm0 4h-4v3h3a1 1 0 0 0 1-1zm-5 3v-3H6v3zm-5 0v-3H1v2a1 1 0 0 0 1 1zm-4-4h4V8H1zm0-4h4V4H1zm5-3v3h4V4zm4 4H6v3h4z" />
                         </svg>
-                        <span class="card-title-header"> Bữa Ăn Mới Thêm Gần Đây</span>
+                        <span class="card-title-header"> Recently Added Meals</span>
                     </div>
                     <div class="card-body">
                         <table class="table table-striped">
                             <thead>
                                 <tr>
                                     <th>ID</th>
-                                    <th>Tên Bữa Ăn</th>
-                                    <th>Danh Mục</th>
+                                    <th>Meal Name</th>
+                                    <th>Category</th>
                                     <th>Calo</th>
-                                    <th>Loại Chế Độ Ăn</th>
-                                    <th>Ngày Tạo</th>
+                                    <th>Diet Type</th>
+                                    <th>Date Created</th>
 
                                 </tr>
                             </thead>
@@ -256,18 +239,6 @@ try {
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const tabbutton = document.querySelectorAll('.tab-btn');
-
-            tabbutton.forEach(button => {
-                button.addEventListener('click', () => {
-                    tabbutton.forEach(btn => btn.classList.remove('active'));
-                    button.classList.add('active');
-                });
-            });
-        });
-    </script>
 </body>
 
 </html>
