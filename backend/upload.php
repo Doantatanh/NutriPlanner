@@ -11,11 +11,24 @@ require_once "configuration/Database.php";
 
    if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['action'] === 'add_meal') {
         $name = trim($_POST['name'] ?? "");
+        
+        // Kiểm tra trùng tên
+        $checkStmt = $connect->prepare("SELECT COUNT(*) FROM meals WHERE name = ?");
+        $checkStmt->execute([$name]);
+        $nameExists = $checkStmt->fetchColumn();
+
+        if ($nameExists) {
+            echo json_encode([
+                "status" => "error",
+                "message" => "Meal already exist please choose another name"
+            ]);
+            exit; // Ngưng không cho chèn tiếp
+        }
         $prep_time = trim($_POST['prep_time'] ?? "") ;
         $calories = trim($_POST['calories'] ?? "");
         $status = trim($_POST['status'] ?? "");
         $description = trim($_POST['description'] ?? "");
-        $instructions = trim($_POST['instructions'] ?? "");
+        $instructions = trim($_POST['instruction'] ?? "");
         $ingredients = trim($_POST['ingredients'] ?? "");
 
         // Lấy checkbox mảng: tags, meal_types
@@ -71,6 +84,7 @@ require_once "configuration/Database.php";
         } catch (Exception $e) {
             echo json_encode(["status" => "error", "message" => $e->getMessage()]);
         }
+        
         $acc = $connect->prepare("SELECT id from meals WHERE name = ?");
         $acc->execute([$name]);  
         $meal = $acc->fetch(PDO::FETCH_ASSOC);
