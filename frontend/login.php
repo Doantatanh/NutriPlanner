@@ -319,7 +319,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     setTimeout(() => {
                         // Redirect based on user role
                         if (data.user.role === 'Admin') {
-                            window.location.href = 'admin.php';
+                            window.location.href = '../frontend/admin.php';
                         } else {
                             window.location.href = '../index.php';
                         }
