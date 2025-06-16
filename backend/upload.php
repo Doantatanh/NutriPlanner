@@ -96,13 +96,7 @@ require_once "configuration/Database.php";
             VALUES (?, ?, ?)");
             $stmt->execute([$id, $i, $nutrition[$i-1]]);
         }
-            
-
-
     }
-
-
-
         
         if (isset($_POST['action']) && $_POST['action'] === 'edit_meal') {
         $id = $_POST["id"];
