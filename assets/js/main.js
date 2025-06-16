@@ -224,7 +224,7 @@ function opencard(meal) {
                         <div class="nutrition-item">
 
                             <span class="nutrition-name">Carbs</span>
-                            <span>${meal.nutrition.carbs ?? 0}g</span>
+                            <span>${meal.nutrition.carb ?? 0}g</span>
                         </div>
                         <div class="nutrition-item">
                             <span class="nutrition-name">Fat</span>
@@ -244,7 +244,7 @@ function opencard(meal) {
                         </div>
                         <div class="nutrition-item">
                             <span class="nutrition-name">Times</span>
-                            <span>${meal.prepTime?? 0} mins</span>
+                            <span>${meal.prep_time?? 0} mins</span>
                         </div>
                     </div>
                 </div>
