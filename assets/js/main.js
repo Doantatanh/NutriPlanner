@@ -211,7 +211,7 @@ function opencard(meal) {
                 </div>
             </div>
             <div class="nutrition-facts">
-                    <h3>Thông tin dinh dưỡng</h3>
+                    <h3>Nutrition information</h3>
                     <div class="nutrition-grid">
                         <div class="nutrition-item">
                             <span class="nutrition-name">Calories</span>
@@ -227,15 +227,15 @@ function opencard(meal) {
                             <span>${meal.nutrition.carbs ?? 0}g</span>
                         </div>
                         <div class="nutrition-item">
-                            <span class="nutrition-name">Chất béo</span>
+                            <span class="nutrition-name">Fat</span>
                             <span>${meal.nutrition.fat ?? 0}g</span>
                         </div>
                         <div class="nutrition-item">
-                            <span class="nutrition-name">Chất xơ</span>
+                            <span class="nutrition-name">Fiber</span>
                             <span>${meal.nutrition.fiber ?? 0}g</span>
                         </div>
                         <div class="nutrition-item">
-                            <span class="nutrition-name">Đường</span>
+                            <span class="nutrition-name">Suger</span>
                             <span>${meal.nutrition.sugar ?? 0}g</span>
                         </div>
                         <div class="nutrition-item">
@@ -243,8 +243,8 @@ function opencard(meal) {
                             <span>${meal.nutrition.sodium ?? 0}mg</span>
                         </div>
                         <div class="nutrition-item">
-                            <span class="nutrition-name">Thời gian</span>
-                            <span>${meal.prepTime?? 0} phút</span>
+                            <span class="nutrition-name">Times</span>
+                            <span>${meal.prepTime?? 0} mins</span>
                         </div>
                     </div>
                 </div>
