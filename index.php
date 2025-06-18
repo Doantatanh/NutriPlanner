@@ -57,7 +57,7 @@ $username = $_SESSION['username'];
                                         data-bs-toggle="dropdown" type="button">
                                         <img src="../../assets/images/admin.png" alt="admin" class="rounded-circle"
                                             width="30" height="30" style="object-fit: fit;">
-                                        <span class="text-login"><?php  echo $username ?></span>
+                                        <span class="text-login"><?php echo $username ?></span>
                                     </button>
                                     <ul class="dropdown-menu">
                                         <li><a class="dropdown-item" href="profile.html">Profile</a></li>
@@ -84,7 +84,7 @@ $username = $_SESSION['username'];
                             <div class="component-number">500+</div>
                             <div class="component-text">Recipes</div>
                         </div>
-                    </div>   
+                    </div>
                     <div class="component">
                         <i class="fas fa-users"></i>
                         <div class="component-container">
@@ -196,7 +196,7 @@ $username = $_SESSION['username'];
 
             <div class="meal-filter">
                 <div id="searchForm">
-                    
+
                     <div class="filters">
 
                         <div class="filter-group flex-fill">
@@ -204,10 +204,10 @@ $username = $_SESSION['username'];
                             <div class="hashtag-input-wrapper">
                                 <input type="text" id="hashtagInput" placeholder="Enter hashtag và press Enter or (,)" data-has-listeners="true">
                                 <div class="">
-                                <ul id="hashtagList" class="hashtag-list"></ul>
-                            </div>
+                                    <ul id="hashtagList" class="hashtag-list"></ul>
+                                </div>
 
-                      </div>
+                            </div>
                         </div>
                         <div class="filter-container  d-flex">
                             <div class="filter-group col-6  pe-2">
@@ -232,7 +232,7 @@ $username = $_SESSION['username'];
                                 </select>
                             </div>
                         </div>
-                
+
                     </div>
                     <div class="search-container">
                         <input type="text" class="search-input" name="search_query" id="input_search" placeholder="Enter meal name...">
@@ -243,12 +243,25 @@ $username = $_SESSION['username'];
                     </div>
                 </div>
             </div>
-            <div class="overflow-auto" style="height: 700px;">
-                <div class="meals-grid "   id="meals-grid">
-                    
+            <div class="" >
+                <div class="meals-grid " id="meals-grid">
+
+                </div>
+                <!-- From Uiverse.io by zebra76966 -->
+                 
+
+
             </div>
-            </div>
-            
+            <div class="text-center my-2">
+                    <button class="c-button px-2 " id="load-more">
+                        <span class="c-main">
+                            Load More
+                            <span class="">+</span></span>
+                            
+                        </span>
+                    </button>
+                 </div>
+
         </div>
     </section>
 
@@ -423,7 +436,7 @@ $username = $_SESSION['username'];
                 <h2>Contact Us</h2>
                 <p>Do you have questions or need support? The NutriPlanner team is always ready to assist you.</p>
             </div>
-            
+
             <div class="contact-container">
                 <div class="contact-info1">
                     <h3>Contact Information</h3>
@@ -437,7 +450,7 @@ $username = $_SESSION['username'];
                                 <p>285 Doi Can Street, Ba Dinh District, Hanoi City</p>
                             </div>
                         </div>
-                        
+
                         <div>
                             <div class="contact-icon">
                                 <i class="fas fa-phone-alt"></i>
@@ -447,7 +460,7 @@ $username = $_SESSION['username'];
                                 <p>+84 28 1234 5678</p>
                             </div>
                         </div>
-                        
+
                         <div>
                             <div class="contact-icon">
                                 <i class="fas fa-envelope"></i>
@@ -457,7 +470,7 @@ $username = $_SESSION['username'];
                                 <p>support@nutriplanner.com</p>
                             </div>
                         </div>
-                        
+
                         <div>
                             <div class="contact-icon">
                                 <i class="fas fa-clock"></i>
@@ -469,7 +482,7 @@ $username = $_SESSION['username'];
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="map-container">
                     <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3723.9231239864!2d105.81641017601285!3d21.035761787536657!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135ab0d127a01e7%3A0xab069cd4eaa76ff2!2zMjg1IFAuIMSQ4buZaSBD4bqlbiwgTGnhu4V1IEdpYWksIEJhIMSQw6xuaCwgSMOgIE7hu5lpIDEwMDAwMCwgVmlldG5hbQ!5e0!3m2!1sen!2s!4v1747836344495!5m2!1sen!2s" width="400" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                 </div>
@@ -585,87 +598,84 @@ $username = $_SESSION['username'];
             });
         });
     </script>
-     <script>
-      document.addEventListener("DOMContentLoaded", () => {
-        const hashtagInput = document.getElementById("hashtagInput");
-        const hashtagList = document.getElementById("hashtagList");
-        
-        const renderHashtags = () => {
-          hashtagList.innerHTML = "";
-          hashtags.forEach((tag, index) => {
-            const li = document.createElement("li");
-            li.className = "hashtag-item";
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const hashtagInput = document.getElementById("hashtagInput");
+            const hashtagList = document.getElementById("hashtagList");
 
-            const span = document.createElement("span");
-            span.className = "value__tag"; // 👈 Thêm class vào đây
-            span.textContent = tag; // An toàn
+            const renderHashtags = () => {
+                hashtagList.innerHTML = "";
+                hashtags.forEach((tag, index) => {
+                    const li = document.createElement("li");
+                    li.className = "hashtag-item";
 
-            const button = document.createElement("button");
-            button.type = "button";
-            button.className = "remove-tag";
-            button.dataset.index = index;
-            button.textContent = "x";
+                    const span = document.createElement("span");
+                    span.className = "value__tag"; // 👈 Thêm class vào đây
+                    span.textContent = tag; // An toàn
 
-            li.appendChild(span);
-            li.appendChild(button);
-            hashtagList.appendChild(li);
-          });
-        };
+                    const button = document.createElement("button");
+                    button.type = "button";
+                    button.className = "remove-tag";
+                    button.dataset.index = index;
+                    button.textContent = "x";
 
-        // Hàm để thêm một hashtag
-        const addHashtag = (tag) => {
-          const cleanedTag = tag.trim().toLowerCase(); // Xóa khoảng trắng và chuyển về chữ thường
-          if (cleanedTag && !hashtags.includes(cleanedTag)) {
-            // Chỉ thêm nếu không rỗng và chưa tồn tại
-            hashtags.push(cleanedTag);
-            console.log(hashtags);
-            renderHashtags();
-          }
-        };
+                    li.appendChild(span);
+                    li.appendChild(button);
+                    hashtagList.appendChild(li);
+                });
+            };
 
-        // Hàm để xóa một hashtag
-        const removeHashtag = (index) => {
-          hashtags.splice(index, 1); // Xóa phần tử tại vị trí index
-          renderHashtags();
-        };
+            // Hàm để thêm một hashtag
+            const addHashtag = (tag) => {
+                const cleanedTag = tag.trim().toLowerCase(); // Xóa khoảng trắng và chuyển về chữ thường
+                if (cleanedTag && !hashtags.includes(cleanedTag)) {
+                    // Chỉ thêm nếu không rỗng và chưa tồn tại
+                    hashtags.push(cleanedTag);
+                    console.log(hashtags);
+                    renderHashtags();
+                }
+            };
 
-        
-        hashtagInput.addEventListener("keydown", (e) => {
-            console.log("danhan");
-          if (e.key === "Enter" || e.key === ",") {
-            
-            e.preventDefault(); 
-            const inputValue = hashtagInput.value;
-            if (inputValue) {
-              addHashtag(inputValue);
-              hashtagInput.value = ""; // Xóa nội dung trong input sau khi thêm
-            }
-          }
+            // Hàm để xóa một hashtag
+            const removeHashtag = (index) => {
+                hashtags.splice(index, 1); // Xóa phần tử tại vị trí index
+                renderHashtags();
+            };
+
+
+            hashtagInput.addEventListener("keydown", (e) => {
+                console.log("danhan");
+                if (e.key === "Enter" || e.key === ",") {
+
+                    e.preventDefault();
+                    const inputValue = hashtagInput.value;
+                    if (inputValue) {
+                        addHashtag(inputValue);
+                        hashtagInput.value = ""; // Xóa nội dung trong input sau khi thêm
+                    }
+                }
+            });
+
+            // Lắng nghe sự kiện click trên các nút 'x' (xóa hashtag)
+            hashtagList.addEventListener("click", (e) => {
+                if (e.target.classList.contains("remove-tag")) {
+                    const index = parseInt(e.target.dataset.index); // Lấy index từ data-index
+                    removeHashtag(index);
+                }
+            });
+
+            // (Tùy chọn) Xử lý dán văn bản có nhiều hashtag
+            hashtagInput.addEventListener("paste", (e) => {
+                e.preventDefault();
+                const pasteData = e.clipboardData.getData("text");
+                const tags = pasteData
+                    .split(/[\s,]+/)
+                    .filter((tag) => tag.trim() !== ""); // Tách theo khoảng trắng hoặc dấu phẩy
+                tags.forEach((tag) => addHashtag(tag));
+                hashtagInput.value = "";
+            });
+
         });
-
-        // Lắng nghe sự kiện click trên các nút 'x' (xóa hashtag)
-        hashtagList.addEventListener("click", (e) => {
-          if (e.target.classList.contains("remove-tag")) {
-            const index = parseInt(e.target.dataset.index); // Lấy index từ data-index
-            removeHashtag(index);
-          }
-        });
-
-        // (Tùy chọn) Xử lý dán văn bản có nhiều hashtag
-        hashtagInput.addEventListener("paste", (e) => {
-          e.preventDefault();
-          const pasteData = e.clipboardData.getData("text");
-          const tags = pasteData
-            .split(/[\s,]+/)
-            .filter((tag) => tag.trim() !== ""); // Tách theo khoảng trắng hoặc dấu phẩy
-          tags.forEach((tag) => addHashtag(tag));
-          hashtagInput.value = "";
-        });
-
-        // (Tùy chọn) Khởi tạo với một vài hashtag demo
-      });
-
-
     </script>
 </body>
 

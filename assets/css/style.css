@@ -28,6 +28,8 @@ body {
   color: var(--orange) !important;
 }
 
+
+
 :root {
   --orange: #2ecc71;
   --blue: #1ebfc1;
@@ -53,6 +55,57 @@ body {
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 20px;
 }
+
+/* From Uiverse.io by zebra76966 */ 
+button {
+  border: none;
+}
+
+.c-button {
+  background: var(--orange);
+  border-radius: 45px;
+  text-align: left;
+  padding: 11px 0px 11px 0px;
+  border-style: outset;
+  box-shadow: -6px -5px 18px rgba(255, 255, 255, 0.1);
+  cursor: pointer;
+}
+
+.c-button .c-main {
+  border-radius: 45px;
+  color: rgba(255, 255, 255, 1);
+  box-shadow: inset 0px 0px 5px rgba(17, 17, 17, 0);
+  transition: all 0.5s ease-in-out;
+  border: 1px solid transparent;
+}
+
+.c-ico .c-blur {
+  background: var(--orange);
+  border-radius: 100%;
+  margin-left: 0;
+  padding: 8px 23px;
+  filter: blur(1px);
+  text-align: center;
+}
+
+.c-ico {
+  position: relative;
+  margin-right: 20px;
+}
+
+.c-ico .ico-text {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* Hovering */
+
+.c-button:hover {
+  background-color: var(--primary-dark);
+}
+
 
 .grid-col-favourite {
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));

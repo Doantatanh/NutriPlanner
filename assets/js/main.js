@@ -1,4 +1,3 @@
-const meals = [];
 const hashtags = []; // Mảng để lưu trữ các hashtagX
 let meal_favourite = [];
 document.querySelectorAll(".nav-link").forEach((link) => {
@@ -172,7 +171,7 @@ function render(meals, id) {
 
 function opencard(meal) {
   let element = document.getElementById("detail__food");
-
+  console.log(meal);
   element.classList.remove("d-none");
 
   let tagsHTML = '';
@@ -244,7 +243,7 @@ function opencard(meal) {
                         </div>
                         <div class="nutrition-item">
                             <span class="nutrition-name">Times</span>
-                            <span>${meal.prepTime?? 0} mins</span>
+                            <span>${meal.prep_time?? 0} mins</span>
                         </div>
                     </div>
                 </div>
@@ -252,12 +251,11 @@ function opencard(meal) {
         </div>
     `;
 
-  document.querySelectorAll(".close").forEach((closeBtn) => {
-    closeBtn.addEventListener("click", () => {
+  document.querySelector(".close").addEventListener("click", () => {
       element.classList.add("d-none");
     });
-  });
-}
+  };
+
 // phần calculator
 
 let ingredients = [];
@@ -436,9 +434,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
 document.getElementById("search-form").addEventListener("click",  function () {
     searchFood();
+    console.log("an search")
   });
 // search food
+let meals = [];
 async function searchFood() {
+  document.getElementById("meals-grid").innerHTML = "";
+  document.getElementById("load-more").style.display = "inline-block";
+  currentPage = 0;
   let meal_search = [];
   let meal_sql = 'visible';
   let meal_name = document.getElementById("input_search").value;
@@ -464,6 +467,7 @@ async function searchFood() {
     const data = await res.json();
 
     meal_search = data.data;
+    meals = meal_search;
 
     if (meal_favourite && Array.isArray(meal_favourite)) {
       const favouriteMap = new Map(meal_favourite.map(item => [item.id, item]));
@@ -476,9 +480,123 @@ async function searchFood() {
   } catch (error) {
     console.error("Lỗi khi gọi API:", error);
   }
-  render(meal_search, "meals-grid");
+  loadNextMeals(meal_search, "meals-grid");
 }
 
 
 
-// admin-list meals
+// append meals
+function appendMeals(meals, id) {
+  let element = document.getElementById(id);
+  meals.forEach((meal) => {
+    let tagsHTML = '';
+    meal.tags.forEach(tag => {
+      let tagClass = '';
+      let cleanTag = tag.trim().toLowerCase();
+      if (cleanTag === 'vegan' || cleanTag === 'vegetarian') tagClass = 'tag-vegan';
+      else if (cleanTag === 'keto' || cleanTag === 'lowcarb') tagClass = 'tag-keto';
+      else if (cleanTag === 'paleo') tagClass = 'tag-paleo';
+      else tagClass = 'tag-lowcarb';
+
+      tagsHTML += `<span class="tag ${tagClass}">${tag.trim()}</span>`;
+    });
+
+    let card = document.createElement("div");
+    meal.isfavourite = meal_favourite.some((fav) => fav.id === meal.id);
+    card.className = "meal-card";
+    card.innerHTML = `
+      <div class="meal-image">
+        <img src="${meal.image_url}" alt="${meal.name}">
+        <button class="favorite-btn ${meal.isfavourite ? "active" : ""}" type="submit" id="fav-${meal.id}">
+          <input type="hidden" value="${meal.id}" />
+          <i class="fas fa-heart"></i>
+        </button>
+      </div>
+      <div class="meal-content">
+        <h3>${meal.name}</h3>
+        <div class="meal-tags">${tagsHTML}</div>
+        <div class="meal-stats">
+          <div class="meal-stat"><i class="fas fa-fire"></i> ${meal.Calories} kcal</div>
+          <div class="meal-stat"><i class="fas fa-stopwatch"></i> ${meal.prep_time} minutes</div>
+        </div>
+      </div>`;
+
+    // Gắn sự kiện mở popup và click ra ngoài
+    card.addEventListener("click", () => {
+      opencard(meal);
+      const clickoutbox = function (event) {
+        const box = document.querySelector(".pop-up__detail");
+        let element = document.getElementById("detail__food");
+        if (!box.contains(event.target)) {
+          element.classList.add("d-none");
+          document.removeEventListener("click", clickoutbox);
+        }
+      };
+      setTimeout(() => {
+        document.addEventListener("click", clickoutbox);
+      }, 0);
+    });
+
+    // Gắn vào DOM
+    element.appendChild(card);
+
+    // Xử lý like/unlike
+    let favorite_btn = card.querySelector(`#fav-${meal.id}`);
+    favorite_btn.addEventListener("click", async function (e) {
+      e.stopPropagation();
+      let isLiked = favorite_btn.classList.contains("active");
+      favorite_btn.classList.toggle("active");
+      const action = isLiked ? "remove" : "add";
+
+      try {
+        const res = await fetch("backend/favourite.php", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ id: meal.id, name: meal.name, action }),
+        });
+
+        const result = await res.json();
+        if (result.success) {
+          if (action === "add") {
+            meal_favourite.push(meal);
+          } else {
+            meal_favourite = meal_favourite.filter(item => item.id !== meal.id);
+          }
+          render(meal_favourite, "mealfavourite--menu");
+        } else {
+          alert("Lỗi: " + result.message);
+        }
+      } catch (error) {
+        alert("Lỗi kết nối: " + error.message);
+      }
+    });
+  });
+}
+
+let currentPage = 0;
+const pageSize = 6;
+
+
+function loadNextMeals() {
+  const start = currentPage * pageSize;
+  const end = start + pageSize;
+  const mealsToRender = meals.slice(start, end);
+
+  if (mealsToRender.length === 0) {
+    document.getElementById("load-more").style.display = "none"; // Ẩn nút nếu hết món
+    return;
+  }
+
+  appendMeals(mealsToRender, "meals-grid");
+  currentPage++;
+
+
+  if (currentPage * pageSize >= meals.length) {
+    document.getElementById("load-more").style.display = "none";
+  }
+}
+
+// Gắn sự kiện nút Load More
+document.getElementById("load-more").addEventListener("click", loadNextMeals);
+
+
