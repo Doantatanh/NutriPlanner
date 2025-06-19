@@ -346,9 +346,9 @@ $username = $_SESSION['username'];
         </div>
     </section>
 
-    <div style="background: rgb(227, 247, 239);padding: 50px;">
+    <div style="background: rgb(227, 247, 239);padding: 50px 0;">
         <section class="testimonials-section " id="feedback-comment">
-            <div class="section-header">
+            <div class="section-header" id="header-feedback">
                 <h2>What Our Users Say</h2>
                 <p class="testimonials-subtext">
                     Discover real experiences from the NutriPlanner community about improving eating habits
@@ -530,11 +530,11 @@ $username = $_SESSION['username'];
 
         </section>
         <!-- Feedback section -->
-        <section class="feedback-section" id="feedback">
+        <section class="feedback-section">
             <div class="logo">
                 <img loading="lazy" src="assets/images/Leonardo_Phoenix_10_A_topdown_view_of_a_food_table_divided_in_3.jpg" alt="NutriPlanner Logo" />
             </div>
-            <div class="feedback-card">
+            <div class="feedback-card" id="feedback">
                 <h3>Submit Your Feedback</h3>
                 <div class="star-rating" id="starRating">
                     <span data-value="1">☆</span>

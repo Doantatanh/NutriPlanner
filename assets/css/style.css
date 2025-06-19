@@ -377,6 +377,18 @@ button {
   }
 }
 
+@media (max-width: 768px) {
+  .carousel-inner{
+    display: none;
+  }
+  .carousel-indicators{
+    display: none;
+  }
+  #header-feedback{
+    display: none;
+  }
+}
+
 .carousel-inner {
   width: unset;
 }
@@ -1324,7 +1336,6 @@ h2 {
 /* Features Section */
 .section {
   padding: 100px 0;
-  scroll-margin-top: 100px;
 }
 
 .section-header {
