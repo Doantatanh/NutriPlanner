@@ -81,7 +81,7 @@ $username = $_SESSION['username'];
                     <div class="component">
                         <i class="fas fa-utensils"></i>
                         <div class="component-container">
-                            <div class="component-number">30+</div>
+                            <div class="component-number">50+</div>
                             <div class="component-text">Recipes</div>
                         </div>
                     </div>
