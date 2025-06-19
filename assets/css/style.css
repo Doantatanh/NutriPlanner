@@ -59,10 +59,15 @@ body {
   gap: 30px;
 }
 
+
 .header-favorite {
   text-align: center;
   max-width: 700px;
   margin: 0 auto 60px;
+}
+
+.header-favorite h2{
+  font-size: 2.5rem;
 }
 
 .header-favorite p {
@@ -215,6 +220,10 @@ body {
   margin: 0 auto 60px;
 }
 
+.feature-header h2{
+  font-size: 2.5rem;
+}
+
 .feature-header p {
   color: var(--text-light);
 }
@@ -227,7 +236,6 @@ body {
 
 .feature-box {
   border-top: 5px solid var(--primary);
-  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
   background: var(--bg-white);
   border-radius: var(--radius);
   padding: 40px 30px;
