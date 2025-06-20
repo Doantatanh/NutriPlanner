@@ -180,9 +180,6 @@ button {
   gap: 50px;
 }
 
-.banner-content{
-  padding: 20px;
-}
 
 .banner-content h1{
   font-size: 3.5rem;
@@ -265,10 +262,7 @@ button {
   .banner-image image{
     width: 300px;
   }
-  .banner-component{
-    grid-template-columns: 1fr;
-    gap:20px;
-  }
+
 }
 
 

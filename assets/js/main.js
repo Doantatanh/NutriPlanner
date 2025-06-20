@@ -109,7 +109,7 @@ function render(meals, id) {
                         </div>
                     </div>`;
 
-    card.addEventListener("click", (e) => {
+    card.addEventListener("click", () => {
       opencard(meal);
     });
 
@@ -453,16 +453,26 @@ async function searchFood() {
   } catch (error) {
     console.error("Lỗi khi gọi API:", error);
   }
-  loadNextMeals(meal_search, "meals-grid");
+  loadNextMeals();
 }
 
 
 
 // append meals
 function appendMeals(meals, id) {
+
+    if (meals.length === 0) {
+    element.innerHTML = `
+    <div style="grid-column: 1 / -1; text-align: center; padding: 50px 0;">
+                        <h3>Không tìm thấy món ăn nào phù hợp</h3>
+                        <p>Vui lòng thử lại với các bộ lọc khác</p>
+                    </div>`;
+    return;
+  }
   let element = document.getElementById(id);
   meals.forEach((meal) => {
     let tagsHTML = '';
+    let typesHTML = "";
     meal.tags.forEach(tag => {
       let tagClass = '';
       let cleanTag = tag.trim().toLowerCase();
@@ -472,6 +482,17 @@ function appendMeals(meals, id) {
       else tagClass = 'tag-lowcarb';
 
       tagsHTML += `<span class="tag ${tagClass}">${tag.trim()}</span>`;
+    });
+
+    meal.type.forEach(tag => {
+      let tagClass = '';
+      let cleanTag = tag.trim().toLowerCase();
+      if (cleanTag === 'vegan' || cleanTag === 'vegetarian') tagClass = 'tag-vegan';
+      else if (cleanTag === 'keto' || cleanTag === 'lowcarb') tagClass = 'tag-keto';
+      else if (cleanTag === 'paleo') tagClass = 'tag-paleo';
+      else tagClass = 'paleo';
+
+      typesHTML += `<span class="tag ${tagClass}">${tag.trim()}</span>`;
     });
 
     let card = document.createElement("div");
@@ -543,6 +564,7 @@ function loadNextMeals() {
   const start = currentPage * pageSize;
   const end = start + pageSize;
   const mealsToRender = meals.slice(start, end);
+
 
   if (mealsToRender.length === 0) {
     document.getElementById("load-more").style.display = "none"; // Ẩn nút nếu hết món
