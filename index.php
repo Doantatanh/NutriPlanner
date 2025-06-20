@@ -45,8 +45,8 @@ $username = $_SESSION['username'];
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="nav-links ms-auto">
                         <li class="nav-item"><a class="nav-link " href="#feature">Feature</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#favourite">Favorite</a></li>
                         <li class="nav-item"><a class="nav-link" href="#meals">Meals</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#favourite">Favorite</a></li>
                         <li class="nav-item"><a class="nav-link" href="#calculator">Calculator</a></li>
                         <li class="nav-item"><a class="nav-link" href="#feedback">Feedback</a></li>
                         <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
