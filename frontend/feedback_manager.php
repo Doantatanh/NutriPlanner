@@ -207,6 +207,8 @@ try{
             deleteButtons.forEach(button => {
                 button.addEventListener("click", function () {
                     const feedbackId = this.getAttribute("data-id");
+                    const row = this.closest("tr");
+
                     if (confirm("Are you sure you want to hide this response?")) {
                         fetch("../backend/update_status.php", {
                             method: "POST",
@@ -218,7 +220,7 @@ try{
                         .then(res => res.text())
                         .then(response => {
                             if (response.trim() === "success") {
-                                location.reload();
+                                row.remove();
                             } else {
                                 alert("Đã xảy ra lỗi!");
                             }
@@ -226,6 +228,7 @@ try{
                     }
                 });
             });
+
             const viewButtons = document.querySelectorAll(".btn-view");
             viewButtons.forEach(button => {
                 button.addEventListener("click", function () {
