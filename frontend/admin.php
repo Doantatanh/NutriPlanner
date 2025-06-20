@@ -26,7 +26,7 @@ try {
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
         $totalFeedback = $result['total'];
 
-        $sqlRecentMeals = "SELECT * FROM meals ORDER BY created_at DESC LIMIT 12";
+        $sqlRecentMeals = "SELECT * FROM meals ORDER BY created_at DESC LIMIT 10";
         $stmt = $conn->prepare($sqlRecentMeals);
         $stmt->execute();
         $recentMeals = $stmt->fetchAll(PDO::FETCH_ASSOC);

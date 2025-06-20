@@ -297,12 +297,10 @@ function addIngredient() {
     e.preventDefault();
   }});
 
-  newIngredient
-    .querySelector(".remove-ingredient")
-    .addEventListener("click", () => {
-      newIngredient.remove();
-      calculator();
-    });
+  newIngredient.querySelector(".remove-ingredient").addEventListener("click", () => {
+    newIngredient.remove();
+    calculator();
+  });
 }
 
 function calculator() {
