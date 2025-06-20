@@ -106,7 +106,6 @@ try{
                                         <th>Content</th>
                                         <th>Review</th>
                                         <th>Date sent</th>
-                                        <th class="text-center">Operations</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -118,15 +117,6 @@ try{
                                                 <td><?php echo htmlspecialchars($feedback['message']) ?></td>
                                                 <td><?php echo $feedback['rating'] ?> ★</td>
                                                 <td><?php echo $feedback['created_at'] ?></td>
-                                                <td class="text-center">
-                                                    <button class="btn btn-sm btn-info btn-view" data-bs-toggle="modal"
-                                                        data-bs-target="#feedbackModal" data-name="<?php echo htmlspecialchars($feedback['fullname']) ?>"  data-email="<?php echo htmlspecialchars($feedback['email']) ?>" data-message="<?php echo htmlspecialchars($feedback['message']) ?>" data-rating="<?php echo $feedback['rating'] ?>"  data-created="<?php echo $feedback['created_at'] ?>"title="Xem chi tiết">
-                                                        <i class="fa fa-eye"></i>
-                                                    </button>
-                                                    <button class="btn btn-sm btn-danger btn-delete "  data-id="<?php echo $feedback['id'] ?>">
-                                                        <i class="fa-solid fa-trash"></i>
-                                                    </button>
-                                                </td>
                                             </tr>
                                         <?php endforeach; ?>
                                 </tbody>
@@ -134,123 +124,11 @@ try{
                         </div>
                     </div>
                 </div>
-                <!-- Modal Thêm/Sửa Feedback -->
-                <div class="modal fade" id="feedbackModal" tabindex="-1" aria-labelledby="feedbackModalLabel"
-                    aria-hidden="true">
-                    <div class="modal-dialog modal-lg">
-                        <div class="modal-content rounded-4 shadow-lg">
-                            <div class="modal-header">
-                                <h5 class="modal-title w-100 fw-bold" id="feedbackModalLabel">Feedback Details</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <form id="feedbackReplyForm">
-                                    <div class="row g-2 mb-2">
-                                        <div class="col-md-6">
-                                            <label class="form-label">Sender's name</label>
-                                            <input name="name" class="form-control" value="" id="modalName" readonly>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <label class="form-label">Email</label>
-                                            <input name="email" class="form-control" value="" id="modalEmail" readonly>
-                                        </div>
-                                    </div>
-                                    <div class="mb-2">
-                                        <label class="form-label">Content</label>
-                                        <textarea name="content" class="form-control" rows="3" id="modalMessage"readonly>
-                                            
-                                        </textarea>
-                                    </div>
-                                    <div class="row g-2 mb-2">
-                                        <div class="col-md-6">
-                                            <label class="form-label">Review</label>
-                                            <div class="star-rating" id="modalRating">
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <label class="form-label">Status</label>
-                                            <select name="status" class="form-select">
-                                                <option value="Đã đọc">Read</option>
-                                                <option value="Chưa đọc">Unread</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="mb-2">
-                                        <label class="form-label">Answer the user</label>
-                                        <textarea class="form-control" name="reply_content" rows="3"
-                                            placeholder="Nhập nội dung trả lời..."></textarea>
-                                    </div>
-                                    <div class="d-flex justify-content-end gap-2 mt-3">
-                                        <button type="button" class="btn btn-light border"
-                                            data-bs-dismiss="modal">Close</button>
-                                        <button class="btn btn-primary px-4" type="submit">Reply via email</button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </main>
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const deleteButtons = document.querySelectorAll(".btn-delete");
-
-            deleteButtons.forEach(button => {
-                button.addEventListener("click", function () {
-                    const feedbackId = this.getAttribute("data-id");
-                    const row = this.closest("tr");
-
-                    if (confirm("Are you sure you want to hide this response?")) {
-                        fetch("../backend/update_status.php", {
-                            method: "POST",
-                            headers: {
-                                "Content-Type": "application/x-www-form-urlencoded"
-                            },
-                            body: "id=" + feedbackId
-                        })
-                        .then(res => res.text())
-                        .then(response => {
-                            if (response.trim() === "success") {
-                                row.remove();
-                            } else {
-                                alert("Đã xảy ra lỗi!");
-                            }
-                        });
-                    }
-                });
-            });
-
-            const viewButtons = document.querySelectorAll(".btn-view");
-            viewButtons.forEach(button => {
-                button.addEventListener("click", function () {
-                    const name = this.getAttribute("data-name");
-                    const email = this.getAttribute("data-email");
-                    const message = this.getAttribute("data-message");
-                    const rating = parseInt(this.getAttribute("data-rating"));
-                    const createdAt = this.getAttribute("data-created");
-
-                    document.getElementById("modalName").value = name;
-                    document.getElementById("modalEmail").value = email;
-                    document.getElementById("modalMessage").value = message;
-
-                    const ratingDiv = document.getElementById("modalRating");
-                    ratingDiv.innerHTML = "";
-                    for (let i = 1; i <= 5; i++) {
-                        ratingDiv.innerHTML += `<i class="fa${i <= rating ? 's' : 'r'} fa-star"></i>`;
-                    }
-                });
-            });
-        });
-    </script>
+    
 
 </body>
 
