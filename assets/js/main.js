@@ -42,7 +42,7 @@ async function init() {
     if (meal_favourite.length > 0) {
       render(meal_favourite, "mealfavourite--menu");
     }
-    else{return;}
+    else { return; }
   } catch (error) {
     console.error("Lỗi khi đọc JSON:", error);
   }
@@ -62,23 +62,23 @@ function render(meals, id) {
                     </div>`;
     return;
   }
-  
+
 
   element.innerHTML = "";
   meals.forEach((meal) => {
     let tagsHTML = '';
     meal.tags.forEach(tag => {
-    let tagClass = '';
-    let cleanTag = tag.trim().toLowerCase(); // Xử lý khoảng trắng + viết thường
+      let tagClass = '';
+      let cleanTag = tag.trim().toLowerCase(); // Xử lý khoảng trắng + viết thường
 
-    if (cleanTag === 'vegan' || cleanTag === 'vegetarian') tagClass = 'tag-vegan';
-    else if (cleanTag === 'keto' || cleanTag === 'lowcarb') tagClass = 'tag-keto';
-    else if (cleanTag === 'paleo') tagClass = 'tag-paleo';
-    else tagClass = 'tag-lowcarb'; // default
+      if (cleanTag === 'vegan' || cleanTag === 'vegetarian') tagClass = 'tag-vegan';
+      else if (cleanTag === 'keto' || cleanTag === 'lowcarb') tagClass = 'tag-keto';
+      else if (cleanTag === 'paleo') tagClass = 'tag-paleo';
+      else tagClass = 'tag-lowcarb'; // default
 
-    tagsHTML += `<span class="tag ${tagClass}">${tag.trim()}</span>`; // In ra nội dung gọn gàng
-});
-    if(id === "mealfavourite--menu"){
+      tagsHTML += `<span class="tag ${tagClass}">${tag.trim()}</span>`; // In ra nội dung gọn gàng
+    });
+    if (id === "mealfavourite--menu") {
       indexhiddenbtn = true;
     }
     let card = document.createElement("div");
@@ -86,9 +86,8 @@ function render(meals, id) {
     card.className = "meal-card";
     card.innerHTML = `<div class="meal-image">
                         <img src="${meal.image_url}" alt="${meal.name}">
-                        <button class="${indexhiddenbtn ? "d-none" : ""} favorite-btn ${
-                          meal.isfavourite ? "active" : ""
-                        }" type="submit" id="fav-${meal.id}">
+                        <button class="${indexhiddenbtn ? "d-none" : ""} favorite-btn ${meal.isfavourite ? "active" : ""
+      }" type="submit" id="fav-${meal.id}">
                             <input type="hidden" value="${meal.id}" />
                             <i class="fas fa-heart"></i>
                         </button>
@@ -110,31 +109,19 @@ function render(meals, id) {
                         </div>
                     </div>`;
 
-    card.addEventListener("click", () => {
+    card.addEventListener("click", (e) => {
       opencard(meal);
-      const clickoutbox = function (event) {
-        const box = document.querySelector(".pop-up__detail");
-        let element = document.getElementById("detail__food");
-        if (!box.contains(event.target)) {
-          element.classList.add("d-none");
-          document.removeEventListener("click", clickoutbox);
-        }
-      };
-
-      setTimeout(() => {
-        document.addEventListener("click", clickoutbox);
-      }, 0);
     });
 
     element.appendChild(card);
 
     let favorite_btn = card.querySelector(`#fav-${meal.id}`);
 
-      favorite_btn.addEventListener("click", async function (e) {
-        e.stopPropagation();
-        let isLiked = favorite_btn.classList.contains("active");
-        favorite_btn.classList.toggle("active"); // Toggle màu trái tim
-        const action = isLiked ? "remove" : "add";
+    favorite_btn.addEventListener("click", async function (e) {
+      e.stopPropagation();
+      let isLiked = favorite_btn.classList.contains("active");
+      favorite_btn.classList.toggle("active"); // Toggle màu trái tim
+      const action = isLiked ? "remove" : "add";
       try {
         const res = await fetch("backend/favourite.php", {
           method: "POST",
@@ -169,92 +156,79 @@ function render(meals, id) {
   });
 }
 
+
+
 function opencard(meal) {
-  let element = document.getElementById("detail__food");
-  console.log(meal);
-  element.classList.remove("d-none");
+  document.activeElement?.blur();
 
-  let tagsHTML = '';
-    meal.tags.forEach(tag => {
-      let tagClass = '';
-      let cleanTag = tag.trim().toLowerCase(); // Xử lý khoảng trắng + viết thường
+  const tagsHTML = meal.tags.map(tag => {
+    let tagClass = '';
+    let cleanTag = tag.trim().toLowerCase();
+    if (cleanTag === 'vegan' || cleanTag === 'vegetarian') tagClass = 'tag-vegan';
+    else if (cleanTag === 'keto' || cleanTag === 'lowcarb') tagClass = 'tag-keto';
+    else if (cleanTag === 'paleo') tagClass = 'tag-paleo';
+    else tagClass = 'tag-lowcarb';
+    return `<span class="tag ${tagClass}">${tag.trim()}</span>`;
+  }).join('');
 
-      if (cleanTag === 'vegan' || cleanTag === 'vegetarian') tagClass = 'tag-vegan';
-      else if (cleanTag === 'keto' || cleanTag === 'lowcarb') tagClass = 'tag-keto';
-      else if (cleanTag === 'paleo') tagClass = 'tag-paleo';
-      else tagClass = 'tag-lowcarb'; // default
+  const modalContent = document.getElementById('popup-inner');
 
-      tagsHTML += `<span class="tag ${tagClass}">${tag.trim()}</span>`; // In ra nội dung gọn gàng
-  });
+  modalContent.innerHTML = `
+    <div class="mealname d-flex justify-content-between">
+      <h3>${meal.name}</h3>
+      <button type="button" class="close btn bg-white" data-bs-dismiss="modal"><i class="fa fa-times"></i></button>
+    </div>
+    <div class="mealcontent d-grid grid-col-5">
+      <div>
+        <picture>
+          <img src="${meal.image_url}" class="rounded w-100" style="aspect-ratio: 4/3; object-fit: cover;" alt="">
+        </picture>
+        <div class="meal-tags my-2">${tagsHTML}</div>
+        <p class="my-2">${meal.description}</p>
+      </div>
+      <div>
+        <h3>Ingredients</h3>
+        ${meal.ingredients}
+        <h3>Instruction</h3>
+        ${meal.instruction}
+      </div>
+    </div>
+    <div class="nutrition-facts mt-3">
+      <h3>Nutrition information</h3>
+      <div class="nutrition-grid">
+        <div class="nutrition-item"><span class="nutrition-name">Calories</span><span>${meal.Calories ?? 0} kcal</span></div>
+        <div class="nutrition-item"><span class="nutrition-name">Protein</span><span>${meal.nutrition.protein ?? 0}g</span></div>
+        <div class="nutrition-item"><span class="nutrition-name">Carbs</span><span>${meal.nutrition.carb ?? 0}g</span></div>
+        <div class="nutrition-item"><span class="nutrition-name">Fat</span><span>${meal.nutrition.fat ?? 0}g</span></div>
+        <div class="nutrition-item"><span class="nutrition-name">Fiber</span><span>${meal.nutrition.fiber ?? 0}g</span></div>
+        <div class="nutrition-item"><span class="nutrition-name">Suger</span><span>${meal.nutrition.sugar ?? 0}g</span></div>
+        <div class="nutrition-item"><span class="nutrition-name">Natri</span><span>${meal.nutrition.sodium ?? 0}mg</span></div>
+        <div class="nutrition-item"><span class="nutrition-name">Times</span><span>${meal.prep_time ?? 0} mins</span></div>
+      </div>
+    </div>
+  `;
+
+  // Mở modal sau khi DOM đã render xong
+  setTimeout(() => {
+  const modalEl = document.getElementById('detail__food');
+  let instance = bootstrap.Modal.getInstance(modalEl);
+
+  if (instance) {
+    instance.hide(); // đóng đúng cách
+    // Chờ một chút rồi mở lại
+    setTimeout(() => {
+      new bootstrap.Modal(modalEl).show();
+    }, 50); // nhỏ nhưng đủ
+  } else {
+    // nếu chưa có instance nào → mở luôn
+    new bootstrap.Modal(modalEl).show();
+  }
+}, 0);
+
+}
 
 
-  element.innerHTML = `
-        <div class="pop-up__detail mt-5 col-xl-6 col-sm-10 col-10 mx-auto bg-white rounded-4 overflow-auto p-3" style="height: 600px;" >
-            <div class="mealname d-flex justify-content-between"><h3>${meal.name}</h3><button class="close btn bg-white"><i class="fa fa-times"></i></button></div>
-            <div class="mealcontent d-grid grid-col-5">
-                <div>
-                    <picture>
-                        <img src="${meal.image_url}" class="rounded w-100" style="aspect-ratio: 4/3; object-fit: cover;"  alt="">
-                    </picture>
-                    <div class="meal-tags my-2">
-                            ${tagsHTML}
-                    </div>
-                    <p class="my-2" >${meal.description}</p>
-                    
-                </div>
-                <div class="">
-                    <h3>Ingredients</h3>
-                        ${meal.ingredients}
-                    <h3>Instruction</h3>
-                        <div>${meal.instruction}</div>
-                </div>
-            </div>
-            <div class="nutrition-facts">
-                    <h3>Nutrition information</h3>
-                    <div class="nutrition-grid">
-                        <div class="nutrition-item">
-                            <span class="nutrition-name">Calories</span>
-                            <span>${meal.Calories ?? 0} kcal</span>
-                        </div>
-                        <div class="nutrition-item">
-                            <span class="nutrition-name">Protein</span>
-                            <span>${meal.nutrition.protein ?? 0}g</span>
-                        </div>
-                        <div class="nutrition-item">
 
-                            <span class="nutrition-name">Carbs</span>
-                            <span>${meal.nutrition.carb ?? 0}g</span>
-                        </div>
-                        <div class="nutrition-item">
-                            <span class="nutrition-name">Fat</span>
-                            <span>${meal.nutrition.fat ?? 0}g</span>
-                        </div>
-                        <div class="nutrition-item">
-                            <span class="nutrition-name">Fiber</span>
-                            <span>${meal.nutrition.fiber ?? 0}g</span>
-                        </div>
-                        <div class="nutrition-item">
-                            <span class="nutrition-name">Suger</span>
-                            <span>${meal.nutrition.sugar ?? 0}g</span>
-                        </div>
-                        <div class="nutrition-item">
-                            <span class="nutrition-name">Natri</span>
-                            <span>${meal.nutrition.sodium ?? 0}mg</span>
-                        </div>
-                        <div class="nutrition-item">
-                            <span class="nutrition-name">Times</span>
-                            <span>${meal.prep_time?? 0} mins</span>
-                        </div>
-                    </div>
-                </div>
-
-        </div>
-    `;
-
-  document.querySelector(".close").addEventListener("click", () => {
-      element.classList.add("d-none");
-    });
-  };
 
 // phần calculator
 
@@ -278,8 +252,8 @@ function addIngredient() {
   newIngredient.innerHTML = `
     <select>
       ${ingredients
-        .map((i) => `<option value="${i.name}">${i.name}</option>`)
-        .join("")}
+      .map((i) => `<option value="${i.name}">${i.name}</option>`)
+      .join("")}
     </select>
     <input type="number" placeholder="Gram" min="0"/>
     <button class="remove-ingredient">x</button>
@@ -293,9 +267,10 @@ function addIngredient() {
 
 
   inputIngredient.addEventListener("keydown", (e) => {
-  if (e.key === "e" || e.key === "E" || e.key === "-" || e.key === "+") {
-    e.preventDefault();
-  }});
+    if (e.key === "e" || e.key === "E" || e.key === "-" || e.key === "+") {
+      e.preventDefault();
+    }
+  });
 
   newIngredient.querySelector(".remove-ingredient").addEventListener("click", () => {
     newIngredient.remove();
@@ -314,14 +289,14 @@ function calculator() {
     sugar: 0,
     sodium: 0,
   };
-  items.forEach((item)=>{
+  items.forEach((item) => {
     const ingredient = item.querySelector('select').value;
     const amount = parseFloat(item.querySelector('input').value) || 0;
-    const selected = ingredients.find((ing)=>ing.name === ingredient);
-    
-    if(selected){
-      const ratio = amount /100;
-      
+    const selected = ingredients.find((ing) => ing.name === ingredient);
+
+    if (selected) {
+      const ratio = amount / 100;
+
       total.calories += selected.calories * ratio;
       total.protein += selected.protein * ratio;
       total.carbs += selected.carbs * ratio;
@@ -330,7 +305,7 @@ function calculator() {
       total.sugar += selected.sugar * ratio;
       total.sodium += selected.sodium * ratio;
     }
-      
+
   })
 
   document.getElementById("total-calories").innerText = `${total.calories.toFixed(2)} kcal`;
@@ -430,10 +405,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
-document.getElementById("search-form").addEventListener("click",  function () {
-    searchFood();
-    console.log("an search")
-  });
+document.getElementById("search-form").addEventListener("click", function () {
+  searchFood();
+  console.log("an search")
+});
 // search food
 let meals = [];
 async function searchFood() {
@@ -522,17 +497,6 @@ function appendMeals(meals, id) {
     // Gắn sự kiện mở popup và click ra ngoài
     card.addEventListener("click", () => {
       opencard(meal);
-      const clickoutbox = function (event) {
-        const box = document.querySelector(".pop-up__detail");
-        let element = document.getElementById("detail__food");
-        if (!box.contains(event.target)) {
-          element.classList.add("d-none");
-          document.removeEventListener("click", clickoutbox);
-        }
-      };
-      setTimeout(() => {
-        document.addEventListener("click", clickoutbox);
-      }, 0);
     });
 
     // Gắn vào DOM
