@@ -287,7 +287,7 @@ $username = $_SESSION['username'];
     </div>
     </div>
 
-    <section style="" class="bg-white py-3" id="calculator">
+    <section class="bg-white py-3" id="calculator">
         <div class="container">
             <div class="section-header">
                 <h2>Nutrition Calculator</h2>
