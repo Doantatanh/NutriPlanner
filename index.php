@@ -109,7 +109,7 @@ $username = $_SESSION['username'];
 
 
     <section class="feature-section" id="feature">
-        <div class="feature-container col-xl-10 col-xxl-9 col-11 mx-auto ">
+        <div class="feature-container col-xl-10 col-xxl-7 col-11 mx-auto ">
             <div class="section-header">
                 <h2>Key Features</h2>
                 <p>Explore powerful tools that help you plan meals, track nutrition, and achieve your health goals with ease.</p>
@@ -266,8 +266,17 @@ $username = $_SESSION['username'];
     </section>
 
 
-    <div class="h-100 w-100 z-3 position-fixed top-0 d-none" style="background-color: rgba(0, 0, 0, 0.7);" id="detail__food">
+    <div class="modal fade " id="detail__food" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-xl modal-dialog-scrollable">
+            <div class="modal-content overflow-auto pop-up__detail p-3 rounded-4">
+                <div id="popup-inner"></div>
+            </div>
+        </div>
     </div>
+
+
+
+
 
     <div class="mealfavourite bg-light py-3">
         <div class="section-header" id="favourite">
@@ -414,7 +423,7 @@ $username = $_SESSION['username'];
                         </div>
                     </div>
                     <div class="carousel-item  ">
-                    <div class="d-flex gap-4 justify-content-around mx-auto my-3">
+                        <div class="d-flex gap-4 justify-content-around mx-auto my-3">
                             <article class="testimonial-card">
                                 <div class="quote-icon"><i class="fas fa-quote-left"></i></div>
                                 <div class="stars-static">
@@ -465,7 +474,7 @@ $username = $_SESSION['username'];
                         </div>
                     </div>
                     <div class="carousel-item  ">
-                    <div class="d-flex gap-4 justify-content-around  mx-auto my-3">
+                        <div class="d-flex gap-4 justify-content-around  mx-auto my-3">
                             <article class="testimonial-card">
                                 <div class="quote-icon"><i class="fas fa-quote-left"></i></div>
                                 <div class="stars-static">
@@ -562,7 +571,7 @@ $username = $_SESSION['username'];
                 <p>Do you have questions or need support? The NutriPlanner team is always ready to assist you.</p>
             </div>
 
-            <div class="col-xl-10 col-11 d-flex mx-auto justify-content-around ">
+            <div class="col-xl-10 col-xxl-7 col-11 d-flex mx-auto justify-content-around ">
                 <div class="contact-info1 mx-3">
                     <h3>Contact Information</h3>
                     <div class="contact-details">
