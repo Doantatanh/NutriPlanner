@@ -64,7 +64,7 @@ body {
 }
 
 .grid-col-5 {
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
   gap: 20px;
 }
 
@@ -412,6 +412,7 @@ button {
 
 .meal-card:hover .meal-image img {
   transform: scale(1.05);
+
 }
 
 .meal-card h3 {
@@ -594,6 +595,7 @@ select {
 .meal-card:hover {
   transform: translateY(-5px);
   box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
 }
 
 .meal-image {

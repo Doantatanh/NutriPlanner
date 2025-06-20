@@ -109,7 +109,7 @@ $username = $_SESSION['username'];
 
 
     <section class="feature-section" id="feature">
-        <div class="feature-container col-xl-10 col-xxl-7 col-11 mx-auto ">
+        <div class="feature-container col-xl-10 col-xxl-9 col-11 mx-auto ">
             <div class="section-header">
                 <h2>Key Features</h2>
                 <p>Explore powerful tools that help you plan meals, track nutrition, and achieve your health goals with ease.</p>
@@ -571,7 +571,7 @@ $username = $_SESSION['username'];
                 <p>Do you have questions or need support? The NutriPlanner team is always ready to assist you.</p>
             </div>
 
-            <div class="col-xl-10 col-xxl-7 col-11 d-flex mx-auto justify-content-around ">
+            <div class="col-xl-10 col-xxl-9 col-11 d-flex mx-auto justify-content-around ">
                 <div class="contact-info1 mx-3">
                     <h3>Contact Information</h3>
                     <div class="contact-details">

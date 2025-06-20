@@ -1,4 +1,4 @@
-const hashtags = []; // Mảng để lưu trữ các hashtagX
+const hashtags = [];
 let meal_favourite = [];
 document.querySelectorAll(".nav-link").forEach((link) => {
   link.addEventListener("click", function () {
